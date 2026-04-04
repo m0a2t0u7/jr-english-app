@@ -1811,7 +1811,7 @@ const BASE_VOCAB = [
 const VOCAB_STORAGE_KEY = "vocab:extended";
 async function loadVocab() {
   try {
-    const r = await window.storage.get(VOCAB_STORAGE_KEY);
+    const r = (localStorage.getItem(VOCAB_STORAGE_KEY) ? {value: localStorage.getItem(VOCAB_STORAGE_KEY)} : null);
     if (r) {
       const extra = JSON.parse(r.value);
       // 重複除去してマージ
@@ -1826,14 +1826,14 @@ async function saveExtraVocab(newWords) {
   try {
     let extra = [];
     try {
-      const r = await window.storage.get(VOCAB_STORAGE_KEY);
+      const r = (localStorage.getItem(VOCAB_STORAGE_KEY) ? {value: localStorage.getItem(VOCAB_STORAGE_KEY)} : null);
       if (r) extra = JSON.parse(r.value);
     } catch (e) {}
     const baseWords = new Set(BASE_VOCAB.map(v => v.word));
     const existWords = new Set([...baseWords, ...extra.map(v => v.word)]);
     const toAdd = newWords.filter(v => !existWords.has(v.word));
     const updated = [...extra, ...toAdd];
-    await window.storage.set(VOCAB_STORAGE_KEY, JSON.stringify(updated));
+    localStorage.setItem(VOCAB_STORAGE_KEY, JSON.stringify(updated));
     return toAdd.length;
   } catch (e) {
     return 0;
@@ -1918,13 +1918,13 @@ const WORD_FONTS = [{
 }];
 async function saveSettings(s) {
   try {
-    await window.storage.set("app:settings", JSON.stringify(s));
+    localStorage.setItem("app:settings", JSON.stringify(s));
   } catch (e) {}
 }
 const VOCAB_MEM_KEY = "vocab:memory";
 async function loadVocabMemory() {
   try {
-    const r = await window.storage.get(VOCAB_MEM_KEY);
+    const r = (localStorage.getItem(VOCAB_MEM_KEY) ? {value: localStorage.getItem(VOCAB_MEM_KEY)} : null);
     return r ? JSON.parse(r.value) : {};
   } catch (e) {
     return {};
@@ -1932,7 +1932,7 @@ async function loadVocabMemory() {
 }
 async function saveVocabMemory(mem) {
   try {
-    await window.storage.set(VOCAB_MEM_KEY, JSON.stringify(mem));
+    localStorage.setItem(VOCAB_MEM_KEY, JSON.stringify(mem));
   } catch (e) {}
 }
 
@@ -5348,7 +5348,7 @@ async function saveProgress(topicId, correct, total) {
       history: []
     };
     try {
-      const r = await window.storage.get(`prog:${topicId}`);
+      const r = (localStorage.getItem(`prog:${topicId}`) ? {value: localStorage.getItem(`prog:${topicId}`)} : null);
       if (r) existing = JSON.parse(r.value);
     } catch (e) {}
     const updated = {
@@ -5360,7 +5360,7 @@ async function saveProgress(topicId, correct, total) {
         date: new Date().toLocaleDateString("ja-JP")
       }]
     };
-    await window.storage.set(`prog:${topicId}`, JSON.stringify(updated));
+    localStorage.setItem(`prog:${topicId}`, JSON.stringify(updated));
     return updated;
   } catch (e) {
     return null;
@@ -5368,7 +5368,7 @@ async function saveProgress(topicId, correct, total) {
 }
 async function loadProgress(topicId) {
   try {
-    const r = await window.storage.get(`prog:${topicId}`);
+    const r = (localStorage.getItem(`prog:${topicId}`) ? {value: localStorage.getItem(`prog:${topicId}`)} : null);
     return r ? JSON.parse(r.value) : null;
   } catch (e) {
     return null;
@@ -6644,7 +6644,7 @@ async function addToWeakStock(item) {
   try {
     let stock = [];
     try {
-      const r = await window.storage.get(WEAK_STOCK_KEY);
+      const r = (localStorage.getItem(WEAK_STOCK_KEY) ? {value: localStorage.getItem(WEAK_STOCK_KEY)} : null);
       if (r) stock = JSON.parse(r.value);
     } catch (e) {}
     // 重複チェック（同じenを持つものは更新）
@@ -6658,12 +6658,12 @@ async function addToWeakStock(item) {
       count: 1,
       lastDate: new Date().toLocaleDateString("ja-JP")
     });
-    await window.storage.set(WEAK_STOCK_KEY, JSON.stringify(stock));
+    localStorage.setItem(WEAK_STOCK_KEY, JSON.stringify(stock));
   } catch (e) {}
 }
 async function loadWeakStock() {
   try {
-    const r = await window.storage.get(WEAK_STOCK_KEY);
+    const r = (localStorage.getItem(WEAK_STOCK_KEY) ? {value: localStorage.getItem(WEAK_STOCK_KEY)} : null);
     return r ? JSON.parse(r.value) : [];
   } catch (e) {
     return [];
@@ -6671,10 +6671,10 @@ async function loadWeakStock() {
 }
 async function removeFromWeakStock(en) {
   try {
-    const r = await window.storage.get(WEAK_STOCK_KEY);
+    const r = (localStorage.getItem(WEAK_STOCK_KEY) ? {value: localStorage.getItem(WEAK_STOCK_KEY)} : null);
     if (!r) return;
     const stock = JSON.parse(r.value).filter(s => s.en !== en);
-    await window.storage.set(WEAK_STOCK_KEY, JSON.stringify(stock));
+    localStorage.setItem(WEAK_STOCK_KEY, JSON.stringify(stock));
   } catch (e) {}
 }
 
@@ -9040,13 +9040,13 @@ function App() {
       setVocabList(list);
       setVocabLoaded(true);
     });
-    window.storage.get("vocab:tags").then(r => {
+    (()=>{ try{ const r = localStorage.getItem("vocab:tags") ? {value: localStorage.getItem("vocab:tags")} : null; 
       if (r) setVocabTags(JSON.parse(r.value));
-    }).catch(() => {});
+     }catch(e){} })();
     loadVocabMemory().then(m => setVocabMem(m));
-    window.storage.get("app:settings").then(r => {
+    (()=>{ try{ const r = localStorage.getItem("app:settings") ? {value: localStorage.getItem("app:settings")} : null; 
       if (r) setSettings(JSON.parse(r.value));
-    }).catch(() => {});
+     }catch(e){} })();
   }, []);
   const fv = vf === 0 ? vocabList : vocabList.filter(v => v.stage === vf);
   const filteredVocab = (() => {
@@ -9073,7 +9073,7 @@ function App() {
         ...prev,
         [word]: next
       };
-      window.storage.set("vocab:tags", JSON.stringify(updated)).catch(() => {});
+      try{localStorage.setItem("vocab:tags", JSON.stringify(updated))}catch(e){};
       return updated;
     });
   }
