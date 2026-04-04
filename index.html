@@ -10,12 +10,6 @@
 <body>
   <div id="root"></div>
   <script>
-const {
-  useState,
-  useRef,
-  useEffect
-} = React;
-
 // ===== DATA =====
 const STAGES = [{
   id: 1,
@@ -1817,9 +1811,7 @@ const BASE_VOCAB = [
 const VOCAB_STORAGE_KEY = "vocab:extended";
 async function loadVocab() {
   try {
-    const r = localStorage.getItem(VOCAB_STORAGE_KEY) ? {
-      value: localStorage.getItem(VOCAB_STORAGE_KEY)
-    } : null;
+    const r = await window.storage.get(VOCAB_STORAGE_KEY);
     if (r) {
       const extra = JSON.parse(r.value);
       // 重複除去してマージ
@@ -1834,16 +1826,14 @@ async function saveExtraVocab(newWords) {
   try {
     let extra = [];
     try {
-      const r = localStorage.getItem(VOCAB_STORAGE_KEY) ? {
-        value: localStorage.getItem(VOCAB_STORAGE_KEY)
-      } : null;
+      const r = await window.storage.get(VOCAB_STORAGE_KEY);
       if (r) extra = JSON.parse(r.value);
     } catch (e) {}
     const baseWords = new Set(BASE_VOCAB.map(v => v.word));
     const existWords = new Set([...baseWords, ...extra.map(v => v.word)]);
     const toAdd = newWords.filter(v => !existWords.has(v.word));
     const updated = [...extra, ...toAdd];
-    localStorage.setItem(VOCAB_STORAGE_KEY, JSON.stringify(updated));
+    await window.storage.set(VOCAB_STORAGE_KEY, JSON.stringify(updated));
     return toAdd.length;
   } catch (e) {
     return 0;
@@ -1928,15 +1918,13 @@ const WORD_FONTS = [{
 }];
 async function saveSettings(s) {
   try {
-    localStorage.setItem("app:settings", JSON.stringify(s));
+    await window.storage.set("app:settings", JSON.stringify(s));
   } catch (e) {}
 }
 const VOCAB_MEM_KEY = "vocab:memory";
 async function loadVocabMemory() {
   try {
-    const r = localStorage.getItem(VOCAB_MEM_KEY) ? {
-      value: localStorage.getItem(VOCAB_MEM_KEY)
-    } : null;
+    const r = await window.storage.get(VOCAB_MEM_KEY);
     return r ? JSON.parse(r.value) : {};
   } catch (e) {
     return {};
@@ -1944,7 +1932,7 @@ async function loadVocabMemory() {
 }
 async function saveVocabMemory(mem) {
   try {
-    localStorage.setItem(VOCAB_MEM_KEY, JSON.stringify(mem));
+    await window.storage.set(VOCAB_MEM_KEY, JSON.stringify(mem));
   } catch (e) {}
 }
 
@@ -3755,13 +3743,28 @@ const ANTONYM_MAP = {
 
 // 発音（Web Speech API）
 let speakingWord = "";
+// 音声voices事前キャッシュ
+let cachedVoice = null;
+function getEnVoice() {
+  if (cachedVoice) return cachedVoice;
+  const voices = window.speechSynthesis.getVoices();
+  cachedVoice = voices.find(v => v.lang.startsWith("en-US") && !v.localService) || voices.find(v => v.lang.startsWith("en-US")) || voices.find(v => v.lang.startsWith("en")) || null;
+  return cachedVoice;
+}
+if (typeof window !== "undefined" && window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = () => {
+    cachedVoice = null;
+    getEnVoice();
+  };
+}
 function speakWord(word) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(word);
   u.lang = "en-US";
   u.rate = 0.85;
-  speakingWord = word;
+  const v = getEnVoice();
+  if (v) u.voice = v;
   window.speechSynthesis.speak(u);
 }
 
@@ -5090,7 +5093,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f0f4ff;min-height:100vh;}
 .wb-card-top{padding:16px 20px 0;display:flex;align-items:center;justify-content:space-between;}
 .wb-level{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;color:white;}
 .wb-progress{font-size:12px;color:#9ca3af;font-weight:600;}
-.wb-word-area{padding:24px 20px 16px;text-align:center;}
+.wb-word-area{padding:16px 20px 12px;text-align:center;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .wb-word{font-family:'Nunito',sans-serif;font-size:44px;font-weight:900;color:#1e3a8a;letter-spacing:-1px;line-height:1.1;}
 .wb-phon-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;}
 .wb-speak-btn{width:36px;height:36px;border-radius:50%;background:#e8eaf6;border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
@@ -5099,7 +5102,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f0f4ff;min-height:100vh;}
 @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
 .wb-phon{font-size:14px;color:#6b7280;font-family:'Nunito',sans-serif;}
 .wb-pos{display:inline-block;font-size:11px;font-weight:700;color:#9ca3af;border:1.5px solid #e5e7eb;border-radius:6px;padding:2px 8px;margin-top:6px;}
-.wb-meaning-area{padding:0 20px 16px;}
+.wb-meaning-area{padding:0 20px 12px;min-height:56px;display:flex;flex-direction:column;justify-content:center;}
 .wb-meaning-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
 .wb-num{width:26px;height:26px;border-radius:50%;background:#1e3a8a;color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .wb-meaning-text{font-size:20px;font-weight:700;color:#111827;line-height:1.3;}
@@ -5224,48 +5227,115 @@ const QUESTION_TYPE_LABELS = {
   errorfix: "誤文訂正",
   translate: "英作文"
 };
-async function generateQuizForTopic(topic, count = 6) {
-  const prompt = `あなたは中学英語の問題作成AIです。
 
-文法項目「${topic.title}」（${topic.summary}）について、多様な形式で${count}問作成してください。
-
-【必須条件】
-- 問題形式を必ずMIXすること（choice/fillblank/rearrange/errorfix/translate から選ぶ）
-- 前回と違うパターンになるよう、主語・動詞・場面をランダムに変える
-- 中学生レベルで解ける内容
-
-【形式の定義】
-- choice: 4択選択問題 → choices配列に4つの選択肢、answerに正解
-- fillblank: 穴埋め → qに「___」を含む英文または日本語説明、answerに英語1語または短い語句
-- rearrange: 並べ替え → qに日本語の意味、choicesに単語リスト、answerにスペース区切りの正解文
-- errorfix: 誤文訂正 → qに間違いのある英文（どこかが間違い）、answerに正しい英文全体
-- translate: 日本語→英語 → qに日本語文、answerに英文
-
-【出力フォーマット】
-JSONのみ。説明文・マークダウン記号は一切不要。
-[
-  {"type":"choice","q":"問題文","choices":["A","B","C","D"],"answer":"B","explanation":"簡潔な解説（日本語20字以内）"},
-  {"type":"fillblank","q":"She ___ to school yesterday.","answer":"went","explanation":"goの過去形はwent"},
-  ...
-]`;
+// ===== APIキー管理 =====
+function getApiKey() {
+  return localStorage.getItem("anthropic_api_key") || "";
+}
+function saveApiKey(key) {
+  localStorage.setItem("anthropic_api_key", key);
+}
+async function callClaude(messages, maxTokens = 1200) {
+  const key = getApiKey();
+  if (!key) throw new Error("NO_API_KEY");
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "x-api-key": key,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true"
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 2000,
-      messages: [{
-        role: "user",
-        content: prompt
-      }]
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: maxTokens,
+      messages
     })
   });
+  if (!res.ok) throw new Error(`API Error: ${res.status}`);
   const data = await res.json();
-  const text = data.content?.[0]?.text || "[]";
-  const clean = text.replace(/```json|```/g, "").trim();
-  return JSON.parse(clean);
+  return data.content?.[0]?.text || "";
+}
+async function generateQuizForTopic(topic, count = 6) {
+  // まずローカル固定問題を試みる
+  const fixed = FIXED_SETS.find(s => s.id === topic.id + "-q" || s.title === topic.title);
+  if (fixed && fixed.questions.length >= 4) {
+    // 固定問題をシャッフルして返す
+    return [...fixed.questions].sort(() => Math.random() - 0.5).slice(0, Math.min(count, fixed.questions.length));
+  }
+
+  // APIキーがあればAI生成
+  const key = getApiKey();
+  if (!key) {
+    // APIキーなし → topic.contentから簡易問題を生成
+    return generateLocalQuiz(topic, count);
+  }
+  try {
+    const prompt = `中学英語「${topic.title}」について${count}問作成。JSONのみ返すこと。
+[{"type":"choice","q":"問題文","choices":["A","B","C","D"],"answer":"B","explanation":"解説"},
+ {"type":"fillblank","q":"She ___ to school.","answer":"goes","explanation":"3単現のs"},
+ {"type":"rearrange","q":"日本語","choices":["She","plays","tennis"],"answer":"She plays tennis","explanation":"SVO語順"}]`;
+    const text = await callClaude([{
+      role: "user",
+      content: prompt
+    }], 2000);
+    const clean = text.replace(/```json|```/g, "").trim();
+    return JSON.parse(clean);
+  } catch (e) {
+    return generateLocalQuiz(topic, count);
+  }
+}
+function generateLocalQuiz(topic, count = 6) {
+  // topicのexamplesとrulesから問題を自動生成
+  const questions = [];
+  const examples = topic.content?.examples || [];
+  const rules = topic.content?.rules || [];
+  examples.slice(0, 3).forEach(ex => {
+    const words = ex.en.replace(/[.!?,]/g, "").split(" ");
+    if (words.length >= 3) {
+      questions.push({
+        type: "rearrange",
+        q: ex.ja,
+        choices: [...words].sort(() => Math.random() - 0.5),
+        answer: ex.en.replace(/[.!?,]/g, "").trim(),
+        explanation: rules[0] || "語順に注意"
+      });
+    }
+  });
+
+  // 穴埋め問題
+  examples.slice(0, 2).forEach(ex => {
+    const words = ex.en.replace(/[.!?,]/g, "").split(" ");
+    if (words.length >= 2) {
+      const blankIdx = Math.floor(words.length / 2);
+      const answer = words[blankIdx];
+      const blanked = words.map((w, i) => i === blankIdx ? "___" : w).join(" ");
+      questions.push({
+        type: "fillblank",
+        q: blanked + "（" + ex.ja + "）",
+        answer,
+        explanation: rules[0] || ""
+      });
+    }
+  });
+
+  // 不足分は誤文訂正
+  if (questions.length < count && examples.length > 0) {
+    const ex = examples[0];
+    questions.push({
+      type: "errorfix",
+      q: ex.en.replace(/\b(is|am|are)\b/, w => w === "is" ? "are" : w === "are" ? "am" : "is"),
+      answer: ex.en,
+      explanation: "be動詞の使い方に注意"
+    });
+  }
+  return questions.slice(0, count).length > 0 ? questions.slice(0, count) : [{
+    type: "choice",
+    q: `「${topic.title}」の基本ルールを思い出してください`,
+    choices: ["ルール1を確認", "ルール2を確認", "ルール3を確認", "全て確認"],
+    answer: "全て確認",
+    explanation: rules[0] || "解説を読んで確認しましょう"
+  }];
 }
 
 // ===== AI Grammar Quiz Component =====
@@ -5278,9 +5348,7 @@ async function saveProgress(topicId, correct, total) {
       history: []
     };
     try {
-      const r = localStorage.getItem(`prog:${topicId}`) ? {
-        value: localStorage.getItem(`prog:${topicId}`)
-      } : null;
+      const r = await window.storage.get(`prog:${topicId}`);
       if (r) existing = JSON.parse(r.value);
     } catch (e) {}
     const updated = {
@@ -5292,7 +5360,7 @@ async function saveProgress(topicId, correct, total) {
         date: new Date().toLocaleDateString("ja-JP")
       }]
     };
-    localStorage.setItem(`prog:${topicId}`, JSON.stringify(updated));
+    await window.storage.set(`prog:${topicId}`, JSON.stringify(updated));
     return updated;
   } catch (e) {
     return null;
@@ -5300,9 +5368,7 @@ async function saveProgress(topicId, correct, total) {
 }
 async function loadProgress(topicId) {
   try {
-    const r = localStorage.getItem(`prog:${topicId}`) ? {
-      value: localStorage.getItem(`prog:${topicId}`)
-    } : null;
+    const r = await window.storage.get(`prog:${topicId}`);
     return r ? JSON.parse(r.value) : null;
   } catch (e) {
     return null;
@@ -6578,9 +6644,7 @@ async function addToWeakStock(item) {
   try {
     let stock = [];
     try {
-      const r = localStorage.getItem(WEAK_STOCK_KEY) ? {
-        value: localStorage.getItem(WEAK_STOCK_KEY)
-      } : null;
+      const r = await window.storage.get(WEAK_STOCK_KEY);
       if (r) stock = JSON.parse(r.value);
     } catch (e) {}
     // 重複チェック（同じenを持つものは更新）
@@ -6594,14 +6658,12 @@ async function addToWeakStock(item) {
       count: 1,
       lastDate: new Date().toLocaleDateString("ja-JP")
     });
-    localStorage.setItem(WEAK_STOCK_KEY, JSON.stringify(stock));
+    await window.storage.set(WEAK_STOCK_KEY, JSON.stringify(stock));
   } catch (e) {}
 }
 async function loadWeakStock() {
   try {
-    const r = localStorage.getItem(WEAK_STOCK_KEY) ? {
-      value: localStorage.getItem(WEAK_STOCK_KEY)
-    } : null;
+    const r = await window.storage.get(WEAK_STOCK_KEY);
     return r ? JSON.parse(r.value) : [];
   } catch (e) {
     return [];
@@ -6609,12 +6671,10 @@ async function loadWeakStock() {
 }
 async function removeFromWeakStock(en) {
   try {
-    const r = localStorage.getItem(WEAK_STOCK_KEY) ? {
-      value: localStorage.getItem(WEAK_STOCK_KEY)
-    } : null;
+    const r = await window.storage.get(WEAK_STOCK_KEY);
     if (!r) return;
     const stock = JSON.parse(r.value).filter(s => s.en !== en);
-    localStorage.setItem(WEAK_STOCK_KEY, JSON.stringify(stock));
+    await window.storage.set(WEAK_STOCK_KEY, JSON.stringify(stock));
   } catch (e) {}
 }
 
@@ -8949,9 +9009,11 @@ function App() {
     x: 0,
     startX: 0
   });
-  const [cardDragX, setCardDragX] = useState(0); // 描画用のみ
+  const [cardDragX, setCardDragX] = useState(0);
   const [cardShowEtym, setCardShowEtym] = useState(false);
   const [speaking, setSpeaking] = useState(false);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const autoPlayTimer = useRef(null);
   // 単語追加UI
   const [addingVocab, setAddingVocab] = useState(false);
   const [addStage, setAddStage] = useState(2);
@@ -8978,23 +9040,13 @@ function App() {
       setVocabList(list);
       setVocabLoaded(true);
     });
-    (() => {
-      try {
-        const r = localStorage.getItem("vocab:tags") ? {
-          value: localStorage.getItem("vocab:tags")
-        } : null;
-        if (r) setVocabTags(JSON.parse(r.value));
-      } catch (e) {}
-    })();
+    window.storage.get("vocab:tags").then(r => {
+      if (r) setVocabTags(JSON.parse(r.value));
+    }).catch(() => {});
     loadVocabMemory().then(m => setVocabMem(m));
-    (() => {
-      try {
-        const r = localStorage.getItem("app:settings") ? {
-          value: localStorage.getItem("app:settings")
-        } : null;
-        if (r) setSettings(JSON.parse(r.value));
-      } catch (e) {}
-    })();
+    window.storage.get("app:settings").then(r => {
+      if (r) setSettings(JSON.parse(r.value));
+    }).catch(() => {});
   }, []);
   const fv = vf === 0 ? vocabList : vocabList.filter(v => v.stage === vf);
   const filteredVocab = (() => {
@@ -9021,10 +9073,7 @@ function App() {
         ...prev,
         [word]: next
       };
-      try {
-        localStorage.setItem("vocab:tags", JSON.stringify(updated));
-      } catch (e) {}
-      ;
+      window.storage.set("vocab:tags", JSON.stringify(updated)).catch(() => {});
       return updated;
     });
   }
@@ -9080,6 +9129,38 @@ function App() {
     setCardFlipped(false);
     setCardShowEtym(false);
   }
+
+  // 自動再生: cardIdxが変わったら即発音
+  useEffect(() => {
+    if (tab !== "vocab" || vmode !== "card") return;
+    const word = filteredVocab[cardIdx]?.word;
+    if (!word) return;
+    // 少し待ってから発音（レンダリング完了後）
+    const t = setTimeout(() => speakWord(word), 100);
+    return () => clearTimeout(t);
+  }, [cardIdx, vmode, tab]);
+
+  // 自動再生タイマー
+  useEffect(() => {
+    if (!autoPlay || tab !== "vocab" || vmode !== "card") {
+      clearInterval(autoPlayTimer.current);
+      return;
+    }
+    autoPlayTimer.current = setInterval(() => {
+      setCardIdx(i => (i + 1) % filteredVocab.length);
+      setCardFlipped(false);
+      setCardShowEtym(false);
+    }, 3000);
+    return () => clearInterval(autoPlayTimer.current);
+  }, [autoPlay, tab, vmode, filteredVocab.length]);
+
+  // タブ切替時に自動再生OFF
+  useEffect(() => {
+    if (tab !== "vocab") {
+      setAutoPlay(false);
+      clearInterval(autoPlayTimer.current);
+    }
+  }, [tab]);
 
   // PC: ←→キーでカード操作
   useEffect(() => {
@@ -9145,6 +9226,17 @@ function App() {
   async function sendChat(t) {
     const m = t || chatInput.trim();
     if (!m || chatLoad) return;
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      setMsgs(p => [...p, {
+        role: "user",
+        content: m
+      }, {
+        role: "ai",
+        content: "⚙️ AIコーチを使うには設定画面でAnthropicのAPIキーを入力してください。\n\nhttps://console.anthropic.com でAPIキーを取得できます。"
+      }]);
+      return;
+    }
     setChatInput("");
     setFollowUpChips([]);
     setMsgs(p => [...p, {
@@ -9153,62 +9245,30 @@ function App() {
     }]);
     setChatLoad(true);
     try {
-      const r = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1200,
-          system: `あなたは日本の中学生・初心者向け「英語専属コーチAI」です。
-- 励ますトーンで、友達のように接する
-- 解説 → 例文（2〜3個）→ 覚え方のコツ → 次の一歩 の順で答える
-- 中学英語全般を分かりやすく説明
-- 文法用語は噛み砕いて
-- 400〜600文字程度で要点を絞る`,
-          messages: [...msgs.map(x => ({
-            role: x.role === "ai" ? "assistant" : "user",
-            content: x.content
-          })), {
-            role: "user",
-            content: m
-          }]
-        })
-      });
-      const d = await r.json();
-      const aiText = d.content?.[0]?.text || "もう一度お試しください。";
+      const aiText = await callClaude([...msgs.map(x => ({
+        role: x.role === "ai" ? "assistant" : "user",
+        content: x.content
+      })), {
+        role: "user",
+        content: m
+      }], 1200);
       setMsgs(p => [...p, {
         role: "ai",
         content: aiText
       }]);
-
-      // フォローアップ質問を生成
+      // フォローアップ質問
       try {
-        const fr = await fetch("https://api.anthropic.com/v1/messages", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "claude-sonnet-4-20250514",
-            max_tokens: 200,
-            system: "あなたは中学英語コーチです。直前のやり取りを踏まえて、学習者が次に聞きたくなりそうな関連質問を3つ生成してください。JSONのみ出力。例：[\"be動詞と一般動詞の違いは？\",\"否定文の作り方は？\",\"疑問文の作り方は？\"]",
-            messages: [{
-              role: "user",
-              content: `直前の質問:「${m}」\nAIの回答の要点:「${aiText.slice(0, 100)}」\n\n関連する次の質問を3つJSON配列で。各質問は15文字以内の日本語。`
-            }]
-          })
-        });
-        const fd = await fr.json();
-        const ft = fd.content?.[0]?.text || "[]";
+        const ft = await callClaude([{
+          role: "user",
+          content: `直前の質問:「${m}」\n関連する次の質問を3つJSON配列で。各質問は15文字以内の日本語。JSONのみ出力。例：["be動詞と一般動詞の違いは？","否定文の作り方は？","疑問文の作り方は？"]`
+        }], 200);
         const chips = JSON.parse(ft.replace(/```json|```/g, "").trim());
         if (Array.isArray(chips)) setFollowUpChips(chips.slice(0, 3));
-      } catch (e) {/* フォローアップ失敗は無視 */}
-    } catch {
+      } catch (e) {}
+    } catch (e) {
       setMsgs(p => [...p, {
         role: "ai",
-        content: "エラーが発生しました。再度お試しください。"
+        content: e.message === "NO_API_KEY" ? "⚙️ 設定からAPIキーを入力してください。" : "エラーが発生しました。再度お試しください。"
       }]);
     }
     setChatLoad(false);
@@ -10899,14 +10959,33 @@ function App() {
         transition: "all 0.2s",
         boxShadow: "0 4px 12px rgba(99,102,241,0.3)"
       }
-    }, "\u6B21\u306E\u5358\u8A9E\u3078\u3000\u2192"), /*#__PURE__*/React.createElement("div", {
+    }, "\u6B21\u306E\u5358\u8A9E\u3078\u3000\u2192"), /*#__PURE__*/React.createElement("button", {
+      onClick: () => setAutoPlay(a => !a),
+      style: {
+        width: "100%",
+        marginTop: 8,
+        height: 42,
+        border: `2px solid ${autoPlay ? "#10b981" : "#e5e7eb"}`,
+        borderRadius: 14,
+        background: autoPlay ? "#d1fae5" : "white",
+        color: autoPlay ? "#059669" : "#9ca3af",
+        fontFamily: "'Noto Sans JP',sans-serif",
+        fontWeight: 700,
+        fontSize: 14,
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 6
+      }
+    }, autoPlay ? "⏹ 自動再生を停止" : "▶ 自動再生（3秒ごとに次へ・音声付き）"), /*#__PURE__*/React.createElement("div", {
       style: {
         textAlign: "center",
         fontSize: 11,
         color: "#9ca3af",
         marginTop: 8
       }
-    }, "\u30B9\u30EF\u30A4\u30D7 or \u2039 \u203A \u30DC\u30BF\u30F3\u3067\u79FB\u52D5\u3000\uFF0F\u3000PC: \u2190\u2192\u30AD\u30FC\u3082\u4F7F\u3048\u307E\u3059"));
+    }, "\u30B9\u30EF\u30A4\u30D7 or \u2039 \u203A \u3067\u79FB\u52D5\u3000\uFF0F\u3000\u30AB\u30FC\u30C9\u3092\u958B\u304F\u3068\u81EA\u52D5\u3067\u767A\u97F3\u3000\uFF0F\u3000PC: \u2190\u2192\u30AD\u30FC\u3082\u4F7F\u3048\u307E\u3059"));
   })(), vmode === "card" && filteredVocab.length === 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "center",
@@ -11753,7 +11832,56 @@ function App() {
       color: "#6b7280",
       fontFamily: "'Noto Sans JP',sans-serif"
     }
-  }, "\uD83D\uDD04 \u30C7\u30D5\u30A9\u30EB\u30C8\u306B\u623B\u3059"))), /*#__PURE__*/React.createElement("nav", {
+  }, "\uD83D\uDD04 \u30C7\u30D5\u30A9\u30EB\u30C8\u306B\u623B\u3059"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "white",
+      borderRadius: 16,
+      padding: 16,
+      marginTop: 12,
+      boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: "#374151",
+      marginBottom: 6
+    }
+  }, "\uD83E\uDD16 AI\u30B3\u30FC\u30C1\u8A2D\u5B9A\uFF08\u4EFB\u610F\uFF09"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#6b7280",
+      marginBottom: 10,
+      lineHeight: 1.6
+    }
+  }, "AI\u30AF\u30A4\u30BA\u30FBAI\u30B3\u30FC\u30C1\u3092\u4F7F\u3046\u306B\u306FAnthropic\u306EAPI\u30AD\u30FC\u304C\u5FC5\u8981\u3067\u3059\u3002", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
+    href: "https://console.anthropic.com",
+    target: "_blank",
+    style: {
+      color: "#6366f1"
+    }
+  }, "console.anthropic.com"), " \u3067\u53D6\u5F97\u3067\u304D\u307E\u3059\u3002"), /*#__PURE__*/React.createElement("input", {
+    type: "password",
+    defaultValue: getApiKey(),
+    onChange: e => saveApiKey(e.target.value),
+    placeholder: "sk-ant-...",
+    style: {
+      width: "100%",
+      padding: "10px 12px",
+      border: "2px solid #e5e7eb",
+      borderRadius: 10,
+      fontSize: 13,
+      fontFamily: "monospace",
+      outline: "none"
+    }
+  }), getApiKey() && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#10b981",
+      marginTop: 6,
+      fontWeight: 700
+    }
+  }, "\u2705 API\u30AD\u30FC\u8A2D\u5B9A\u6E08\u307F")))), /*#__PURE__*/React.createElement("nav", {
     style: {
       width: "100%",
       background: "white",
@@ -11825,8 +11953,6 @@ function App() {
     }
   }, n.label))))));
 }
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(/*#__PURE__*/React.createElement(App, null));
 
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
   </script>
