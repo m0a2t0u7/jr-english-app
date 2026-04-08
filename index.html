@@ -20878,7 +20878,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 
 /* ===== ホームグリッド均等 ===== */
 .home-menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.home-menu-card { border-radius:8px; padding:18px 14px; cursor:pointer; min-height:108px; display:flex; flex-direction:column; justify-content:flex-end; position:relative; overflow:hidden; transition:all 0.18s; border:1.5px solid var(--border-light); }
+.home-menu-card { border-radius:8px; padding:18px 14px; cursor:pointer; min-height:100px; display:flex; flex-direction:column; justify-content:flex-end; position:relative; overflow:hidden; transition:all 0.18s; }
 .home-menu-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.12); }
 .home-tool-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
 .home-tool-card { background:var(--surface); border-radius:8px; padding:14px 8px; cursor:pointer; border:1.5px solid var(--border); text-align:center; transition:all 0.18s; display:flex; flex-direction:column; align-items:center; gap:5px; }
@@ -25378,13 +25378,12 @@ function App() {
         className: "home-menu-card", style: { background: "linear-gradient(135deg,var(--blue-dark),var(--blue))", color: "white", position: "relative", overflow: "hidden" }
       },
         /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
-          /*#__PURE__*/React.createElement("svg", { width:28, height:28, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
-          /*#__PURE__*/React.createElement("path", { d:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }),
-          /*#__PURE__*/React.createElement("polyline", { points:"14 2 14 8 20 8" }),
-          /*#__PURE__*/React.createElement("line", { x1:"16", y1:"13", x2:"8", y2:"13" }),
-          /*#__PURE__*/React.createElement("line", { x1:"16", y1:"17", x2:"8", y2:"17" })
-        )
-        ),
+          /*#__PURE__*/React.createElement("svg", { width:28, height:28, viewBox:"0 0 24 24", fill:"none", stroke:"var(--blue)", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
+            /*#__PURE__*/React.createElement("rect", { x:"3", y:"3", width:"18", height:"18", rx:"2", ry:"2" }),
+            /*#__PURE__*/React.createElement("line", { x1:"3", y1:"9", x2:"21", y2:"9" }),
+            /*#__PURE__*/React.createElement("line", { x1:"3", y1:"15", x2:"21", y2:"15" }),
+            /*#__PURE__*/React.createElement("line", { x1:"9", y1:"9", x2:"9", y2:"21" })
+          )),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800 } }, "文法"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, opacity: 0.8, marginTop: 3 } }, GRAMMAR_TOPICS.length + "項目 ・ AIクイズ付き"),
         /*#__PURE__*/React.createElement("div", { style: { position: "absolute", right: -6, bottom: -6, fontSize: 44, opacity: 0.1 } }, "文")
@@ -25395,12 +25394,11 @@ function App() {
       },
         /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
           /*#__PURE__*/React.createElement("svg", { width:28, height:28, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
-          /*#__PURE__*/React.createElement("path", { d:"M4 19.5A2.5 2.5 0 0 1 6.5 17H20" }),
-          /*#__PURE__*/React.createElement("path", { d:"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" }),
-          /*#__PURE__*/React.createElement("line", { x1:"9", y1:"7", x2:"15", y2:"7" }),
-          /*#__PURE__*/React.createElement("line", { x1:"9", y1:"11", x2:"15", y2:"11" })
-        )
-        ),
+            /*#__PURE__*/React.createElement("path", { d:"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }),
+            /*#__PURE__*/React.createElement("polyline", { points:"14 2 14 8 20 8" }),
+            /*#__PURE__*/React.createElement("line", { x1:"16", y1:"13", x2:"8", y2:"13" }),
+            /*#__PURE__*/React.createElement("line", { x1:"16", y1:"17", x2:"8", y2:"17" })
+          )),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800 } }, "英単語"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, opacity: 0.8, marginTop: 3 } }, vocabList.length + "語 ・ カード学習"),
         /*#__PURE__*/React.createElement("div", { style: { position: "absolute", right: -6, bottom: -6, fontSize: 44, opacity: 0.1 } }, "語")
@@ -25411,9 +25409,9 @@ function App() {
       },
         /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
           /*#__PURE__*/React.createElement("svg", { width:28, height:28, viewBox:"0 0 24 24", fill:"none", stroke:"var(--blue)", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
-          /*#__PURE__*/React.createElement("path", { d:"M12 20h9" }),
-          /*#__PURE__*/React.createElement("path", { d:"M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" })
-        )),
+            /*#__PURE__*/React.createElement("path", { d:"M12 20h9" }),
+            /*#__PURE__*/React.createElement("path", { d:"M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" })
+          )),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800, color: "#111827" } }, "ドリル"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#6B7280", marginTop: 3 } }, "並べ替え・英作文・タイムアタック")
       ),
@@ -25422,12 +25420,12 @@ function App() {
         style: { background: "white", borderRadius: 8, padding: "18px 14px", cursor: "pointer", border: "1.5px solid #E5E7EB" }
       },
         /*#__PURE__*/React.createElement("div", { style: { marginBottom: 8 } },
-          /*#__PURE__*/React.createElement("svg", { width:28, height:28, viewBox:"0 0 24 24", fill:"none", stroke:"var(--blue)", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
-          /*#__PURE__*/React.createElement("rect", { x:"3", y:"3", width:"18", height:"18", rx:"2", ry:"2" }),
-          /*#__PURE__*/React.createElement("line", { x1:"3", y1:"9", x2:"21", y2:"9" }),
-          /*#__PURE__*/React.createElement("line", { x1:"3", y1:"15", x2:"21", y2:"15" }),
-          /*#__PURE__*/React.createElement("line", { x1:"9", y1:"9", x2:"9", y2:"21" })
-        )),
+          /*#__PURE__*/React.createElement("svg", { width:28, height:28, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
+            /*#__PURE__*/React.createElement("path", { d:"M4 19.5A2.5 2.5 0 0 1 6.5 17H20" }),
+            /*#__PURE__*/React.createElement("path", { d:"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" }),
+            /*#__PURE__*/React.createElement("line", { x1:"9", y1:"7", x2:"15", y2:"7" }),
+            /*#__PURE__*/React.createElement("line", { x1:"9", y1:"11", x2:"15", y2:"11" })
+          )),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800, color: "#111827" } }, "参考表"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#6B7280", marginTop: 3 } }, "文型・助動詞・前置詞など")
       )
@@ -25440,7 +25438,13 @@ function App() {
         onClick: () => { setPracticeMode("irregular"); setTab("practice"); },
         style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "      "),
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 5 } },
+          /*#__PURE__*/React.createElement("svg", { width:22, height:22, viewBox:"0 0 24 24", fill:"none", stroke:"var(--blue)", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
+            /*#__PURE__*/React.createElement("polyline", { points:"17 1 21 5 17 9" }),
+            /*#__PURE__*/React.createElement("path", { d:"M3 11V9a4 4 0 0 1 4-4h14" }),
+            /*#__PURE__*/React.createElement("polyline", { points:"7 23 3 19 7 15" }),
+            /*#__PURE__*/React.createElement("path", { d:"M21 13v2a4 4 0 0 1-4 4H3" })
+          )),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "不規則動詞"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "60語 クイズ")
       ),
@@ -25448,7 +25452,10 @@ function App() {
         onClick: () => { setPracticeMode("idioms"); setTab("practice"); },
         style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "      "),
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 5 } },
+          /*#__PURE__*/React.createElement("svg", { width:22, height:22, viewBox:"0 0 24 24", fill:"none", stroke:"var(--blue)", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
+            /*#__PURE__*/React.createElement("path", { d:"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 0 2 2z" })
+          )),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "重要熟語"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "35語 クイズ")
       ),
@@ -25456,37 +25463,40 @@ function App() {
         onClick: () => { setPracticeMode("phonetics"); setTab("practice"); },
         style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "      "),
+        /*#__PURE__*/React.createElement("div", { style: { marginBottom: 5 } },
+          /*#__PURE__*/React.createElement("svg", { width:22, height:22, viewBox:"0 0 24 24", fill:"none", stroke:"var(--blue)", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
+            /*#__PURE__*/React.createElement("polygon", { points:"11 5 6 9 2 9 2 15 6 15 11 19 11 5" }),
+            /*#__PURE__*/React.createElement("path", { d:"M19.07 4.93a10 10 0 0 1 0 14.14" }),
+            /*#__PURE__*/React.createElement("path", { d:"M15.54 8.46a5 5 0 0 1 0 7.07" })
+          )),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "発音記号"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "IPA 一覧・練習")
       )
     )
   ),
   /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "⭐ お気に入り参考表"),
-    settings.favRefs && settings.favRefs.length > 0
-      ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 7 } },
-          settings.favRefs.map(function(id) {
-            const t = REFERENCE_TABLES.find(function(r) { return r.id === id; });
-            if (!t) return null;
-            return /*#__PURE__*/React.createElement("div", {
-              key: id,
-              className: "home-fav-card",
-              onClick: () => { setPracticeMode("reference"); setTab("practice"); }
-            },
-              /*#__PURE__*/React.createElement("div", { style: { width: 32, height: 32, borderRadius: 8, background: t.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 } }, t.icon),
-              /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, t.title),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "var(--text-muted)", marginTop: 1 } }, t.desc)
-              ),
-              /*#__PURE__*/React.createElement("div", { style: { color: "var(--border)", fontSize: 16 } }, "›")
-            );
-          })
-        )
-      : /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: "14px 16px", border: "1.5px dashed var(--border)", textAlign: "center" } },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, "☆"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)" } }, "参考表で☆をタップして登録しましょう")
-        )
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "⭐ よく使う参考表"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 7 } },
+      [
+        { icon: "⏱️", title: "時制まとめ",     desc: "現在・過去・未来・完了" },
+        { icon: "⚡",    title: "助動詞まとめ",   desc: "can / will / must / should" },
+        { icon: "➰",    title: "不規則動詞リスト", desc: "原形・過去形・過去分詞" },
+        { icon: "♾️", title: "不定詞・動名詞", desc: "toのみ / ingのみ / 両方OK" }
+      ].map(function(item) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: item.title,
+          onClick: () => { setPracticeMode("reference"); setTab("practice"); },
+          style: { background: "white", borderRadius: 8, padding: "11px 14px", cursor: "pointer", border: "1.5px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, flexShrink: 0, width: 28, textAlign: "center" } }, item.icon),
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111827" } }, item.title),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#9CA3AF", marginTop: 1 } }, item.desc)
+          ),
+          /*#__PURE__*/React.createElement("div", { style: { color: "#D1D5DB", fontSize: 16 } }, "›")
+        );
+      })
+    )
   )
 ), 
 tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
@@ -27415,7 +27425,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
   }, "\u27A4"))), tab === "settings" && /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 800, color: "var(--text-primary)", marginBottom: 16 } }, "⚙️ 設定"),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       カラーテーマ"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     カラーテーマ"),
     /*#__PURE__*/React.createElement("div", { className: "theme-grid" },
       Object.entries(COLOR_THEMES).map(function([key, t]) {
         return /*#__PURE__*/React.createElement("div", {
@@ -27432,7 +27442,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     )
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "       ボタン表示設定"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "     ボタン表示設定"),
     [
       { key: "showVocabUp",  label: "単語数UPボタン",   desc: "単語タブの右下に表示" },
       { key: "showHomeBtn",  label: "ホームボタン",     desc: "左下のフローティングボタン" },
@@ -27458,7 +27468,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.exampleSize, color: "var(--text-secondary)" } }, "Can you help me carry this bag?")
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       単語フォント"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     単語フォント"),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
       WORD_FONTS.map(function(f) {
         return /*#__PURE__*/React.createElement("button", {
@@ -27473,7 +27483,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     )
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       文字サイズ"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     文字サイズ"),
     [
       { key: "wordSize",    label: "単語",   min: 28, max: 64 },
       { key: "meaningSize", label: "意味",   min: 14, max: 32 },
@@ -27494,7 +27504,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     })
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 } }, "       Anthropic APIキー"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 } }, "     Anthropic APIキー"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--text-muted)", marginBottom: 8 } }, "AIコーチ・ AIクイズ機能に必要です"),
     /*#__PURE__*/React.createElement("input", {
       type: "password", placeholder: "sk-ant-...",
@@ -27615,10 +27625,13 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     style: {
       fontSize: 9,
       fontWeight: 600,
-      color: tab === n.id ? "var(--blue)" : "var(--text-muted)",
+      color: tab === n.id ? "#6366f1" : "#9ca3af",
       whiteSpace: "nowrap"
     }
   }, n.label))))));
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
+  </script>
+</body>
+</html>
