@@ -20252,6 +20252,182 @@ REFERENCE_TABLES.push({
   notes: ["A-A-A型（変化なし）：cut, hit, put, read, set など", "A-B-A型：come-came-come, run-ran-run など", "A-B-C型（全変化）：go-went-gone, write-wrote-written など"]
 });
 
+
+// ===== 追加参照表 =====
+REFERENCE_TABLES.push({
+  id: "modal-verbs",
+  title: "助動詞まとめ",
+  icon: "⚡",
+  color: "#7c3aed",
+  desc: "can / will / must / should / may の意味と使い分け。後ろは必ず動詞の原形！",
+  cols: ["助動詞", "主な意味", "否定形", "例文"],
+  rows: [
+    ["can", "〜できる（能力）", "cannot / can't", "She can swim well."],
+    ["can", "〜してもよい（許可）", "cannot / can't", "You can use my pen."],
+    ["can", "〜してくれますか（依頼）", "", "Can you help me?"],
+    ["could", "〜できた（過去）", "couldn't", "I could run fast then."],
+    ["could", "〜してもらえますか（丁寧依頼）", "", "Could you say that again?"],
+    ["will", "〜するだろう（予測）", "will not / won't", "It will rain tomorrow."],
+    ["will", "〜するつもり（意志）", "won't", "I will study harder."],
+    ["would", "〜するだろう（丁寧）", "wouldn't", "Would you like some tea?"],
+    ["must", "〜しなければならない（義務）", "must not / mustn't", "You must wear a helmet."],
+    ["must not", "〜してはいけない（禁止）", "", "You must not run here."],
+    ["have to", "〜しなければならない（必要）", "don't have to", "I have to finish this."],
+    ["don't have to", "〜しなくてもよい（不要）", "", "You don't have to come."],
+    ["should", "〜すべきだ（アドバイス）", "should not / shouldn't", "You should sleep early."],
+    ["may", "〜してもよい（許可）", "may not", "May I sit here?"],
+    ["may", "〜かもしれない（推量）", "may not", "She may be at home."],
+    ["might", "〜かもしれない（弱い推量）", "might not", "It might snow tonight."]
+  ],
+  notes: [
+    "助動詞の後は常に動詞の原形（s をつけない）",
+    "must not（禁止）と don't have to（不要）は全く意味が違う！",
+    "can → could、will → would で丁寧さが増す"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "question-words",
+  title: "疑問詞まとめ",
+  icon: "❓",
+  color: "#0891b2",
+  desc: "what / who / where / when / why / how の使い分けと疑問文の作り方。",
+  cols: ["疑問詞", "意味", "聞くこと", "例文"],
+  rows: [
+    ["what", "何・どんな", "物・こと・種類", "What is this? / What time is it?"],
+    ["who", "誰", "人", "Who is she? / Who came?"],
+    ["whose", "誰の", "所有者", "Whose bag is this?"],
+    ["which", "どれ・どちら", "選択", "Which do you like, A or B?"],
+    ["where", "どこ", "場所", "Where do you live?"],
+    ["when", "いつ", "時間・時期", "When is your birthday?"],
+    ["why", "なぜ", "理由", "Why are you late?"],
+    ["how", "どのように", "方法・様子", "How do you go to school?"],
+    ["how many", "いくつ（数）", "数量（可算名詞）", "How many books do you have?"],
+    ["how much", "いくら・どのくらい", "価格・量（不可算）", "How much is this?"],
+    ["how long", "どのくらいの長さ・期間", "長さ・期間", "How long does it take?"],
+    ["how far", "どのくらい遠い", "距離", "How far is the station?"],
+    ["how often", "どのくらいの頻度", "頻度", "How often do you exercise?"],
+    ["how old", "何歳・何年", "年齢・築年数", "How old are you?"]
+  ],
+  notes: [
+    "疑問詞が主語のとき語順は変わらない: Who lives here? （× Who does live?）",
+    "間接疑問文は平叙文語順: I know where she lives. （× where does she live）",
+    "how + 形容詞/副詞 で様々な意味に展開できる"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "comparison-forms",
+  title: "形容詞・副詞の比較変化",
+  icon: "⚖️",
+  color: "#059669",
+  desc: "原級・比較級・最上級の作り方。規則変化と不規則変化を一覧で確認。",
+  cols: ["原級", "比較級", "最上級", "備考"],
+  rows: [
+    ["long", "longer", "longest", "子音+er/est"],
+    ["fast", "faster", "fastest", "子音+er/est"],
+    ["small", "smaller", "smallest", "子音+er/est"],
+    ["large", "larger", "largest", "語尾 e → r/st"],
+    ["nice", "nicer", "nicest", "語尾 e → r/st"],
+    ["big", "bigger", "biggest", "子音重ね+er/est"],
+    ["hot", "hotter", "hottest", "子音重ね+er/est"],
+    ["happy", "happier", "happiest", "語尾 y→i+er/est"],
+    ["easy", "easier", "easiest", "語尾 y→i+er/est"],
+    ["beautiful", "more beautiful", "most beautiful", "3音節以上→more/most"],
+    ["interesting", "more interesting", "most interesting", "3音節以上→more/most"],
+    ["popular", "more popular", "most popular", "3音節以上→more/most"],
+    ["good / well", "better", "best", "不規則変化"],
+    ["bad / ill", "worse", "worst", "不規則変化"],
+    ["many / much", "more", "most", "不規則変化"],
+    ["little", "less", "least", "不規則変化（量が少ない）"],
+    ["far", "farther / further", "farthest / furthest", "不規則変化（距離）"]
+  ],
+  notes: [
+    "1・2音節の形容詞は原則 -er/-est（ただし例外あり）",
+    "3音節以上は more/most を使う",
+    "不規則変化の good→better→best は必ず暗記！"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "infinitive-gerund",
+  title: "不定詞・動名詞 使い分け",
+  icon: "♾️",
+  color: "#db2777",
+  desc: "toのみ・ingのみ・両方OKの動詞リストと意味の違い。",
+  cols: ["パターン", "動詞例", "例文"],
+  rows: [
+    ["to不定詞のみ", "want / hope / decide / plan / wish / refuse / promise / offer", "I want to go. / She decided to stay."],
+    ["to不定詞のみ", "need / expect / agree / ask / manage / fail", "He managed to win. / I need to sleep."],
+    ["動名詞のみ", "enjoy / finish / stop / mind / avoid / give up", "I enjoy swimming. / He stopped smoking."],
+    ["動名詞のみ", "practice / consider / suggest / miss / deny", "She suggested going. / I miss seeing you."],
+    ["両方OK（意味同じ）", "like / love / hate / start / begin / continue", "She likes to sing. / She likes singing."],
+    ["両方OK（意味違う）", "remember / forget", "Remember to call. (まだやっていない)"],
+    ["両方OK（意味違う）", "remember / forget", "I remember calling. (やった記憶がある)"],
+    ["両方OK（意味違う）", "try", "Try to open it. (〜しようとする)"],
+    ["両方OK（意味違う）", "try", "Try opening it. (試しに〜してみる)"],
+    ["前置詞＋動名詞", "be good at / look forward to / thank for", "I'm good at swimming. (前置詞の後は必ずing)"]
+  ],
+  notes: [
+    "前置詞の後は必ず動名詞（ing形）！ to不定詞は不可",
+    "look forward to seeing you の to は前置詞なので seeing が正解",
+    "remember/forget/try は後ろの形で意味が変わる超重要パターン"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "passive-voice",
+  title: "受動態の作り方",
+  icon: "🔁",
+  color: "#6366f1",
+  desc: "be動詞+過去分詞の時制別パターンと、能動態→受動態の変換手順。",
+  cols: ["時制", "受動態の形", "例文", "ポイント"],
+  rows: [
+    ["現在", "am / is / are + 過去分詞", "English is spoken here.", "主語に合わせてbe動詞を変える"],
+    ["過去", "was / were + 過去分詞", "This was built in 1900.", "単数→was、複数→were"],
+    ["未来", "will be + 過去分詞", "It will be cleaned.", "willの後はbe（原形）"],
+    ["現在進行", "am/is/are + being + 過去分詞", "The car is being fixed.", "beingを使う"],
+    ["現在完了", "have/has + been + 過去分詞", "It has been used.", "beenを使う"],
+    ["助動詞", "助動詞 + be + 過去分詞", "It must be done.", "助動詞の後はbe（原形）"],
+    ["by + 行為者", "〜によって", "It was written by him.", "行為者が不明なら省略OK"],
+    ["注意の前置詞", "be interested in（〜に興味がある）", "I'm interested in music.", "in を使う"],
+    ["注意の前置詞", "be surprised at（〜に驚く）", "I was surprised at the news.", "at を使う"],
+    ["注意の前置詞", "be known for（〜で有名）", "Kyoto is known for temples.", "for を使う"]
+  ],
+  notes: [
+    "能動態→受動態の手順: ①目的語を主語に ②be+過去分詞 ③元の主語はby〜",
+    "by以外の前置詞を使う受動態イディオムは丸ごと覚える",
+    "受動態は「誰がやったか不明・重要でない」ときに使う"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "relative-pronouns",
+  title: "関係代名詞まとめ",
+  icon: "🔗",
+  color: "#f59e0b",
+  desc: "who / which / that / whose の選び方と主格・目的格の違い。",
+  cols: ["関係代名詞", "先行詞", "格", "例文"],
+  rows: [
+    ["who", "人", "主格（後ろに動詞）", "The boy who plays tennis is Ken."],
+    ["whom", "人", "目的格（後ろにS+V）", "The man whom I met was kind."],
+    ["which", "物・動物", "主格（後ろに動詞）", "The book which is on the desk is mine."],
+    ["which", "物・動物", "目的格（後ろにS+V）", "The cake which she made was good."],
+    ["that", "人・物（両方）", "主格・目的格", "The girl that I like is smart."],
+    ["whose", "人・物", "所有格（後ろに名詞）", "The man whose car is red is my uncle."],
+    ["省略できる", "目的格の関係代名詞", "", "The book (that) I read was great."],
+    ["省略できない", "主格の関係代名詞", "", "The boy who runs is my brother.（省略×）"],
+    ["先行詞にtheを使う", "thatを優先するとき", "", "This is the best movie that I've seen."],
+    ["非制限用法", "which（カンマあり）", "", "She passed the exam, which surprised us."]
+  ],
+  notes: [
+    "主格（後ろが動詞）: who / which / that　目的格（後ろがS+V）: whom / which / that",
+    "目的格の関係代名詞は省略できる（会話では省略が多い）",
+    "thatを優先するケース: 先行詞がthe+最上級・the only・序数など"
+  ]
+});
+
+
 // ===== 重要熟語リスト =====
 const IDIOMS = [{
   phrase: "be good at",
@@ -20483,16 +20659,16 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 /* ===== Content ===== */
 .ct{padding:16px 24px;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .back{display:flex;align-items:center;gap:6px;background:none;border:none;font-size:14px;font-weight:600;color:var(--blue);cursor:pointer;padding:0;margin-bottom:16px;font-family:'Noto Sans JP',sans-serif;}
-.card{background:var(--surface);border-radius:var(--radius-lg);padding:14px;margin-bottom:10px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.2s;border:1px solid var(--border-light);}
+.card{background:var(--surface);border-radius:8px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.2s;border:1px solid var(--border-light);}
 .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
 
 /* ===== Quiz Launch Button ===== */
-.quiz-launch{background:linear-gradient(135deg,var(--orange-light),var(--orange));border:none;border-radius:var(--radius-lg);padding:13px 16px;color:white;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:14px;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;box-shadow:0 4px 14px rgba(255,140,0,0.3);margin-bottom:10px;}
+.quiz-launch{background:linear-gradient(135deg,var(--orange-light),var(--orange));border:none;border-radius:6px;padding:13px 16px;color:white;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:14px;cursor:pointer;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;box-shadow:0 4px 14px rgba(255,140,0,0.3);margin-bottom:10px;}
 .quiz-launch:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(255,140,0,0.4);}
 .quiz-launch:disabled{opacity:0.6;cursor:wait;transform:none;}
 
 /* ===== AI Quiz ===== */
-.ai-quiz-wrap{background:var(--surface);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:12px;border:1px solid var(--border-light);}
+.ai-quiz-wrap{background:var(--surface);border-radius:8px;overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:12px;border:1px solid var(--border-light);}
 .ai-quiz-header{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
 .ai-quiz-progress{font-size:12px;color:rgba(255,255,255,0.9);font-weight:700;}
 .ai-quiz-pbwrap{height:3px;background:rgba(255,255,255,0.25);}
@@ -20501,12 +20677,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .ai-quiz-type-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
 .ai-quiz-q{font-size:15px;font-weight:700;color:var(--text-primary);line-height:1.65;margin-bottom:14px;min-height:44px;}
 .ai-quiz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-.ai-quiz-opt{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:12px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-secondary);font-family:'Noto Sans JP',sans-serif;transition:all 0.18s;line-height:1.4;}
+.ai-quiz-opt{background:var(--bg);border:1.5px solid var(--border);border-radius:6px;padding:12px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-secondary);font-family:'Noto Sans JP',sans-serif;transition:all 0.18s;line-height:1.4;}
 .ai-quiz-opt:hover:not(:disabled){border-color:var(--blue);background:#EFF6FF;color:var(--blue);}
 .ai-quiz-opt.correct{background:var(--green-bg);border-color:var(--green);color:var(--green);}
 .ai-quiz-opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);}
 .ai-quiz-opt.reveal{background:var(--green-bg);border-color:var(--green);color:var(--green);}
-.ai-quiz-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:13px;font-size:16px;font-family:'Montserrat',sans-serif;outline:none;text-align:center;font-weight:700;transition:border-color 0.2s;margin-bottom:10px;background:var(--bg);}
+.ai-quiz-input{width:100%;border:1.5px solid var(--border);border-radius:6px;padding:13px;font-size:16px;font-family:'Montserrat',sans-serif;outline:none;text-align:center;font-weight:700;transition:border-color 0.2s;margin-bottom:10px;background:var(--bg);}
 .ai-quiz-input:focus{border-color:var(--blue);background:white;}
 .ai-quiz-input.ok{border-color:var(--green);background:var(--green-bg);}
 .ai-quiz-input.ng{border-color:var(--red);background:var(--red-bg);}
@@ -20514,11 +20690,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .ai-quiz-fb.ok{background:var(--green-bg);color:var(--green);}
 .ai-quiz-fb.ng{background:var(--red-bg);color:var(--red);}
 .rw{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
-.wc{background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:var(--radius-sm);padding:7px 12px;font-size:14px;font-weight:600;cursor:pointer;color:var(--blue-dark);font-family:'Montserrat',sans-serif;transition:all 0.18s;}
+.wc{background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:5px;padding:7px 12px;font-size:14px;font-weight:600;cursor:pointer;color:var(--blue-dark);font-family:'Montserrat',sans-serif;transition:all 0.18s;}
 .wc:hover{background:#DBEAFE;border-color:var(--blue);}
 .wc.used{opacity:0.3;cursor:default;}
 .aa{min-height:46px;border:2px dashed #BFDBFE;border-radius:var(--radius-md);padding:8px;display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;background:#F8FBFF;}
-.ac{background:var(--blue);color:white;border-radius:var(--radius-sm);padding:7px 12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Montserrat',sans-serif;}
+.ac{background:var(--blue);color:white;border-radius:5px;padding:7px 12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Montserrat',sans-serif;}
 .ai-quiz-result{padding:24px;text-align:center;}
 .ai-quiz-gen-loading{padding:32px;text-align:center;}
 .spin{display:inline-block;width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;}
@@ -20528,12 +20704,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .stage-card{border-radius:var(--radius-lg);padding:14px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;color:white;position:relative;overflow:hidden;}
 .stage-card::after{content:'›';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:22px;opacity:0.6;}
 .stage-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
-.tc{background:var(--surface);border-radius:var(--radius-md);padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.18s;border-left:3px solid;border:1px solid var(--border-light);border-left:3px solid;}
+.tc{background:var(--surface);border-radius:8px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.18s;border-left:3px solid;border:1px solid var(--border-light);border-left:3px solid;}
 .tc:hover{transform:translateX(3px);box-shadow:var(--shadow-md);}
 
 /* ===== Grammar detail ===== */
 .dh{border-radius:var(--radius-lg);padding:18px;color:white;margin-bottom:14px;}
-.sc{background:var(--surface);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);}
+.sc{background:var(--surface);border-radius:8px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);}
 .st{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;}
 .ri{background:#F0F7FF;border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;color:var(--text-secondary);margin-bottom:7px;border-left:3px solid var(--blue);}
 .ei{padding:9px 0;border-bottom:1px solid var(--border-light);}
@@ -20551,7 +20727,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .vf{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
 .fb{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:12px;font-weight:600;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text-secondary);transition:all 0.18s;}
 .fb.active{background:var(--blue);border-color:var(--blue);color:white;}
-.vc{background:var(--surface);border-radius:var(--radius-md);padding:11px 14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.18s;border:1px solid var(--border-light);}
+.vc{background:var(--surface);border-radius:8px;padding:11px 14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.18s;border:1px solid var(--border-light);}
 .vc:hover{box-shadow:var(--shadow-md);border-color:#BFDBFE;}
 .vw{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;color:var(--text-primary);}
 .vr{font-size:11px;color:var(--text-muted);margin-top:1px;}
@@ -20559,7 +20735,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .vm.hidden{background:var(--border);color:transparent;user-select:none;}
 .vg{font-size:10px;font-weight:700;padding:3px 7px;border-radius:10px;color:white;flex-shrink:0;}
 .vmodes{display:flex;gap:6px;margin-bottom:12px;}
-.vmode-btn{flex:1;padding:9px 4px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text-muted);text-align:center;transition:all 0.18s;}
+.vmode-btn{flex:1;padding:9px 4px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text-muted);text-align:center;transition:all 0.18s;}
 .vmode-btn.active{background:var(--blue);border-color:var(--blue);color:white;}
 .tag-fav{background:#FFF7ED;border:1.5px solid #FD923C;border-radius:20px;padding:3px 8px;font-size:10px;font-weight:700;color:#EA580C;cursor:pointer;flex-shrink:0;}
 .tag-later{background:#EFF6FF;border:1.5px solid #93C5FD;border-radius:20px;padding:3px 8px;font-size:10px;font-weight:700;color:#1D4ED8;cursor:pointer;flex-shrink:0;}
@@ -20568,14 +20744,14 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 
 /* ===== Flash Card ===== */
 .card-deck{position:relative;height:280px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;user-select:none;touch-action:pan-y;}
-.flash-card{position:absolute;width:100%;background:var(--surface);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);padding:28px 24px;text-align:center;cursor:grab;will-change:transform;border:1px solid var(--border-light);}
+.flash-card{position:absolute;width:100%;background:var(--surface);border-radius:10px;box-shadow:var(--shadow-lg);padding:28px 24px;text-align:center;cursor:grab;will-change:transform;border:1px solid var(--border-light);}
 .flash-card:active{cursor:grabbing;}
 .card-controls{display:flex;justify-content:center;gap:16px;margin-bottom:10px;}
 .card-btn{width:52px;height:52px;border-radius:50%;border:none;font-size:22px;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-sm);}
 .card-btn:hover{transform:scale(1.1);}
 
 /* ===== WordBit Card ===== */
-.wb-card{background:var(--surface);border-radius:var(--radius-xl);box-shadow:var(--shadow-md);overflow:hidden;margin-bottom:0;border:1px solid var(--border-light);}
+.wb-card{background:var(--surface);border-radius:10px;box-shadow:var(--shadow-md);overflow:hidden;margin-bottom:0;border:1px solid var(--border-light);}
 .wb-card-top{padding:14px 20px 0;display:flex;align-items:center;justify-content:space-between;}
 .wb-level{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;color:white;font-family:'Montserrat',sans-serif;letter-spacing:0.3px;}
 .wb-progress{font-size:12px;color:var(--text-muted);font-weight:600;font-family:'Montserrat',sans-serif;}
@@ -20603,11 +20779,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 
 /* ===== Modal ===== */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:flex-end;justify-content:center;padding:0;}
-.modal-box{background:var(--surface);border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding:20px 24px;width:100%;max-width:800px;max-height:80vh;overflow-y:auto;}
-.export-btn{background:linear-gradient(135deg,var(--blue-light),var(--blue));border:none;border-radius:var(--radius-md);padding:12px;color:white;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:13px;cursor:pointer;width:100%;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;}
+.modal-box{background:var(--surface);border-radius:16px 16px 0 0;padding:20px 24px;width:100%;max-width:800px;max-height:80vh;overflow-y:auto;}
+.export-btn{background:linear-gradient(135deg,var(--blue-light),var(--blue));border:none;border-radius:6px;padding:12px;color:white;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:13px;cursor:pointer;width:100%;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;}
 
 /* ===== Buttons ===== */
-.btn{display:block;width:100%;padding:13px;background:linear-gradient(135deg,var(--blue-light),var(--blue));color:white;border:none;border-radius:var(--radius-md);font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all 0.18s;margin-top:8px;letter-spacing:0.2px;}
+.btn{display:block;width:100%;padding:13px;background:linear-gradient(135deg,var(--blue-light),var(--blue));color:white;border:none;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all 0.18s;margin-top:8px;letter-spacing:0.2px;}
 .btn:hover{opacity:0.92;transform:translateY(-1px);box-shadow:0 4px 14px rgba(52,120,246,0.35);}
 .btn-o{background:white;color:var(--blue);border:1.5px solid var(--blue);}
 .btn-o:hover{background:#EFF6FF;}
@@ -20624,9 +20800,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .sh{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:10px;}
 
 /* ===== Eisakubun ===== */
-.esa-card{background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden;border:1px solid var(--border-light);}
+.esa-card{background:var(--surface);border-radius:8px;box-shadow:var(--shadow-md);overflow:hidden;border:1px solid var(--border-light);}
 .esa-jp{background:linear-gradient(135deg,var(--blue-dark),var(--blue));padding:24px;text-align:center;color:white;}
-.esa-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:14px;font-size:16px;font-family:'Montserrat',sans-serif;outline:none;font-weight:700;transition:border-color 0.2s;text-align:center;background:var(--bg);}
+.esa-input{width:100%;border:1.5px solid var(--border);border-radius:6px;padding:14px;font-size:16px;font-family:'Montserrat',sans-serif;outline:none;font-weight:700;transition:border-color 0.2s;text-align:center;background:var(--bg);}
 .esa-input:focus{border-color:var(--blue);}
 .esa-input.ok{border-color:var(--green);background:var(--green-bg);}
 .esa-input.ng{border-color:var(--red);background:var(--red-bg);}
@@ -20641,9 +20817,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .td:nth-child(2){animation-delay:0.2s;}.td:nth-child(3){animation-delay:0.4s;}
 @keyframes b{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-8px);}}
 .cia{position:fixed;bottom:56px;left:50%;transform:translateX(-50%);width:100%;max-width:800px;background:var(--surface);padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;}
-.ci{flex:1;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:10px 12px;font-size:14px;font-family:'Noto Sans JP',sans-serif;resize:none;outline:none;min-height:44px;max-height:100px;line-height:1.5;transition:border-color 0.2s;background:var(--bg);}
+.ci{flex:1;border:1.5px solid var(--border);border-radius:6px;padding:10px 12px;font-size:14px;font-family:'Noto Sans JP',sans-serif;resize:none;outline:none;min-height:44px;max-height:100px;line-height:1.5;transition:border-color 0.2s;background:var(--bg);}
 .ci:focus{border-color:var(--blue);}
-.sb{width:44px;height:44px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--blue-light),var(--blue));border:none;color:white;font-size:18px;cursor:pointer;flex-shrink:0;}
+.sb{width:44px;height:44px;border-radius:6px;background:linear-gradient(135deg,var(--blue-light),var(--blue));border:none;color:white;font-size:18px;cursor:pointer;flex-shrink:0;}
 .sb:disabled{opacity:0.5;cursor:not-allowed;}
 .sgr{display:flex;gap:7px;overflow-x:auto;padding:0 0 8px 0;scrollbar-width:none;}
 .sgr::-webkit-scrollbar{display:none;}
@@ -20655,15 +20831,15 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .ns-card{background:#F0FDF4;border:1.5px solid #4ADE80;border-radius:var(--radius-md);padding:14px;margin-top:12px;}
 .pbw{background:var(--border);border-radius:10px;height:4px;margin-bottom:18px;overflow:hidden;}
 .pb{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--blue),var(--blue-light));transition:width 0.4s ease;}
-.pqc{background:var(--surface);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);}
+.pqc{background:var(--surface);border-radius:8px;padding:18px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);}
 .pq{font-size:15px;font-weight:700;color:var(--text-primary);line-height:1.6;margin-bottom:14px;min-height:48px;}
-.hint-box{background:#FFFBEB;border-radius:var(--radius-sm);padding:9px 12px;font-size:12px;color:#92400E;margin-bottom:12px;border-left:3px solid var(--orange);}
+.hint-box{background:#FFFBEB;border-radius:5px;padding:9px 12px;font-size:12px;color:#92400E;margin-bottom:12px;border-left:3px solid var(--orange);}
 .pcs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-.pco{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:11px;text-align:center;font-size:14px;font-weight:600;cursor:pointer;color:var(--text-secondary);font-family:'Noto Sans JP',sans-serif;transition:all 0.18s;}
+.pco{background:var(--bg);border:1.5px solid var(--border);border-radius:6px;padding:11px;text-align:center;font-size:14px;font-weight:600;cursor:pointer;color:var(--text-secondary);font-family:'Noto Sans JP',sans-serif;transition:all 0.18s;}
 .pco:hover:not(:disabled){border-color:var(--blue);background:#EFF6FF;color:var(--blue);}
 .pco.correct{background:var(--green-bg);border-color:var(--green);color:var(--green);}
 .pco.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);}
-.pin{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-md);padding:13px;font-size:16px;font-family:'Montserrat',sans-serif;outline:none;text-align:center;font-weight:700;margin-bottom:10px;transition:border-color 0.2s;background:var(--bg);}
+.pin{width:100%;border:1.5px solid var(--border);border-radius:6px;padding:13px;font-size:16px;font-family:'Montserrat',sans-serif;outline:none;text-align:center;font-weight:700;margin-bottom:10px;transition:border-color 0.2s;background:var(--bg);}
 .pin:focus{border-color:var(--blue);}
 .pin.correct{border-color:var(--green);background:var(--green-bg);}
 .pin.wrong{border-color:var(--red);background:var(--red-bg);}
@@ -20674,9 +20850,9 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .ritem{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-light);font-size:12px;}
 .ritem:last-child{border-bottom:none;}
 .mtabs{display:flex;gap:8px;margin-bottom:14px;}
-.mtab{flex:1;padding:10px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--surface);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text-muted);text-align:center;transition:all 0.18s;}
+.mtab{flex:1;padding:10px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;color:var(--text-muted);text-align:center;transition:all 0.18s;}
 .mtab.active{background:var(--blue);border-color:var(--blue);color:white;}
-.pc{background:var(--surface);border-radius:var(--radius-md);padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.18s;border:1px solid var(--border-light);border-left:3px solid;}
+.pc{background:var(--surface);border-radius:8px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.18s;border:1px solid var(--border-light);border-left:3px solid;}
 .pc:hover{transform:translateX(3px);box-shadow:var(--shadow-md);}
 `;
 
@@ -24139,6 +24315,247 @@ const FIXED_SETS = [{
     answer: "English is spoken here",
     hint: "主語+be動詞+過去分詞"
   }]
+},{
+  id: "must-q",
+  title: "助動詞 must/should",
+  stage: 2,
+  color: "#60a5fa",
+  questions: [{
+    type: "choice",
+    q: "You ( ) study harder for the test.",
+    choices: ["should", "are", "do", "have"],
+    answer: "should",
+    hint: "アドバイスの助動詞"
+  }, {
+    type: "choice",
+    q: "Students ( ) not use phones in class.",
+    choices: ["should", "must", "can", "will"],
+    answer: "must",
+    hint: "禁止はmust not"
+  }, {
+    type: "fillblank",
+    q: "You ___ have to come early.（来なくてもいい）",
+    answer: "don't",
+    hint: "don't have to = 〜しなくてよい"
+  }, {
+    type: "choice",
+    q: "You look tired. You ( ) get some rest.",
+    choices: ["must not", "should", "can't", "will not"],
+    answer: "should",
+    hint: "アドバイス→should"
+  }, {
+    type: "fillblank",
+    q: "I ___ finish this report by Friday.",
+    answer: "must",
+    hint: "義務・強い必要性"
+  }, {
+    type: "rearrange",
+    q: "あなたはもっと水を飲むべきです",
+    choices: ["You", "should", "drink", "more", "water"],
+    answer: "You should drink more water",
+    hint: "should + 動詞の原形"
+  }]
+},{
+  id: "infinitive-q",
+  title: "不定詞",
+  stage: 2,
+  color: "#60a5fa",
+  questions: [{
+    type: "choice",
+    q: "I want ( ) become a doctor.",
+    choices: ["to", "for", "of", "at"],
+    answer: "to",
+    hint: "want to + 動詞の原形"
+  }, {
+    type: "choice",
+    q: "She went to the store ( ) buy milk.",
+    choices: ["to", "for", "at", "of"],
+    answer: "to",
+    hint: "目的を表すto不定詞"
+  }, {
+    type: "fillblank",
+    q: "It is important ___ exercise every day.（運動することは大切）",
+    answer: "to",
+    hint: "It is ... to 〜 の構文"
+  }, {
+    type: "choice",
+    q: "I have a lot of homework ( ) do.",
+    choices: ["to", "for", "doing", "did"],
+    answer: "to",
+    hint: "形容詞的用法のto不定詞"
+  }, {
+    type: "rearrange",
+    q: "彼女は医者になることを決めました",
+    choices: ["She", "decided", "to", "become", "a", "doctor"],
+    answer: "She decided to become a doctor",
+    hint: "decide to + 動詞の原形"
+  }, {
+    type: "fillblank",
+    q: "He studied hard ___ pass the exam.",
+    answer: "to",
+    hint: "〜するために（目的）"
+  }]
+},{
+  id: "gerund-q",
+  title: "動名詞",
+  stage: 2,
+  color: "#60a5fa",
+  questions: [{
+    type: "choice",
+    q: "I enjoy ( ) tennis on weekends.",
+    choices: ["play", "plays", "playing", "to play"],
+    answer: "playing",
+    hint: "enjoyの後は動名詞（ing形）"
+  }, {
+    type: "choice",
+    q: "She finished ( ) her homework.",
+    choices: ["do", "does", "to do", "doing"],
+    answer: "doing",
+    hint: "finishの後は動名詞"
+  }, {
+    type: "fillblank",
+    q: "Thank you for ___ me.（助けてくれてありがとう）",
+    answer: "helping",
+    hint: "前置詞の後は動名詞"
+  }, {
+    type: "choice",
+    q: "He stopped ( ) when the teacher came in.",
+    choices: ["talk", "talking", "to talk", "talked"],
+    answer: "talking",
+    hint: "stop + 動名詞 = 〜するのをやめる"
+  }, {
+    type: "fillblank",
+    q: "She is good at ___ English.",
+    answer: "speaking",
+    hint: "be good at + 動名詞"
+  }, {
+    type: "rearrange",
+    q: "私はギターを弾くことを楽しんでいます",
+    choices: ["I", "enjoy", "playing", "the", "guitar"],
+    answer: "I enjoy playing the guitar",
+    hint: "enjoy + 動名詞（ing形）"
+  }]
+},{
+  id: "relative-q",
+  title: "関係代名詞",
+  stage: 3,
+  color: "#f472b6",
+  questions: [{
+    type: "choice",
+    q: "The boy ( ) is playing soccer is my brother.",
+    choices: ["who", "which", "what", "whose"],
+    answer: "who",
+    hint: "先行詞が人→who"
+  }, {
+    type: "choice",
+    q: "This is the book ( ) I bought yesterday.",
+    choices: ["who", "which", "whose", "whom"],
+    answer: "which",
+    hint: "先行詞が物→which"
+  }, {
+    type: "fillblank",
+    q: "I have a friend ___ lives in Canada.",
+    answer: "who",
+    hint: "先行詞が人・主格→who"
+  }, {
+    type: "choice",
+    q: "She is the singer ( ) everyone loves.",
+    choices: ["who", "which", "that", "what"],
+    answer: "that",
+    hint: "人も物もthatでOK"
+  }, {
+    type: "fillblank",
+    q: "The man ___ car was red is my uncle.",
+    answer: "whose",
+    hint: "所有格の関係代名詞→whose"
+  }, {
+    type: "rearrange",
+    q: "これが私が見たかった映画です",
+    choices: ["This", "is", "the", "movie", "that", "I", "wanted", "to", "see"],
+    answer: "This is the movie that I wanted to see",
+    hint: "先行詞 + that + S + V"
+  }]
+},{
+  id: "conjunction-q",
+  title: "接続詞",
+  stage: 2,
+  color: "#60a5fa",
+  questions: [{
+    type: "choice",
+    q: "( ) it rains tomorrow, I will stay home.",
+    choices: ["If", "Because", "When", "Although"],
+    answer: "If",
+    hint: "条件「もし〜なら」"
+  }, {
+    type: "choice",
+    q: "I was tired ( ) I went to bed early.",
+    choices: ["if", "so", "because", "when"],
+    answer: "so",
+    hint: "結果「だから」"
+  }, {
+    type: "fillblank",
+    q: "I think ___ she is right.",
+    answer: "that",
+    hint: "「〜ということ」の接続詞"
+  }, {
+    type: "choice",
+    q: "( ) she was tired, she kept studying.",
+    choices: ["Although", "Because", "If", "So"],
+    answer: "Although",
+    hint: "逆接「〜にもかかわらず」"
+  }, {
+    type: "choice",
+    q: "Call me ( ) you arrive at the station.",
+    choices: ["if", "because", "when", "although"],
+    answer: "when",
+    hint: "「〜するとき」→when"
+  }, {
+    type: "rearrange",
+    q: "もし一生懸命勉強すれば合格できます",
+    choices: ["If", "you", "study", "hard", "you", "will", "pass"],
+    answer: "If you study hard you will pass",
+    hint: "If + 現在形, will + 原形"
+  }]
+},{
+  id: "conditional-q",
+  title: "仮定法",
+  stage: 3,
+  color: "#f472b6",
+  questions: [{
+    type: "choice",
+    q: "If I ( ) you, I would study more.",
+    choices: ["am", "was", "were", "be"],
+    answer: "were",
+    hint: "仮定法ではIでもwere"
+  }, {
+    type: "choice",
+    q: "If she had time, she ( ) help you.",
+    choices: ["will", "would", "can", "should"],
+    answer: "would",
+    hint: "仮定法の帰結節はwould"
+  }, {
+    type: "fillblank",
+    q: "I wish I ___ fly like a bird.",
+    answer: "could",
+    hint: "I wish + 過去形（canではなくcould）"
+  }, {
+    type: "choice",
+    q: "( ) I were rich, I would travel the world.",
+    choices: ["If", "When", "Although", "Because"],
+    answer: "If",
+    hint: "仮定法の条件節はIf"
+  }, {
+    type: "fillblank",
+    q: "If I ___ more money, I would buy a car.",
+    answer: "had",
+    hint: "仮定法過去：have→had"
+  }, {
+    type: "rearrange",
+    q: "もっと時間があれば手伝えるのに",
+    choices: ["If", "I", "had", "more", "time", "I", "would", "help", "you"],
+    answer: "If I had more time I would help you",
+    hint: "If + 過去形, would + 原形"
+  }]
 }];
 function FixedPS({
   set,
@@ -24860,208 +25277,119 @@ function App() {
     style: {
       display: "flex",
       flexDirection: "column",
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    onClick: () => {
-      setStageFilter(0);
-      setTab("grammar");
-    },
-    style: {
-      background: "linear-gradient(135deg,#4f46e5,#7c3aed)",
-      borderRadius: 16,
-      padding: "16px 14px",
-      cursor: "pointer",
-      color: "white",
-      position: "relative",
-      overflow: "hidden"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 24,
-      marginBottom: 5
-    }
-  }, "\uD83D\uDCDD"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 15,
-      fontWeight: 900
-    }
-  }, "\u6587\u6CD5"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      opacity: 0.8,
-      marginTop: 2
-    }
-  }, GRAMMAR_TOPICS.length, "\u9805\u76EE \xB7 AI\u30AF\u30A4\u30BA\u4ED8\u304D"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: "absolute",
-      right: -8,
-      bottom: -8,
-      fontSize: 44,
-      opacity: 0.12
-    }
-  }, "\u6587")), /*#__PURE__*/React.createElement("div", {
-    onClick: () => {
-      setVf(0);
-      setVmode("card");
-      setTab("vocab");
-    },
-    style: {
-      background: "linear-gradient(135deg,#0284c7,#0ea5e9)",
-      borderRadius: 16,
-      padding: "16px 14px",
-      cursor: "pointer",
-      color: "white",
-      position: "relative",
-      overflow: "hidden"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 24,
-      marginBottom: 5
-    }
-  }, "\uD83D\uDD24"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 15,
-      fontWeight: 900
-    }
-  }, "\u5358\u8A9E"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      opacity: 0.8,
-      marginTop: 2
-    }
-  }, vocabList.length, "\u8A9E \xB7 \u30AB\u30FC\u30C9\u5B66\u7FD2"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: "absolute",
-      right: -8,
-      bottom: -8,
-      fontSize: 44,
-      opacity: 0.12
-    }
-  }, "\u8A9E"))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: 10
-    }
-  }, [{
-    icon: "✏️",
-    label: "英作文",
-    sub: `${EISAKUBUN.length}文 瞬間変換`,
-    color: "#10b981",
-    bg: "#f0fdf4",
-    border: "#bbf7d0",
-    action: () => {
-      setPracticeMode("eisakubun");
-      setTab("practice");
-    }
-  }, {
-    icon: "📚",
-    label: "参照表",
-    sub: "文型・前置詞など",
-    color: "#db2777",
-    bg: "#fdf2f8",
-    border: "#fbcfe8",
-    action: () => {
-      setPracticeMode("reference");
-      setTab("practice");
-    }
-  }, {
-    icon: "🔀",
-    label: "不規則動詞",
-    sub: "60語 クイズ",
-    color: "#6366f1",
-    bg: "#f0f4ff",
-    border: "#c7d2fe",
-    action: () => {
-      setPracticeMode("irregular");
-      setTab("practice");
-    }
-  }, {
-    icon: "💬",
-    label: "重要熟語",
-    sub: "35語 クイズ",
-    color: "#f59e0b",
-    bg: "#fff7ed",
-    border: "#fed7aa",
-    action: () => {
-      setPracticeMode("idioms");
-      setTab("practice");
-    }
-  }].map((c, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    onClick: c.action,
-    style: {
-      background: c.bg,
-      border: `1.5px solid ${c.border}`,
-      borderRadius: 14,
-      padding: "13px 12px",
-      cursor: "pointer",
-      transition: "all 0.15s"
-    },
-    onMouseOver: e => e.currentTarget.style.transform = "translateY(-2px)",
-    onMouseOut: e => e.currentTarget.style.transform = "none"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 20,
-      marginBottom: 4
-    }
-  }, c.icon), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: c.color
-    }
-  }, c.label), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      color: "#6b7280",
-      marginTop: 2
-    }
-  }, c.sub)))), /*#__PURE__*/React.createElement("div", {
-    onClick: () => setTab("ai"),
-    style: {
-      background: "linear-gradient(135deg,#be185d,#ec4899)",
-      borderRadius: 14,
-      padding: "13px 16px",
-      cursor: "pointer",
-      color: "white",
-      display: "flex",
-      alignItems: "center",
       gap: 14
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  },
+  /* ===== ウェルカム =====  */
+  /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 28
+      background: "linear-gradient(135deg,#2563EB,#3478F6)",
+      borderRadius: 10,
+      padding: "16px 20px",
+      color: "white"
     }
-  }, "\uD83E\uDD16"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 14,
-      fontWeight: 900
-    }
-  }, "AI\u30B3\u30FC\u30C1\u306B\u8CEA\u554F\u3059\u308B"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      opacity: 0.85,
-      marginTop: 2
-    }
-  }, "\u6587\u6CD5\u30FB\u5358\u8A9E\u30FB\u899A\u3048\u65B9\u306A\u3093\u3067\u3082\u805E\u3051\u308B")), /*#__PURE__*/React.createElement("span", {
-    style: {
-      marginLeft: "auto",
-      fontSize: 20,
-      opacity: 0.7
-    }
-  }, "\u203A"))), tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, opacity: 0.8, marginBottom: 4 } }, "\uD83C\uDF93 今日も英語を学ぼう！"),
+    /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat','Noto Sans JP',sans-serif", fontSize: 18, fontWeight: 800 } }, "基礎固め英語"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, opacity: 0.75, marginTop: 4 } }, "文法 " + GRAMMAR_TOPICS.length + "項目 · 単語 " + vocabList.length + "語")
+  ),
+
+  /* ===== メインメニュー ===== */
+  /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "学習メニュー"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }
+    },
+      /* 文法 */
+      /*#__PURE__*/React.createElement("div", {
+        onClick: () => { setStageFilter(0); setTab("grammar"); },
+        style: { background: "linear-gradient(135deg,#2563EB,#3478F6)", borderRadius: 8, padding: "16px 14px", cursor: "pointer", color: "white", position: "relative", overflow: "hidden" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 26, marginBottom: 6 } }, "\uD83D\uDCDD"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 800 } }, "文法"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, opacity: 0.8, marginTop: 2 } }, GRAMMAR_TOPICS.length + "項目 · AIクイズ付き"),
+        /*#__PURE__*/React.createElement("div", { style: { position: "absolute", right: -6, bottom: -6, fontSize: 42, opacity: 0.1 } }, "文")
+      ),
+      /* 英単語 */
+      /*#__PURE__*/React.createElement("div", {
+        onClick: () => { setVf(0); setVmode("card"); setTab("vocab"); },
+        style: { background: "linear-gradient(135deg,#3478F6,#4A8BF8)", borderRadius: 8, padding: "16px 14px", cursor: "pointer", color: "white", position: "relative", overflow: "hidden" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 26, marginBottom: 6 } }, "\uD83D\uDD24"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 800 } }, "英単語"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, opacity: 0.8, marginTop: 2 } }, vocabList.length + "語 · カード学習"),
+        /*#__PURE__*/React.createElement("div", { style: { position: "absolute", right: -6, bottom: -6, fontSize: 42, opacity: 0.1 } }, "語")
+      ),
+      /* ドリル */
+      /*#__PURE__*/React.createElement("div", {
+        onClick: () => { setPracticeMode("list"); setTab("practice"); },
+        style: { background: "white", borderRadius: 8, padding: "16px 14px", cursor: "pointer", border: "1.5px solid #E5E7EB" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 26, marginBottom: 6 } }, "\u270F\uFE0F"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 800, color: "#111827" } }, "ドリル"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#6B7280", marginTop: 2 } }, "並べ替え・英作文・タイムアタック")
+      ),
+      /* 参考表 */
+      /*#__PURE__*/React.createElement("div", {
+        onClick: () => { setPracticeMode("reference"); setTab("practice"); },
+        style: { background: "white", borderRadius: 8, padding: "16px 14px", cursor: "pointer", border: "1.5px solid #E5E7EB" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 26, marginBottom: 6 } }, "\uD83D\uDCDA"),
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 15, fontWeight: 800, color: "#111827" } }, "参考表"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#6B7280", marginTop: 2 } }, "文型・助動詞・前置詞など")
+      )
+    )
+  ),
+
+  /* ===== ツール系 ===== */
+  /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "ツール"),
+    /*#__PURE__*/React.createElement("div", {
+      style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }
+    },
+      /* 不規則動詞 */
+      /*#__PURE__*/React.createElement("div", {
+        onClick: () => { setPracticeMode("irregular"); setTab("practice"); },
+        style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "\uD83D\uDD00"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "不規則動詞"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "60語 クイズ")
+      ),
+      /* 熟語 */
+      /*#__PURE__*/React.createElement("div", {
+        onClick: () => { setPracticeMode("idioms"); setTab("practice"); },
+        style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "\uD83D\uDCAC"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "重要熟語"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "35語 クイズ")
+      ),
+      /* 発音記号 */
+      /*#__PURE__*/React.createElement("div", {
+        onClick: () => { setVf(0); setVmode("card"); setTab("vocab"); },
+        style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "\uD83D\uDD0A"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "発音記号"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "カードで確認")
+      )
+    )
+  ),
+
+  /* ===== AIコーチ ===== */
+  /*#__PURE__*/React.createElement("div", {
+    onClick: () => setTab("ai"),
+    style: { background: "linear-gradient(135deg,#FF8C00,#FFA333)", borderRadius: 8, padding: "14px 18px", cursor: "pointer", color: "white", display: "flex", alignItems: "center", gap: 14 }
+  },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 28 } }, "\uD83E\uDD16"),
+    /*#__PURE__*/React.createElement("div", null,
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 800 } }, "AIコーチに質問する"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, opacity: 0.85, marginTop: 2 } }, "文法・単語・覚え方 なんでも聞ける")
+    ),
+    /*#__PURE__*/React.createElement("span", { style: { marginLeft: "auto", fontSize: 20, opacity: 0.7 } }, "›")
+  )
+), tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "sf"
   }, [{
     id: 0,
