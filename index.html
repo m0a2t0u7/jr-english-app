@@ -20854,6 +20854,42 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);min-height:100vh
 .mtab.active{background:var(--blue);border-color:var(--blue);color:white;}
 .pc{background:var(--surface);border-radius:8px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);cursor:pointer;transition:all 0.18s;border:1px solid var(--border-light);border-left:3px solid;}
 .pc:hover{transform:translateX(3px);box-shadow:var(--shadow-md);}
+/* ===== フローティングナビ ===== */
+.float-nav { position:fixed; left:12px; bottom:68px; display:flex; flex-direction:column; gap:8px; z-index:400; }
+.float-btn { width:44px; height:44px; border-radius:10px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 12px rgba(0,0,0,0.15); transition:all 0.18s; }
+.float-btn:hover { transform:scale(1.08); }
+.float-btn-home { background:var(--blue); color:white; }
+.float-btn-back { background:var(--surface); border:1.5px solid var(--border) !important; color:var(--blue); }
+
+/* ===== テーマスウォッチ ===== */
+.theme-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:10px; }
+.theme-swatch { aspect-ratio:1; border-radius:8px; cursor:pointer; border:2px solid transparent; transition:all 0.18s; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.theme-swatch.active { border-color:#111827; box-shadow:0 0 0 2px white, 0 0 0 4px #111827; }
+
+/* ===== 設定トグル ===== */
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border-light); }
+.toggle-row:last-child { border-bottom:none; }
+.toggle { width:44px; height:24px; border-radius:12px; position:relative; cursor:pointer; transition:background 0.2s; border:none; padding:0; }
+.toggle.on { background:var(--blue); }
+.toggle.off { background:#D1D5DB; }
+.toggle::after { content:''; position:absolute; width:20px; height:20px; border-radius:50%; background:white; top:2px; transition:left 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+.toggle.on::after { left:22px; }
+.toggle.off::after { left:2px; }
+
+/* ===== ホームグリッド均等 ===== */
+.home-menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.home-menu-card { border-radius:8px; padding:18px 14px; cursor:pointer; min-height:108px; display:flex; flex-direction:column; justify-content:flex-end; position:relative; overflow:hidden; transition:all 0.18s; border:1.5px solid var(--border-light); }
+.home-menu-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.12); }
+.home-tool-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.home-tool-card { background:var(--surface); border-radius:8px; padding:14px 8px; cursor:pointer; border:1.5px solid var(--border); text-align:center; transition:all 0.18s; display:flex; flex-direction:column; align-items:center; gap:5px; }
+.home-tool-card:hover { border-color:var(--blue); background:#F0F7FF; }
+.home-fav-card { background:var(--surface); border-radius:8px; padding:12px 14px; cursor:pointer; border:1.5px solid var(--border); display:flex; align-items:center; gap:12px; transition:all 0.18s; }
+.home-fav-card:hover { border-color:var(--blue); }
+
+/* ===== 参考表 お気に入りボタン ===== */
+.ref-fav-btn { border:none; background:none; cursor:pointer; font-size:20px; padding:4px; border-radius:6px; transition:all 0.15s; }
+.ref-fav-btn:hover { background:var(--border-light); }
+
 `;
 
 // ===== ヘルパー =====
@@ -21487,7 +21523,9 @@ function AIGrammarQuiz({
 
 // ===== 参照表コンポーネント =====
 function ReferenceSection({
-  onBack
+  onBack,
+  favRefs,
+  onToggleFav
 }) {
   const [selected, setSelected] = useState(null);
   const [openNotes, setOpenNotes] = useState(false);
@@ -21518,7 +21556,10 @@ function ReferenceSection({
         fontSize: 18,
         fontWeight: 900
       }
-    }, t.title), /*#__PURE__*/React.createElement("div", {
+      }, t.title), /*#__PURE__*/React.createElement("span", {
+    style: { marginLeft: "auto", fontSize: 18, cursor: "pointer", flexShrink: 0, padding: "2px 4px" },
+    onClick: (e) => { e.stopPropagation(); onToggleFav && onToggleFav(t.id); }
+  }, (favRefs||[]).includes(t.id) ? "\u2b50" : "\u2606"), /*#__PURE__*/React.cateElement("div", {
       style: {
         fontSize: 12,
         opacity: 0.9,
@@ -24876,18 +24917,71 @@ function FixedPS({
 }
 
 // ===== MAIN APP =====
+
+// ===== カラーテーマ定義 =====
+const COLOR_THEMES = {
+  blue:    { name:"クリアブルー",   main:"#3478F6", dark:"#2563EB", lt:"#4A8BF8",   acc:"#FF8C00", bg:"#FAFAFA" },
+  navy:    { name:"ネイビー",       main:"#1E40AF", dark:"#1E3A8A", lt:"#3B82F6",   acc:"#F59E0B", bg:"#F8FAFC" },
+  sky:     { name:"スカイ",         main:"#0EA5E9", dark:"#0284C7", lt:"#38BDF8",   acc:"#F97316", bg:"#F0F9FF" },
+  teal:    { name:"ティール",       main:"#0D9488", dark:"#0F766E", lt:"#14B8A6",   acc:"#F59E0B", bg:"#F0FDFA" },
+  green:   { name:"フォレスト",     main:"#16A34A", dark:"#15803D", lt:"#22C55E",   acc:"#F97316", bg:"#F0FDF4" },
+  emerald: { name:"エメラルド",     main:"#059669", dark:"#047857", lt:"#10B981",   acc:"#7C3AED", bg:"#ECFDF5" },
+  purple:  { name:"パープル",       main:"#7C3AED", dark:"#6D28D9", lt:"#8B5CF6",   acc:"#F59E0B", bg:"#FAF5FF" },
+  violet:  { name:"バイオレット",   main:"#6366F1", dark:"#4F46E5", lt:"#818CF8",   acc:"#F97316", bg:"#EEF2FF" },
+  rose:    { name:"ローズ",         main:"#E11D48", dark:"#BE123C", lt:"#FB7185",   acc:"#3478F6", bg:"#FFF1F2" },
+  pink:    { name:"ピーチ",         main:"#DB2777", dark:"#BE185D", lt:"#F472B6",   acc:"#0EA5E9", bg:"#FDF2F8" },
+  orange:  { name:"サンセット",     main:"#EA580C", dark:"#C2410C", lt:"#FB923C",   acc:"#3478F6", bg:"#FFF7ED" },
+  amber:   { name:"アンバー",       main:"#D97706", dark:"#B45309", lt:"#F59E0B",   acc:"#0D9488", bg:"#FFFBEB" },
+  slate:   { name:"スレート",       main:"#475569", dark:"#334155", lt:"#64748B",   acc:"#F59E0B", bg:"#F8FAFC" },
+  gray:    { name:"グレー",         main:"#374151", dark:"#1F2937", lt:"#6B7280",   acc:"#3478F6", bg:"#F9FAFB" },
+  indigo:  { name:"インディゴ",     main:"#4338CA", dark:"#3730A3", lt:"#6366F1",   acc:"#F59E0B", bg:"#EEF2FF" },
+  cyan:    { name:"シアン",         main:"#0891B2", dark:"#0E7490", lt:"#06B6D4",   acc:"#F97316", bg:"#ECFEFF" },
+  forest:  { name:"ディープグリーン",main:"#166534",dark:"#14532D", lt:"#15803D",   acc:"#FBBF24", bg:"#F0FDF4" },
+  ocean:   { name:"オーシャン",     main:"#0369A1", dark:"#075985", lt:"#0284C7",   acc:"#FB923C", bg:"#E0F2FE" },
+  coral:   { name:"コーラル",       main:"#E05252", dark:"#C0392B", lt:"#F47474",   acc:"#3478F6", bg:"#FFF5F5" },
+  mint:    { name:"ミント",         main:"#10B981", dark:"#059669", lt:"#34D399",   acc:"#6366F1", bg:"#ECFDF5" },
+};
+function applyTheme(key) {
+  const t = COLOR_THEMES[key] || COLOR_THEMES.blue;
+  const r = document.documentElement.style;
+  r.setProperty('--blue', t.main);
+  r.setProperty('--blue-dark', t.dark);
+  r.setProperty('--blue-light', t.lt);
+  r.setProperty('--orange', t.acc);
+  r.setProperty('--orange-light', t.acc);
+  r.setProperty('--bg', t.bg);
+}
 function App() {
   const [tab, setTab] = useState("home");
   // 設定
-  const [settings, setSettings] = useState({
-    wordFont: "Nunito",
-    wordSize: 44,
-    meaningSize: 20,
-    exampleSize: 14,
-    readingSize: 14,
-    wordColor: "#1e3a8a"
+  const [settings, setSettings] = useState(() => {
+    try {
+      const s = JSON.parse(localStorage.getItem("jr_settings_v2") || "{}");
+      return {
+        wordFont:     s.wordFont     || "Montserrat",
+        wordSize:     s.wordSize     || 44,
+        meaningSize:  s.meaningSize  || 20,
+        exampleSize:  s.exampleSize  || 14,
+        readingSize:  s.readingSize  || 14,
+        wordColor:    s.wordColor    || "#1e3a8a",
+        theme:        s.theme        || "blue",
+        showVocabUp:  s.showVocabUp  !== false,
+        showHomeBtn:  s.showHomeBtn  !== false,
+        showBackBtn:  s.showBackBtn  !== false,
+        favRefs:      s.favRefs      || []
+      };
+    } catch(e) {
+      return { wordFont:"Montserrat", wordSize:44, meaningSize:20, exampleSize:14,
+               readingSize:14, wordColor:"#1e3a8a", theme:"blue",
+               showVocabUp:true, showHomeBtn:true, showBackBtn:true, favRefs:[] };
+    }
   });
+  const saveSettings = (next) => {
+    setSettings(next);
+    try { localStorage.setItem("jr_settings_v2", JSON.stringify(next)); } catch(e) {}
+  };
   const [topic, setTopic] = useState(null);
+  React.useEffect(() => { applyTheme(settings.theme || "blue"); }, [settings.theme]);
   const [showAiQuiz, setShowAiQuiz] = useState(false);
   const [quizKey, setQuizKey] = useState(0);
   const [stageFilter, setStageFilter] = useState(0);
@@ -25281,18 +25375,18 @@ function App() {
     /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
       /*#__PURE__*/React.createElement("div", {
         onClick: () => { setStageFilter(0); setTab("grammar"); },
-        style: { background: "linear-gradient(135deg,#2563EB,#3478F6)", borderRadius: 8, padding: "18px 14px", cursor: "pointer", color: "white", position: "relative", overflow: "hidden" }
+        className: "home-menu-card", style: { background: "linear-gradient(135deg,#2563EB,#3478F6)", color: "white", position: "relative", overflow: "hidden" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "    "),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "      "),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800 } }, "文法"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, opacity: 0.8, marginTop: 3 } }, GRAMMAR_TOPICS.length + "項目 ・ AIクイズ付き"),
         /*#__PURE__*/React.createElement("div", { style: { position: "absolute", right: -6, bottom: -6, fontSize: 44, opacity: 0.1 } }, "文")
       ),
       /*#__PURE__*/React.createElement("div", {
         onClick: () => { setVf(0); setVmode("card"); setTab("vocab"); },
-        style: { background: "linear-gradient(135deg,#3478F6,#4A8BF8)", borderRadius: 8, padding: "18px 14px", cursor: "pointer", color: "white", position: "relative", overflow: "hidden" }
+        className: "home-menu-card", style: { background: "linear-gradient(135deg,#3478F6,#4A8BF8)", color: "white", position: "relative", overflow: "hidden" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "    "),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "      "),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800 } }, "英単語"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, opacity: 0.8, marginTop: 3 } }, vocabList.length + "語 ・ カード学習"),
         /*#__PURE__*/React.createElement("div", { style: { position: "absolute", right: -6, bottom: -6, fontSize: 44, opacity: 0.1 } }, "語")
@@ -25309,7 +25403,7 @@ function App() {
         onClick: () => { setPracticeMode("reference"); setTab("practice"); },
         style: { background: "white", borderRadius: 8, padding: "18px 14px", cursor: "pointer", border: "1.5px solid #E5E7EB" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "    "),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, marginBottom: 6 } }, "      "),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800, color: "#111827" } }, "参考表"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#6B7280", marginTop: 3 } }, "文型・助動詞・前置詞など")
       )
@@ -25317,12 +25411,12 @@ function App() {
   ),
   /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "ツール"),
-    /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 } },
+    /*#__PURE__*/React.createElement("div", { className: "home-tool-grid" },
       /*#__PURE__*/React.createElement("div", {
         onClick: () => { setPracticeMode("irregular"); setTab("practice"); },
         style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "    "),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "      "),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "不規則動詞"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "60語 クイズ")
       ),
@@ -25330,7 +25424,7 @@ function App() {
         onClick: () => { setPracticeMode("idioms"); setTab("practice"); },
         style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "    "),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "      "),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "重要熟語"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "35語 クイズ")
       ),
@@ -25338,35 +25432,37 @@ function App() {
         onClick: () => { setPracticeMode("phonetics"); setTab("practice"); },
         style: { background: "white", borderRadius: 8, padding: "12px 10px", cursor: "pointer", border: "1.5px solid #E5E7EB", textAlign: "center" }
       },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "    "),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, marginBottom: 5 } }, "      "),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "発音記号"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "IPA 一覧・練習")
       )
     )
   ),
   /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "⭐ よく使う参考表"),
-    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 7 } },
-      [
-        { icon: "⏱️", title: "時制まとめ",     desc: "現在・過去・未来・完了" },
-        { icon: "⚡",    title: "助動詞まとめ",   desc: "can / will / must / should" },
-        { icon: "➰",    title: "不規則動詞リスト", desc: "原形・過去形・過去分詞" },
-        { icon: "♾️", title: "不定詞・動名詞", desc: "toのみ / ingのみ / 両方OK" }
-      ].map(function(item) {
-        return /*#__PURE__*/React.createElement("div", {
-          key: item.title,
-          onClick: () => { setPracticeMode("reference"); setTab("practice"); },
-          style: { background: "white", borderRadius: 8, padding: "11px 14px", cursor: "pointer", border: "1.5px solid #E5E7EB", display: "flex", alignItems: "center", gap: 12 }
-        },
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 20, flexShrink: 0, width: 28, textAlign: "center" } }, item.icon),
-          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#111827" } }, item.title),
-            /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#9CA3AF", marginTop: 1 } }, item.desc)
-          ),
-          /*#__PURE__*/React.createElement("div", { style: { color: "#D1D5DB", fontSize: 16 } }, "›")
-        );
-      })
-    )
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "⭐ お気に入り参考表"),
+    settings.favRefs && settings.favRefs.length > 0
+      ? /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 7 } },
+          settings.favRefs.map(function(id) {
+            const t = REFERENCE_TABLES.find(function(r) { return r.id === id; });
+            if (!t) return null;
+            return /*#__PURE__*/React.createElement("div", {
+              key: id,
+              className: "home-fav-card",
+              onClick: () => { setPracticeMode("reference"); setTab("practice"); }
+            },
+              /*#__PURE__*/React.createElement("div", { style: { width: 32, height: 32, borderRadius: 8, background: t.color + "20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 } }, t.icon),
+              /*#__PURE__*/React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, t.title),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "var(--text-muted)", marginTop: 1 } }, t.desc)
+              ),
+              /*#__PURE__*/React.createElement("div", { style: { color: "var(--border)", fontSize: 16 } }, "›")
+            );
+          })
+        )
+      : /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: "14px 16px", border: "1.5px dashed var(--border)", textAlign: "center" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, "☆"),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)" } }, "参考表で☆をタップして登録しましょう")
+        )
   )
 ), 
 tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
@@ -27092,6 +27188,8 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
   }), tab === "practice" && practiceMode === "idioms" && /*#__PURE__*/React.createElement(IdiomsSection, {
     onBack: () => setPracticeMode("list")
   }), tab === "practice" && practiceMode === "reference" && /*#__PURE__*/React.createElement(ReferenceSection, {
+    favRefs: settings.favRefs,
+    onToggleFav: (id) => { const f = settings.favRefs.includes(id) ? settings.favRefs.filter(x=>x!==id) : [...settings.favRefs, id]; saveSettings({...settings, favRefs: f}); },
     onBack: () => setPracticeMode("list")
   }), 
   tab === "practice" && !fixedSet && practiceMode === "phonetics" && /*#__PURE__*/React.createElement("div", null,
@@ -27290,520 +27388,100 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     className: "sb",
     onClick: () => sendChat(),
     disabled: chatLoad || !chatInput.trim()
-  }, "\u27A4"))), tab === "settings" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 18,
-      fontWeight: 900,
-      color: "#1f2937",
-      marginBottom: 16
-    }
-  }, "\u2699\uFE0F \u8868\u793A\u8A2D\u5B9A"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "white",
-      borderRadius: 16,
-      padding: 20,
-      marginBottom: 16,
-      boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
-      textAlign: "center"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "#9ca3af",
-      marginBottom: 10,
-      fontWeight: 600
-    }
-  }, "\u30D7\u30EC\u30D3\u30E5\u30FC"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: `'${settings.wordFont}',sans-serif`,
-      fontSize: settings.wordSize,
-      fontWeight: 900,
-      color: "#1e3a8a",
-      lineHeight: 1.1,
-      marginBottom: 8
-    }
-  }, "carry"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: settings.readingSize,
-      color: "#9ca3af",
-      marginBottom: 6
-    }
-  }, "/\u02C8k\xE6ri/\uFF08\u30AD\u30E3\u30EA\u30FC\uFF09"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: settings.meaningSize,
-      fontWeight: 700,
-      color: "#111827",
-      marginBottom: 6
-    }
-  }, "\u904B\u3076"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: settings.exampleSize,
-      color: "#374151"
-    }
-  }, "Can you help me carry this bag?")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "white",
-      borderRadius: 16,
-      padding: 16,
-      marginBottom: 12,
-      boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: "#374151",
-      marginBottom: 12
-    }
-  }, "\uD83D\uDD20 \u5358\u8A9E\u30D5\u30A9\u30F3\u30C8"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 8
-    }
-  }, WORD_FONTS.map(f => /*#__PURE__*/React.createElement("button", {
-    key: f.id,
-    onClick: () => {
-      const ns = {
-        ...settings,
-        wordFont: f.id
-      };
-      setSettings(ns);
-      saveSettings(ns);
-    },
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 12,
-      padding: "10px 14px",
-      borderRadius: 12,
-      border: `2px solid ${settings.wordFont === f.id ? "#6366f1" : "#e5e7eb"}`,
-      background: settings.wordFont === f.id ? "#f0f4ff" : "white",
-      cursor: "pointer",
-      textAlign: "left",
-      transition: "all 0.15s"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: `'${f.id}',sans-serif`,
-      fontSize: 22,
-      fontWeight: 700,
-      color: settings.wordColor,
-      minWidth: 90
-    }
-  }, f.sample), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: settings.wordFont === f.id ? "#4338ca" : "#6b7280",
-      fontWeight: 600
-    }
-  }, f.label), settings.wordFont === f.id && /*#__PURE__*/React.createElement("span", {
-    style: {
-      marginLeft: "auto",
-      color: "#6366f1",
-      fontSize: 16
-    }
-  }, "\u2713"))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "white",
-      borderRadius: 16,
-      padding: 16,
-      marginBottom: 12,
-      boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: "#374151",
-      marginBottom: 12
-    }
-  }, "\uD83C\uDFA8 \u5358\u8A9E\u30AB\u30E9\u30FC"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: 10,
-      marginBottom: 12
-    }
-  }, [{
-    c: "#1e3a8a",
-    l: "ネイビー"
-  }, {
-    c: "#6366f1",
-    l: "インディゴ"
-  }, {
-    c: "#7c3aed",
-    l: "パープル"
-  }, {
-    c: "#db2777",
-    l: "ピンク"
-  }, {
-    c: "#dc2626",
-    l: "レッド"
-  }, {
-    c: "#059669",
-    l: "グリーン"
-  }, {
-    c: "#0284c7",
-    l: "ブルー"
-  }, {
-    c: "#d97706",
-    l: "オレンジ"
-  }, {
-    c: "#374151",
-    l: "グレー"
-  }, {
-    c: "#111827",
-    l: "ブラック"
-  }].map(col => /*#__PURE__*/React.createElement("button", {
-    key: col.c,
-    onClick: () => {
-      const ns = {
-        ...settings,
-        wordColor: col.c
-      };
-      setSettings(ns);
-      saveSettings(ns);
-    },
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 4,
-      padding: "8px",
-      borderRadius: 10,
-      border: `2px solid ${settings.wordColor === col.c ? "#6366f1" : "#e5e7eb"}`,
-      background: settings.wordColor === col.c ? "#f0f4ff" : "white",
-      cursor: "pointer",
-      minWidth: 56
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 28,
-      height: 28,
-      borderRadius: "50%",
-      background: col.c,
-      boxShadow: "0 2px 6px rgba(0,0,0,0.15)"
-    }
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 9,
-      color: "#6b7280",
-      fontWeight: 600
-    }
-  }, col.l)))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: "#6b7280"
-    }
-  }, "\u30AB\u30B9\u30BF\u30E0:"), /*#__PURE__*/React.createElement("input", {
-    type: "color",
-    value: settings.wordColor,
-    onChange: e => {
-      const ns = {
-        ...settings,
-        wordColor: e.target.value
-      };
-      setSettings(ns);
-      saveSettings(ns);
-    },
-    style: {
-      width: 40,
-      height: 32,
-      border: "2px solid #e5e7eb",
-      borderRadius: 8,
-      cursor: "pointer",
-      padding: 2
-    }
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 18,
-      fontWeight: 900,
-      color: settings.wordColor
-    }
-  }, "carry"))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "white",
-      borderRadius: 16,
-      padding: 16,
-      marginBottom: 12,
-      boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: "#374151",
-      marginBottom: 14
-    }
-  }, "\uD83D\uDCD0 \u6587\u5B57\u30B5\u30A4\u30BA"), [{
-    key: "wordSize",
-    label: "単語（メイン）",
-    min: 28,
-    max: 64,
-    step: 2,
-    preview: v => /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontFamily: `'${settings.wordFont}',sans-serif`,
-        fontSize: v,
-        fontWeight: 900,
-        color: "#1e3a8a",
-        lineHeight: 1
-      }
-    }, "carry")
-  }, {
-    key: "meaningSize",
-    label: "意味",
-    min: 14,
-    max: 32,
-    step: 1,
-    preview: v => /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: v,
-        fontWeight: 700,
-        color: "#111827"
-      }
-    }, "\u904B\u3076")
-  }, {
-    key: "readingSize",
-    label: "読み方・発音記号",
-    min: 11,
-    max: 22,
-    step: 1,
-    preview: v => /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: v,
-        color: "#9ca3af"
-      }
-    }, "/\u02C8k\xE6ri/\uFF08\u30AD\u30E3\u30EA\u30FC\uFF09")
-  }, {
-    key: "exampleSize",
-    label: "例文",
-    min: 11,
-    max: 20,
-    step: 1,
-    preview: v => /*#__PURE__*/React.createElement("span", {
-      style: {
-        fontSize: v,
-        color: "#374151"
-      }
-    }, "Can you help me ", /*#__PURE__*/React.createElement("strong", {
-      style: {
-        color: "#6366f1"
-      }
-    }, "carry"), " this?")
-  }].map(({
-    key,
-    label,
-    min,
-    max,
-    step,
-    preview
-  }) => /*#__PURE__*/React.createElement("div", {
-    key: key,
-    style: {
-      marginBottom: 20,
-      paddingBottom: 20,
-      borderBottom: "1px solid #f3f4f6"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: "#6b7280",
-      fontWeight: 600
-    }
-  }, label), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 13,
-      color: "#6366f1",
-      fontWeight: 800,
-      background: "#f0f4ff",
-      padding: "2px 10px",
-      borderRadius: 8
-    }
-  }, settings[key], "px")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#f9fafb",
-      borderRadius: 10,
-      padding: "12px 14px",
-      marginBottom: 10,
-      minHeight: 44,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      border: "1.5px solid #e5e7eb"
-    }
-  }, preview(settings[key])), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      const v = Math.max(min, settings[key] - step);
-      const ns = {
-        ...settings,
-        [key]: v
-      };
-      setSettings(ns);
-      saveSettings(ns);
-    },
-    style: {
-      width: 36,
-      height: 36,
-      borderRadius: "50%",
-      border: "2px solid #e5e7eb",
-      background: "white",
-      fontSize: 18,
-      cursor: "pointer",
-      flexShrink: 0,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontWeight: 700,
-      color: "#374151"
-    }
-  }, "\u2212"), /*#__PURE__*/React.createElement("input", {
-    type: "range",
-    min: min,
-    max: max,
-    step: step,
-    value: settings[key],
-    onChange: e => {
-      const ns = {
-        ...settings,
-        [key]: Number(e.target.value)
-      };
-      setSettings(ns);
-      saveSettings(ns);
-    },
-    style: {
-      flex: 1,
-      accentColor: "#6366f1",
-      height: 6
-    }
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      const v = Math.min(max, settings[key] + step);
-      const ns = {
-        ...settings,
-        [key]: v
-      };
-      setSettings(ns);
-      saveSettings(ns);
-    },
-    style: {
-      width: 36,
-      height: 36,
-      borderRadius: "50%",
-      border: "2px solid #e5e7eb",
-      background: "white",
-      fontSize: 18,
-      cursor: "pointer",
-      flexShrink: 0,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontWeight: 700,
-      color: "#374151"
-    }
-  }, "\uFF0B"))))), /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      const def = {
-        wordFont: "Nunito",
-        wordSize: 44,
-        meaningSize: 20,
-        exampleSize: 14,
-        readingSize: 14,
-        wordColor: "#1e3a8a"
-      };
-      setSettings(def);
-      saveSettings(def);
-    },
-    style: {
-      width: "100%",
-      padding: 13,
-      background: "white",
-      border: "2px solid #e5e7eb",
-      borderRadius: 12,
-      fontSize: 14,
-      fontWeight: 700,
-      cursor: "pointer",
-      color: "#6b7280",
-      fontFamily: "'Noto Sans JP',sans-serif"
-    }
-  }, "\uD83D\uDD04 \u30C7\u30D5\u30A9\u30EB\u30C8\u306B\u623B\u3059"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "white",
-      borderRadius: 16,
-      padding: 16,
-      marginTop: 12,
-      boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 700,
-      color: "#374151",
-      marginBottom: 6
-    }
-  }, "\uD83E\uDD16 AI\u30B3\u30FC\u30C1\u8A2D\u5B9A\uFF08\u4EFB\u610F\uFF09"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "#6b7280",
-      marginBottom: 10,
-      lineHeight: 1.6
-    }
-  }, "AI\u30AF\u30A4\u30BA\u30FBAI\u30B3\u30FC\u30C1\u3092\u4F7F\u3046\u306B\u306FAnthropic\u306EAPI\u30AD\u30FC\u304C\u5FC5\u8981\u3067\u3059\u3002", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("a", {
-    href: "https://console.anthropic.com",
-    target: "_blank",
-    style: {
-      color: "#6366f1"
-    }
-  }, "console.anthropic.com"), " \u3067\u53D6\u5F97\u3067\u304D\u307E\u3059\u3002"), /*#__PURE__*/React.createElement("input", {
-    type: "password",
-    defaultValue: getApiKey(),
-    onChange: e => saveApiKey(e.target.value),
-    placeholder: "sk-ant-...",
-    style: {
-      width: "100%",
-      padding: "10px 12px",
-      border: "2px solid #e5e7eb",
-      borderRadius: 10,
-      fontSize: 13,
-      fontFamily: "monospace",
-      outline: "none"
-    }
-  }), getApiKey() && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "#10b981",
-      marginTop: 6,
-      fontWeight: 700
-    }
-  }, "\u2705 API\u30AD\u30FC\u8A2D\u5B9A\u6E08\u307F")))), tab === "vocab" ? /*#__PURE__*/React.createElement("button", {
-    onClick: () => {
-      setTab("vocab");
-      setTopic(null);
-      setShowAiQuiz(false);
-      setTimeout(() => setAddingVocab(true), 150);
-    },
+  }, "\u27A4"))), tab === "settings" && /*#__PURE__*/React.createElement("div", null,
+  /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 800, color: "var(--text-primary)", marginBottom: 16 } }, "⚙️ 設定"),
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     カラーテーマ"),
+    /*#__PURE__*/React.createElement("div", { className: "theme-grid" },
+      Object.entries(COLOR_THEMES).map(function([key, t]) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: key,
+          className: "theme-swatch" + (settings.theme === key ? " active" : ""),
+          style: { background: t.main },
+          onClick: () => saveSettings({ ...settings, theme: key }),
+          title: t.name
+        }, settings.theme === key ? /*#__PURE__*/React.createElement("span", { style: { color: "white", fontSize: 14, fontWeight: 700 } }, "✓") : null);
+      })
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--text-muted)", marginTop: 10, textAlign: "center" } },
+      COLOR_THEMES[settings.theme] ? COLOR_THEMES[settings.theme].name : ""
+    )
+  ),
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "     ボタン表示設定"),
+    [
+      { key: "showVocabUp",  label: "単語数UPボタン",   desc: "単語タブの右下に表示" },
+      { key: "showHomeBtn",  label: "ホームボタン",     desc: "左下のフローティングボタン" },
+      { key: "showBackBtn",  label: "戻るボタン",       desc: "左下のフローティングボタン" },
+    ].map(function(item) {
+      return /*#__PURE__*/React.createElement("div", { key: item.key, className: "toggle-row" },
+        /*#__PURE__*/React.createElement("div", null,
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: "var(--text-primary)" } }, item.label),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--text-muted)", marginTop: 2 } }, item.desc)
+        ),
+        /*#__PURE__*/React.createElement("button", {
+          className: "toggle " + (settings[item.key] ? "on" : "off"),
+          onClick: () => saveSettings({ ...settings, [item.key]: !settings[item.key] })
+        })
+      );
+    })
+  ),
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)", textAlign: "center" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--text-muted)", marginBottom: 8, fontWeight: 600 } }, "プレビュー"),
+    /*#__PURE__*/React.createElement("div", { style: { fontFamily: `'${settings.wordFont}',sans-serif`, fontSize: settings.wordSize, fontWeight: 900, color: settings.wordColor, lineHeight: 1.1, marginBottom: 6 } }, "carry"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.readingSize, color: "var(--text-muted)", marginBottom: 4 } }, "/ˈkæri/（キャリー）"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.meaningSize, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "運ぶ"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.exampleSize, color: "var(--text-secondary)" } }, "Can you help me carry this bag?")
+  ),
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     単語フォント"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
+      WORD_FONTS.map(function(f) {
+        return /*#__PURE__*/React.createElement("button", {
+          key: f.id,
+          onClick: () => saveSettings({ ...settings, wordFont: f.id }),
+          style: { display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 8, border: `2px solid ${settings.wordFont === f.id ? "var(--blue)" : "var(--border)"}`, background: settings.wordFont === f.id ? "#EFF6FF" : "var(--surface)", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }
+        },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: `'${f.id}',sans-serif`, fontSize: 22, fontWeight: 700, color: settings.wordColor, minWidth: 90 } }, f.sample),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)" } }, f.name)
+        );
+      })
+    )
+  ),
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     文字サイズ"),
+    [
+      { key: "wordSize",    label: "単語",   min: 28, max: 64 },
+      { key: "meaningSize", label: "意味",   min: 14, max: 32 },
+      { key: "exampleSize", label: "例文",   min: 10, max: 20 },
+      { key: "readingSize", label: "発音",   min: 10, max: 20 },
+    ].map(function(item) {
+      return /*#__PURE__*/React.createElement("div", { key: item.key, style: { marginBottom: 10 } },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--text-secondary)", marginBottom: 4 } },
+          /*#__PURE__*/React.createElement("span", null, item.label),
+          /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700 } }, settings[item.key] + "px")
+        ),
+        /*#__PURE__*/React.createElement("input", {
+          type: "range", min: item.min, max: item.max, value: settings[item.key],
+          onChange: (e) => saveSettings({ ...settings, [item.key]: Number(e.target.value) }),
+          style: { width: "100%", accentColor: "var(--blue)" }
+        })
+      );
+    })
+  ),
+  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, boxShadow: "var(--shadow-sm)" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 } }, "     Anthropic APIキー"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--text-muted)", marginBottom: 8 } }, "AIコーチ・ AIクイズ機能に必要です"),
+    /*#__PURE__*/React.createElement("input", {
+      type: "password", placeholder: "sk-ant-...",
+      defaultValue: getApiKey() || "",
+      onChange: (e) => { try { localStorage.setItem("jr_api_key", e.target.value); } catch(err) {} },
+      style: { width: "100%", padding: "10px 12px", border: "1.5px solid var(--border)", borderRadius: 6, fontSize: 13, fontFamily: "monospace", outline: "none", background: "var(--bg)" }
+    }),
+    getApiKey() && /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#16A34A", marginTop: 6, fontWeight: 700 } }, "✅ APIキー設定済み")
+  )
+)), tab === "vocab" && settings.showVocabUp && /*#__PURE__*/React.createElement("button", {
+    onClick: () => { setAddingVocab(true); },
     style: {
       position: "fixed",
       bottom: "68px",
@@ -27824,7 +27502,29 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
       fontFamily: "'Noto Sans JP',sans-serif",
       whiteSpace: "nowrap"
     }
-  }, "\u2795 \u5358\u8A9E\u6570UP") : null, /*#__PURE__*/React.createElement("nav", {
+  }, "\u2795 \u5358\u8A9E\u6570UP"), /*#__PURE__*/React.createElement("div", {
+    className: "float-nav",
+    style: { display: (settings.showHomeBtn || settings.showBackBtn) && tab !== "home" ? "flex" : "none" }
+  },
+    settings.showHomeBtn && /*#__PURE__*/React.createElement("button", {
+      className: "float-btn float-btn-home",
+      onClick: () => { setTab("home"); setTopic(null); setShowAiQuiz(false); setFixedSet(null); setPracticeMode("list"); }
+    }, /*#__PURE__*/React.createElement("svg", { width:20, height:20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2.2", strokeLinecap:"round", strokeLinejoin:"round" },
+      /*#__PURE__*/React.createElement("path", { d:"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" }),
+      /*#__PURE__*/React.createElement("polyline", { points:"9 22 9 12 15 12 15 22" })
+    )),
+    settings.showBackBtn && /*#__PURE__*/React.createElement("button", {
+      className: "float-btn float-btn-back",
+      onClick: () => {
+        if (topic) { setTopic(null); setShowAiQuiz(false); }
+        else if (fixedSet) { setFixedSet(null); }
+        else if (practiceMode !== "list" && tab === "practice") { setPracticeMode("list"); }
+        else { setTab("home"); }
+      }
+    }, /*#__PURE__*/React.createElement("svg", { width:20, height:20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2.2", strokeLinecap:"round", strokeLinejoin:"round" },
+      /*#__PURE__*/React.createElement("polyline", { points:"15 18 9 12 15 6" })
+    ))
+  ), /*#__PURE__*/React.createElement("nav", {
     style: {
       width: "100%",
       background: "white",
@@ -27891,7 +27591,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     style: {
       fontSize: 9,
       fontWeight: 600,
-      color: tab === n.id ? "#6366f1" : "#9ca3af",
+      color: tab === n.id ? "var(--blue)" : "var(--text-muted)",
       whiteSpace: "nowrap"
     }
   }, n.label))))));
