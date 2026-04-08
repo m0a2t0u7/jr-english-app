@@ -20905,13 +20905,13 @@ function AIGrammarQuiz({
   }
   function checkFill() {
     if (answered || !inp.trim()) return;
-    const ok = inp.trim().toLowerCase().replace(/[.,!?]/g, "") === q.answer.toLowerCase().replace(/[.,!?]/g, "");
+    const ok = inp.trim().toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim() === q.answer.toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
     setInpS(ok ? "ok" : "ng");
     confirmAnswer(ok);
   }
   function checkRe() {
     if (answered) return;
-    const ok = aw.join(" ").toLowerCase() === q.answer.toLowerCase();
+    const ok = aw.join(" ").toLowerCase().replace(/[\s]+/g," ").trim() === q.answer.toLowerCase().replace(/[\s]+/g," ").trim();
     setInpS(ok ? "ok" : "ng");
     confirmAnswer(ok);
   }
@@ -22363,8 +22363,8 @@ function RearrangeEisakubun({
   }
   async function check() {
     if (answered || aw.length === 0) return;
-    const ans = aw.join(" ").toLowerCase().replace(/[.!?,]/g, "");
-    const cor = q.en.toLowerCase().replace(/[.!?,]/g, "");
+    const ans = aw.join(" ").toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
+    const cor = q.en.toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
     const ok = ans === cor;
     setIsOk(ok);
     setAnswered(true);
@@ -22974,8 +22974,8 @@ function TimeAttack({
   function check() {
     if (answered || aw.length === 0) return;
     const q = questions.current[idx];
-    const ans = aw.join(" ").toLowerCase().replace(/[.!?,]/g, "");
-    const cor = q.en.toLowerCase().replace(/[.!?,]/g, "");
+    const ans = aw.join(" ").toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
+    const cor = q.en.toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
     const ok = ans === cor;
     setIsOk(ok);
     setAnswered(true);
@@ -23324,8 +23324,8 @@ function WeakReview({
   function check() {
     if (answered || aw.length === 0) return;
     const q = drillList.current[idx];
-    const ans = aw.join(" ").toLowerCase().replace(/[.!?,]/g, "");
-    const cor = q.en.toLowerCase().replace(/[.!?,]/g, "");
+    const ans = aw.join(" ").toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
+    const cor = q.en.toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
     const ok = ans === cor;
     setIsOk(ok);
     setAnswered(true);
@@ -23680,7 +23680,7 @@ function Eisakubun({
   const q = shuffled.current[idx];
   function check() {
     if (status || !inp.trim()) return;
-    const ok = inp.trim().toLowerCase().replace(/[.!?,]/g, "") === q.en.toLowerCase().replace(/[.!?,]/g, "");
+    const ok = inp.trim().toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim() === q.en.toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g, "").replace(/\s+/g, " ").trim();
     setStatus(ok ? "ok" : "ng");
     if (ok) setScore(s => s + 1);
   }
@@ -24156,7 +24156,7 @@ function FixedPS({
   }
   function checkFill() {
     if (answered) return;
-    const ok = inp.trim().toLowerCase() === q.answer.toLowerCase();
+    const ok = inp.trim().toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g,"").replace(/\s+/g," ").trim() === q.answer.toLowerCase().replace(/[\.!?,;:\u2019\u2018']/g,"").replace(/\s+/g," ").trim();
     setInpS(ok ? "correct" : "wrong");
     confirm(ok);
   }
@@ -24175,7 +24175,7 @@ function FixedPS({
   }
   function checkRe() {
     if (answered) return;
-    const ok = aw.join(" ").toLowerCase() === q.answer.toLowerCase();
+    const ok = aw.join(" ").toLowerCase().replace(/[\s]+/g," ").trim() === q.answer.toLowerCase().replace(/[\s]+/g," ").trim();
     setInpS(ok ? "correct" : "wrong");
     confirm(ok);
   }
@@ -27333,7 +27333,7 @@ function App() {
       marginTop: 6,
       fontWeight: 700
     }
-  }, "\u2705 API\u30AD\u30FC\u8A2D\u5B9A\u6E08\u307F")))), /*#__PURE__*/React.createElement("button", {
+  }, "\u2705 API\u30AD\u30FC\u8A2D\u5B9A\u6E08\u307F")))), tab === "vocab" && /*#__PURE__*/React.createElement("button", {
     onClick: () => {
       setTab("vocab");
       setTopic(null);
@@ -27360,7 +27360,7 @@ function App() {
       fontFamily: "'Noto Sans JP',sans-serif",
       whiteSpace: "nowrap"
     }
-  }, "\u2795 \u5358\u8A9E\u6570UP"), /*#__PURE__*/React.createElement("nav", {
+  }, "\u2795 \u5358\u8A9E\u6570UP") : null, /*#__PURE__*/React.createElement("nav", {
     style: {
       width: "100%",
       background: "white",
