@@ -8,6 +8,40 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 </head>
 <body>
+<script>
+(function(){
+  try{
+    var s=JSON.parse(localStorage.getItem("jr_settings_v2")||"{}");
+    var T={
+      blue:{m:"#3478F6",d:"#2563EB",l:"#4A8BF8",a:"#FF8C00",bg:"#FAFAFA"},
+      navy:{m:"#1E40AF",d:"#1E3A8A",l:"#3B82F6",a:"#F59E0B",bg:"#F8FAFC"},
+      sky:{m:"#0EA5E9",d:"#0284C7",l:"#38BDF8",a:"#F97316",bg:"#F0F9FF"},
+      teal:{m:"#0D9488",d:"#0F766E",l:"#14B8A6",a:"#F59E0B",bg:"#F0FDFA"},
+      green:{m:"#16A34A",d:"#15803D",l:"#22C55E",a:"#F97316",bg:"#F0FDF4"},
+      emerald:{m:"#059669",d:"#047857",l:"#10B981",a:"#7C3AED",bg:"#ECFDF5"},
+      purple:{m:"#7C3AED",d:"#6D28D9",l:"#8B5CF6",a:"#F59E0B",bg:"#FAF5FF"},
+      violet:{m:"#6366F1",d:"#4F46E5",l:"#818CF8",a:"#F97316",bg:"#EEF2FF"},
+      rose:{m:"#E11D48",d:"#BE123C",l:"#FB7185",a:"#3478F6",bg:"#FFF1F2"},
+      pink:{m:"#DB2777",d:"#BE185D",l:"#F472B6",a:"#0EA5E9",bg:"#FDF2F8"},
+      orange:{m:"#EA580C",d:"#C2410C",l:"#FB923C",a:"#3478F6",bg:"#FFF7ED"},
+      amber:{m:"#D97706",d:"#B45309",l:"#F59E0B",a:"#0D9488",bg:"#FFFBEB"},
+      slate:{m:"#475569",d:"#334155",l:"#64748B",a:"#F59E0B",bg:"#F8FAFC"},
+      gray:{m:"#374151",d:"#1F2937",l:"#6B7280",a:"#3478F6",bg:"#F9FAFB"},
+      indigo:{m:"#4338CA",d:"#3730A3",l:"#6366F1",a:"#F59E0B",bg:"#EEF2FF"},
+      cyan:{m:"#0891B2",d:"#0E7490",l:"#06B6D4",a:"#F97316",bg:"#ECFEFF"},
+      forest:{m:"#166534",d:"#14532D",l:"#15803D",a:"#FBBF24",bg:"#F0FDF4"},
+      ocean:{m:"#0369A1",d:"#075985",l:"#0284C7",a:"#FB923C",bg:"#E0F2FE"},
+      coral:{m:"#E05252",d:"#C0392B",l:"#F47474",a:"#3478F6",bg:"#FFF5F5"},
+      mint:{m:"#10B981",d:"#059669",l:"#34D399",a:"#6366F1",bg:"#ECFDF5"}
+    };
+    var t=T[s.theme||"blue"]||T.blue;
+    var r=document.documentElement.style;
+    r.setProperty("--blue",t.m);r.setProperty("--blue-dark",t.d);
+    r.setProperty("--blue-light",t.l);r.setProperty("--orange",t.a);
+    r.setProperty("--orange-light",t.a);r.setProperty("--bg",t.bg);
+  }catch(e){}
+})();
+</script>
   <div id="root"></div>
   <script>
 const { useState, useRef, useEffect } = React;
@@ -21412,7 +21446,7 @@ function ReferenceSection({
       }, t.title), /*#__PURE__*/React.createElement("span", {
     style: { marginLeft: "auto", fontSize: 18, cursor: "pointer", flexShrink: 0, padding: "2px 4px" },
     onClick: (e) => { e.stopPropagation(); onToggleFav && onToggleFav(t.id); }
-  }, (favRefs||[]).includes(t.id) ? "\u2b50" : "\u2606"), /*#__PURE__*/React.cateElement("div", {
+  }, (favRefs||[]).includes(t.id) ? "\u2b50" : "\u2606"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: 12,
         opacity: 0.9,
@@ -21924,11 +21958,36 @@ function IrregularVerbs({
   }, v.meaning)))));
 }
 
-// ===== 重要熟語コンポーネント =====
-function IdiomsSection({
-  onBack
-}) {
-  const [mode, setMode] = useState("list"); // list | quiz
+
+// ===== 重要熟語コンポーネント (カテゴリ別) =====
+function getIdiomCat(phrase) {
+  var v = phrase.split(" ")[0];
+  if (phrase.startsWith("be ") || phrase.startsWith("be_")) return "be系";
+  var verbMap = {
+    "get":"get系","look":"look系","take":"take系","make":"make系",
+    "come":"come系","give":"give系","put":"put系","run":"run系",
+    "turn":"turn系","break":"break系","bring":"bring系","set":"set系",
+    "keep":"keep系","hold":"hold系","go":"go系","find":"find系",
+    "show":"その他","pick":"その他","stand":"その他","stick":"その他",
+    "fall":"その他","hang":"その他","call":"その他","let":"その他",
+    "pass":"その他","figure":"その他"
+  };
+  if (verbMap[v]) return verbMap[v];
+  if (["at","in","on","by","for","from","as"].includes(v)) return "前置詞・副詞";
+  return "その他";
+}
+const IDIOM_CAT_COLORS = {
+  "すべて":"#374151","be系":"#3478F6","get系":"#10B981","look系":"#7C3AED",
+  "take系":"#DB2777","make系":"#EA580C","come系":"#0891B2","give系":"#D97706",
+  "put系":"#6366F1","run系":"#EF4444","turn系":"#F59E0B","break系":"#DC2626",
+  "bring系":"#059669","set系":"#0369A1","keep系":"#4338CA","go系":"#BE185D",
+  "前置詞・副詞":"#475569","その他":"#6B7280"
+};
+const IDIOM_CATS = ["すべて","be系","get系","look系","take系","make系","come系","give系","put系","run系","turn系","break系","bring系","set系","keep系","go系","前置詞・副詞","その他"];
+
+function IdiomsSection({ onBack }) {
+  const [mode, setMode] = useState("list");
+  const [catFilter, setCatFilter] = useState("すべて");
   const [showEx, setShowEx] = useState({});
   const [quizIdx, setQuizIdx] = useState(0);
   const [quizAns, setQuizAns] = useState("");
@@ -21936,8 +21995,20 @@ function IdiomsSection({
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const shuffled = useRef([...IDIOMS].sort(() => Math.random() - 0.5));
+
+  const filteredIdioms = catFilter === "すべて" ? IDIOMS
+    : IDIOMS.filter(id => getIdiomCat(id.phrase) === catFilter);
+
+  // カテゴリ別カウント
+  const catCounts = {};
+  IDIOMS.forEach(id => {
+    const c = getIdiomCat(id.phrase);
+    catCounts[c] = (catCounts[c] || 0) + 1;
+  });
+
   function startQuiz() {
-    shuffled.current = [...IDIOMS].sort(() => Math.random() - 0.5).slice(0, 12);
+    const pool = catFilter === "すべて" ? IDIOMS : filteredIdioms;
+    shuffled.current = [...pool].sort(() => Math.random() - 0.5).slice(0, 12);
     setQuizIdx(0);
     setQuizAns("");
     setQuizResult(null);
@@ -21949,251 +22020,117 @@ function IdiomsSection({
     if (!quizAns.trim()) return;
     const q = shuffled.current[quizIdx];
     const ok = quizAns.trim().toLowerCase().replace(/\s+/g, " ") === q.phrase.toLowerCase();
-    setQuizResult({
-      ok,
-      correct: q.phrase
-    });
+    setQuizResult({ ok, correct: q.phrase });
     if (ok) setScore(s => s + 1);
   }
   function nextQuiz() {
-    if (quizIdx + 1 >= shuffled.current.length) {
-      setDone(true);
-      return;
-    }
+    if (quizIdx + 1 >= shuffled.current.length) { setDone(true); return; }
     setQuizIdx(i => i + 1);
     setQuizAns("");
     setQuizResult(null);
   }
   const q = shuffled.current[quizIdx];
-  if (mode === "quiz" && done) return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    className: "back",
-    onClick: () => {
-      setMode("list");
-      setDone(false);
-    }
-  }, "\u2190 \u4E00\u89A7"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      padding: "20px 0"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 48,
-      marginBottom: 8
-    }
-  }, score >= 10 ? "🎉" : score >= 7 ? "😊" : "💪"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 48,
-      fontWeight: 900,
-      color: score >= 10 ? "#10b981" : score >= 7 ? "#f59e0b" : "#ef4444"
-    }
-  }, score, "/", shuffled.current.length), /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-warn",
-    style: {
-      background: "linear-gradient(135deg,#f59e0b,#ef4444)",
-      maxWidth: 240,
-      margin: "8px auto 0"
-    },
-    onClick: startQuiz
-  }, "\u3082\u3046\u4E00\u5EA6"), /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-o",
-    style: {
-      maxWidth: 240,
-      margin: "8px auto 0"
-    },
-    onClick: () => setMode("list")
-  }, "\u4E00\u89A7\u306B\u623B\u308B")));
-  if (mode === "quiz") return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    className: "back",
-    onClick: () => setMode("list")
-  }, "\u2190 \u4E00\u89A7"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      fontSize: 12,
-      color: "#9ca3af",
-      marginBottom: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", null, "\u719F\u8A9E\u30AF\u30A4\u30BA"), /*#__PURE__*/React.createElement("span", null, quizIdx + 1, "/", shuffled.current.length)), /*#__PURE__*/React.createElement("div", {
-    className: "pbw"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "pb",
-    style: {
-      width: `${quizIdx / shuffled.current.length * 100}%`
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "pqc"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "#9ca3af",
-      marginBottom: 8
-    }
-  }, "\u3053\u306E\u610F\u5473\u306E\u719F\u8A9E\u306F\uFF1F\uFF08\u82F1\u8A9E\u3067\u5165\u529B\uFF09"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 24,
-      fontWeight: 700,
-      color: "#6366f1"
-    }
-  }, q.meaning), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      color: "#9ca3af",
-      marginTop: 6
-    }
-  }, q.exja)), /*#__PURE__*/React.createElement("input", {
-    className: `pin ${quizResult ? quizResult.ok ? "correct" : "wrong" : ""}`,
-    value: quizAns,
-    onChange: e => setQuizAns(e.target.value),
-    onKeyDown: e => {
-      if (e.key === "Enter") quizResult ? nextQuiz() : checkQuiz();
-    },
-    placeholder: "\u719F\u8A9E\u3092\u82F1\u8A9E\u3067\u5165\u529B\u2026",
-    disabled: !!quizResult
-  }), !quizResult && /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-sm",
-    onClick: checkQuiz,
-    disabled: !quizAns.trim()
-  }, "\u78BA\u8A8D"), quizResult && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: quizResult.ok ? "#d1fae5" : "#fee2e2",
-      border: `2px solid ${quizResult.ok ? "#10b981" : "#ef4444"}`,
-      borderRadius: 12,
-      padding: "12px 14px",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontWeight: 700,
-      color: quizResult.ok ? "#065f46" : "#991b1b"
-    }
-  }, quizResult.ok ? "✅ 正解！" : "❌ 不正解"), !quizResult.ok && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      marginTop: 4
-    }
-  }, "\u6B63\u89E3: ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: "#059669",
-      fontFamily: "'Nunito',sans-serif"
-    }
-  }, quizResult.correct)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "#6b7280",
-      marginTop: 4,
-      fontFamily: "'Nunito',sans-serif"
-    }
-  }, q.ex)), /*#__PURE__*/React.createElement("button", {
-    style: {
-      background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
-      border: "none",
-      borderRadius: 12,
-      padding: "13px",
-      color: "white",
-      fontFamily: "'Noto Sans JP',sans-serif",
-      fontWeight: 700,
-      fontSize: 15,
-      cursor: "pointer",
-      width: "100%"
-    },
-    onClick: nextQuiz
-  }, quizIdx + 1 >= shuffled.current.length ? "結果を見る 📊" : "次の問題 →"))));
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    className: "back",
-    onClick: onBack
-  }, "\u2190 \u7DF4\u7FD2\u30E1\u30CB\u30E5\u30FC"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontWeight: 800,
-      fontSize: 15,
-      color: "#1f2937"
-    }
-  }, "\uD83D\uDCAC \u91CD\u8981\u719F\u8A9E ", IDIOMS.length, "\u8A9E"), /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-warn",
-    style: {
-      width: "auto",
-      padding: "8px 16px",
-      fontSize: 13,
-      marginTop: 0,
-      background: "linear-gradient(135deg,#f59e0b,#ef4444)"
-    },
-    onClick: startQuiz
-  }, "\u30AF\u30A4\u30BA\u958B\u59CB")), IDIOMS.map((id, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      background: "white",
-      borderRadius: 12,
-      padding: "12px 14px",
-      marginBottom: 8,
-      boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-      cursor: "pointer"
-    },
-    onClick: () => setShowEx(p => ({
-      ...p,
-      [i]: !p[i]
-    }))
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 16,
-      fontWeight: 800,
-      color: "#6366f1"
-    }
-  }, id.phrase), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      color: "#374151",
-      marginTop: 2,
-      fontWeight: 600
-    }
-  }, id.meaning)), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: "#9ca3af",
-      fontSize: 14
-    }
-  }, showEx[i] ? "▲" : "▼")), showEx[i] && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 10,
-      paddingTop: 10,
-      borderTop: "1px solid #f3f4f6"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 14,
-      color: "#374151",
-      lineHeight: 1.7
-    }
-  }, id.ex), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "#9ca3af",
-      marginTop: 4
-    }
-  }, id.exja)))));
+
+  if (mode === "quiz" && done) return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", { className: "back", onClick: () => { setMode("list"); setDone(false); } }, "← 一覧"),
+    /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", padding: "20px 0" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 48, marginBottom: 8 } }, score >= 10 ? "🎉" : score >= 7 ? "😊" : "💪"),
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 48, fontWeight: 900, color: score >= 10 ? "#10b981" : score >= 7 ? "#f59e0b" : "#ef4444" } }, score, "/", shuffled.current.length),
+      /*#__PURE__*/React.createElement("button", { className: "btn btn-warn", style: { background: "linear-gradient(135deg,#f59e0b,#ef4444)", maxWidth: 240, margin: "8px auto 0" }, onClick: startQuiz }, "もう一度"),
+      /*#__PURE__*/React.createElement("button", { className: "btn btn-o", style: { maxWidth: 240, margin: "8px auto 0" }, onClick: () => setMode("list") }, "一覧に戻る")
+    )
+  );
+
+  if (mode === "quiz") return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", { className: "back", onClick: () => setMode("list") }, "← 一覧"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, color: "#9ca3af", marginBottom: 8 } },
+      /*#__PURE__*/React.createElement("span", null, catFilter !== "すべて" ? catFilter : "熟語クイズ"),
+      /*#__PURE__*/React.createElement("span", null, quizIdx + 1, "/", shuffled.current.length)
+    ),
+    /*#__PURE__*/React.createElement("div", { className: "pbw" },
+      /*#__PURE__*/React.createElement("div", { className: "pb", style: { width: `${quizIdx / shuffled.current.length * 100}%` } })
+    ),
+    /*#__PURE__*/React.createElement("div", { className: "pqc" },
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 16 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginBottom: 8 } }, "この意味の熟語は？（英語で入力）"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 700, color: "#6366f1", marginBottom: 4 } }, q.meaning),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#9ca3af" } }, q.exja)
+      ),
+      /*#__PURE__*/React.createElement("input", {
+        className: `pin ${quizResult ? quizResult.ok ? "correct" : "wrong" : ""}`,
+        value: quizAns,
+        onChange: e => setQuizAns(e.target.value),
+        onKeyDown: e => { if (e.key === "Enter") quizResult ? nextQuiz() : checkQuiz(); },
+        placeholder: "熟語を英語で入力…",
+        disabled: !!quizResult
+      }),
+      !quizResult && /*#__PURE__*/React.createElement("button", { className: "btn btn-sm", onClick: checkQuiz, disabled: !quizAns.trim() }, "確認"),
+      quizResult && /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { background: quizResult.ok ? "#d1fae5" : "#fee2e2", border: `2px solid ${quizResult.ok ? "#10b981" : "#ef4444"}`, borderRadius: 12, padding: "12px 14px", marginBottom: 10 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: quizResult.ok ? "#065f46" : "#991b1b" } }, quizResult.ok ? "✅ 正解！" : "❌ 不正解"),
+          !quizResult.ok && /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, marginTop: 4 } }, "正解: ", /*#__PURE__*/React.createElement("strong", { style: { color: "#059669", fontFamily: "'Nunito',sans-serif" } }, quizResult.correct)),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", marginTop: 4, fontFamily: "'Nunito',sans-serif" } }, q.ex)
+        ),
+        /*#__PURE__*/React.createElement("button", { style: { background: "linear-gradient(135deg,#6366f1,#8b5cf6)", border: "none", borderRadius: 12, padding: "13px", color: "white", fontFamily: "'Noto Sans JP',sans-serif", fontWeight: 700, fontSize: 15, cursor: "pointer", width: "100%" }, onClick: nextQuiz },
+          quizIdx + 1 >= shuffled.current.length ? "結果を見る 📊" : "次の問題 →"
+        )
+      )
+    )
+  );
+
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", { className: "back", onClick: onBack }, "← 練習メニュー"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 } },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "#1f2937" } }, "💬 重要熟語 " + IDIOMS.length + "語"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#9ca3af", marginTop: 2 } },
+          catFilter === "すべて" ? "全カテゴリ" : catFilter, " ", filteredIdioms.length, "語"
+        )
+      ),
+      /*#__PURE__*/React.createElement("button", { className: "btn btn-warn", style: { width: "auto", padding: "8px 14px", fontSize: 13, marginTop: 0, background: "linear-gradient(135deg,#f59e0b,#ef4444)" }, onClick: startQuiz }, "クイズ開始")
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6, overflowX: "auto", marginBottom: 12, paddingBottom: 4, WebkitOverflowScrolling: "touch" } },
+      IDIOM_CATS.filter(c => c === "すべて" || catCounts[c] > 0).map(c =>
+        /*#__PURE__*/React.createElement("button", {
+          key: c,
+          onClick: () => setCatFilter(c),
+          style: {
+            padding: "5px 11px", fontSize: 11, fontWeight: 700, cursor: "pointer",
+            borderRadius: 20, whiteSpace: "nowrap", flexShrink: 0,
+            border: `1.5px solid ${catFilter === c ? IDIOM_CAT_COLORS[c] : "#e5e7eb"}`,
+            background: catFilter === c ? IDIOM_CAT_COLORS[c] : "white",
+            color: catFilter === c ? "white" : "#6b7280",
+            fontFamily: "'Noto Sans JP',sans-serif",
+            transition: "all 0.15s"
+          }
+        }, c === "すべて" ? "すべて(" + IDIOMS.length + ")" : c + "(" + (catCounts[c] || 0) + ")")
+      )
+    ),
+    filteredIdioms.map((id, i) => {
+      const cat = getIdiomCat(id.phrase);
+      const catColor = IDIOM_CAT_COLORS[cat] || "#6b7280";
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: { background: "white", borderRadius: 12, padding: "12px 14px", marginBottom: 8, boxShadow: "0 2px 6px rgba(0,0,0,0.05)", cursor: "pointer", borderLeft: `4px solid ${catColor}` },
+        onClick: () => setShowEx(p => ({ ...p, [i]: !p[i] }))
+      },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 2 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 16, fontWeight: 800, color: catColor } }, id.phrase),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 9, fontWeight: 700, background: catColor + "18", color: catColor, padding: "2px 6px", borderRadius: 8, flexShrink: 0 } }, cat)
+            ),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#374151", fontWeight: 600 } }, id.meaning)
+          ),
+          /*#__PURE__*/React.createElement("span", { style: { color: "#9ca3af", fontSize: 14 } }, showEx[i] ? "▲" : "▼")
+        ),
+        showEx[i] && /*#__PURE__*/React.createElement("div", { style: { marginTop: 10, paddingTop: 10, borderTop: "1px solid #f3f4f6" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 14, color: "#374151", lineHeight: 1.7 } }, id.ex),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginTop: 4 } }, id.exja)
+        )
+      );
+    })
+  );
 }
 const WEAK_STOCK_KEY = "practice:weakstock";
 async function addToWeakStock(item) {
@@ -25311,7 +25248,7 @@ function App() {
             /*#__PURE__*/React.createElement("path", { d:"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 0 2 2z" })
           )),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "重要熟語"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "35語 クイズ")
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, IDIOMS.length + "語 クイズ")
       ),
       /*#__PURE__*/React.createElement("div", {
         onClick: () => { setPracticeMode("phonetics"); setTab("practice"); },
@@ -25329,7 +25266,7 @@ function App() {
     )
   ),
   /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "     ヒント"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "       ヒント"),
     /*#__PURE__*/React.createElement("div", {
       onClick: () => { setPracticeMode("hints"); setTab("practice"); },
       style: { background: "var(--surface)", borderRadius: 8, padding: "13px 16px", cursor: "pointer", border: "1.5px solid var(--border)", display: "flex", alignItems: "center", gap: 12 }
@@ -27431,7 +27368,30 @@ tab === "practice" && !fixedSet && practiceMode === "phonetics" && /*#__PURE__*/
     /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.meaningSize, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "運ぶ"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.exampleSize, color: "var(--text-secondary)" } }, "Can you help me carry this bag?")
   ),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
+    /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u5358\u8a9e\u6587\u5b57\u8272"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" } },
+      ["#1e3a8a","#1f2937","#7c3aed","#0f766e","#b45309","#dc2626","#0369a1","#166534","#000000"].map(function(c){
+        return /*#__PURE__*/React.createElement("div", {
+          key: c,
+          onClick: () => saveSettings({ ...settings, wordColor: c }),
+          style: { width: 36, height: 36, borderRadius: "50%", background: c, cursor: "pointer",
+            border: settings.wordColor===c ? "3px solid #111827" : "3px solid transparent",
+            boxShadow: settings.wordColor===c ? "0 0 0 2px white, 0 0 0 4px "+c : "none",
+            transition: "all 0.15s", flexShrink: 0 }
+        });
+      }),
+      /*#__PURE__*/React.createElement("label", { style: { width: 36, height: 36, borderRadius: "50%", border: "2px dashed #9CA3AF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, color: "#9CA3AF" }, title: "\u30ab\u30b9\u30bf\u30e0\u30ab\u30e9\u30fc" },
+        /*#__PURE__*/React.createElement("input", {
+          type: "color", value: settings.wordColor || "#1e3a8a",
+          onChange: (e) => saveSettings({ ...settings, wordColor: e.target.value }),
+          style: { opacity: 0, position: "absolute", width: 0, height: 0 }
+        }),
+        "\ud83c\udfa8"
+      )
+    )
+  ),
+/*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       単語フォント"),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
       WORD_FONTS.map(function(f) {
@@ -27597,5 +27557,4 @@ tab === "practice" && !fixedSet && practiceMode === "phonetics" && /*#__PURE__*/
 
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
   </script>
-</body>
-</html>
+</b
