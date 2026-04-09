@@ -11740,7 +11740,11 @@ const WORD_FONTS = [{
   label: "Marker（マーカー風）",
   sample: "carry"
 }];
-// saveSettings is defined in App component
+async function saveSettings(s) {
+  try {
+    localStorage.setItem("jr_settings_v2", JSON.stringify(s));
+  } catch (e) {}
+}
 const VOCAB_MEM_KEY = "vocab:memory";
 async function loadVocabMemory() {
   try {
@@ -19898,66 +19902,24 @@ let REFERENCE_TABLES = [{
   cols: ["種類", "主格（主語）", "目的格（動詞・前置詞のあと）", "所有格（名詞の前）", "所有代名詞（名詞の代わり）"],
   rows: [["1人称単数", "I", "me", "my", "mine"], ["2人称", "you", "you", "your", "yours"], ["3人称単数（男）", "he", "him", "his", "his"], ["3人称単数（女）", "she", "her", "her", "hers"], ["3人称単数（物）", "it", "it", "its", "（なし）"], ["1人称複数", "we", "us", "our", "ours"], ["2人称複数", "you", "you", "your", "yours"], ["3人称複数", "they", "them", "their", "theirs"]],
   notes: ["主格：文の主語になる。I like cats.", "目的格：動詞・前置詞のうしろ。He loves me. / between you and me", "所有格：名詞の前に置く。This is my bag.", "所有代名詞：名詞の代わりに使う。This bag is mine.（= my bag）"]
-},
-{
-  id: "prepositions",
-  title: "前置詞まとめ（40語）",
-  icon: "📌",
-  color: "#0369a1",
-  desc: "英語の前置詞は「時間・場所・方向・その他」の4カテゴリで整理すると覚えやすい！同じ語でも文脈で意味が変わるので用例ごと覚えよう。",
-  cols: ["前置詞", "カテゴリ", "意味・使い方", "例文"],
-  rows: [
-    ["at", "⏰時間", "時刻・特定の瞬間", "at 3 o'clock / at noon / at night"],
-    ["on", "⏰時間", "曜日・特定の日付", "on Monday / on July 4 / on my birthday"],
-    ["in", "⏰時間", "月・年・季節・長い期間", "in April / in 2024 / in summer / in the morning"],
-    ["for", "⏰時間", "期間（〜の間）", "for 3 years / for a long time / for a while"],
-    ["since", "⏰時間", "起点（〜から）", "since 2020 / since last week / since then"],
-    ["by", "⏰時間", "期限（〜までに）", "by Friday / by 5 o'clock / finish by noon"],
-    ["until / till", "⏰時間", "継続（〜まで）", "until midnight / till next week"],
-    ["before", "⏰時間", "〜の前に", "before lunch / before you leave"],
-    ["after", "⏰時間", "〜の後に", "after school / after dinner / after all"],
-    ["during", "⏰時間", "〜の間ずっと（名詞と）", "during the vacation / during class"],
-    ["in", "📍場所", "〜の中に（空間内）", "in the box / in Tokyo / in the water / in bed"],
-    ["on", "📍場所", "〜の上に（接触）", "on the table / on the wall / on TV / on foot"],
-    ["at", "📍場所", "〜に（地点・ポイント）", "at the station / at school / at home / at the door"],
-    ["above", "📍場所", "〜の上方に（非接触）", "above the clouds / above sea level"],
-    ["below", "📍場所", "〜の下方に", "below the surface / below zero"],
-    ["under", "📍場所", "〜の真下に", "under the table / under construction"],
-    ["over", "📍場所", "〜の真上・を越えて", "the bridge over the river / all over the world"],
-    ["between", "📍場所", "〜の間（2つ）", "between A and B / between you and me"],
-    ["among", "📍場所", "〜の間（3つ以上）", "among the students / among friends"],
-    ["beside / next to", "📍場所", "〜のそばに", "beside the window / next to the school"],
-    ["in front of", "📍場所", "〜の前に", "in front of the school / in front of me"],
-    ["behind", "📍場所", "〜の後ろに", "behind the door / behind the curtain"],
-    ["near", "📍場所", "〜の近くに", "near the station / live near here"],
-    ["far from", "📍場所", "〜から遠く離れて", "far from home / not far from here"],
-    ["around", "📍場所", "〜のまわりに・あちこち", "around the corner / travel around Japan"],
-    ["to", "🧭方向", "〜へ（目的地）", "go to school / come to Japan / talk to me"],
-    ["into", "🧭方向", "〜の中へ（動き）", "come into the room / fall into the water"],
-    ["out of", "🧭方向", "〜から外へ", "get out of the car / out of control"],
-    ["from", "🧭方向", "〜から（起点）", "from Tokyo / come from Canada"],
-    ["toward(s)", "🧭方向", "〜の方向に", "walk toward the station / toward the future"],
-    ["through", "🧭方向", "〜を通って", "through the tunnel / look through the window"],
-    ["across", "🧭方向", "〜を横切って", "across the street / swim across the river"],
-    ["along", "🧭方向", "〜に沿って", "along the river / walk along the road"],
-    ["past", "🧭方向", "〜を過ぎて", "go past the station / half past two"],
-    ["with", "💡その他", "〜と一緒に・〜を持って", "with my friend / a house with a garden"],
-    ["without", "💡その他", "〜なしで", "without you / without thinking"],
-    ["for", "💡その他", "〜のために・理由", "buy it for me / good for health / for example"],
-    ["of", "💡その他", "〜の（所属・内容）", "a cup of tea / the name of the school"],
-    ["about", "💡その他", "〜について", "talk about / what about / care about"],
-    ["by", "💡その他", "〜によって（手段・行為者）", "by train / made by her / sold by weight"],
-    ["like", "💡その他", "〜のような", "look like / something like that"],
-    ["as", "💡その他", "〜として・〜のように", "work as a teacher / as soon as / as well as"]
-  ],
-  notes: [
-    "at < on < in の順で「時間の範囲」が広くなる（点→面→空間）",
-    "場所: in=包まれる, on=接触している, at=地点・ポイント のイメージ",
-    "by（〜までに＝期限）と until（〜まで＝継続）の違いに注意",
-    "during は必ず名詞と使う。during summer(○) / during it was summer(✗)",
-    "for は「期間」と「目的」の2つの意味がある。文脈で判断しよう"
-  ]
-}
+}, {
+  id: "prepositions-time",
+  title: "前置詞（時間）",
+  icon: "⏰",
+  color: "#059669",
+  desc: "at / on / in の使い分けは「範囲の広さ」で考えると覚えやすい。",
+  cols: ["前置詞", "使う場面", "例"],
+  rows: [["at", "時刻・特定の瞬間", "at 3 o'clock / at noon / at night"], ["on", "曜日・特定の日付", "on Monday / on July 4 / on my birthday"], ["in", "月・年・季節・長い期間", "in April / in 2024 / in summer / in the morning"], ["for", "期間（〜の間）", "for 3 years / for a long time"], ["since", "起点（〜から）", "since 2020 / since last week"], ["by", "期限（〜までに）", "by Friday / by 5 o'clock"], ["until / till", "継続（〜まで（ずっと））", "until midnight / till next week"], ["before", "〜の前に", "before lunch / before you leave"], ["after", "〜の後に", "after school / after dinner"], ["during", "〜の間ずっと（名詞と一緒に）", "during the vacation / during the game"]],
+  notes: ["at < on < in の順で「時間の範囲」が広くなる。", "by（〜までに）は期限、until（〜まで）は継続の違いに注意。", "during は名詞と一緒に使う。during the summer（○）/ during it was summer（×）"]
+}, {
+  id: "prepositions-place",
+  title: "前置詞（場所・位置）",
+  icon: "📍",
+  color: "#7c3aed",
+  desc: "場所を表す前置詞は「接触・内部・方向」のイメージで整理しよう。",
+  cols: ["前置詞", "意味・イメージ", "例文"],
+  rows: [["in", "〜の中に（三次元の空間）", "in the box / in Tokyo / in the water"], ["on", "〜の上に（表面に接触）", "on the table / on the wall / on the floor"], ["at", "〜に（地点・ポイント）", "at the station / at school / at the door"], ["above", "〜の上方に（接触しない）", "The clouds are above us."], ["below", "〜の下方に（接触しない）", "The fish swim below the surface."], ["under", "〜の真下に", "The cat is under the table."], ["over", "〜の真上に・を越えて", "The bridge over the river."], ["between", "〜の間に（2つ）", "between A and B"], ["among", "〜の間に（3つ以上）", "among the students"], ["beside / next to", "〜のそばに", "beside the window / next to me"], ["in front of", "〜の前に", "in front of the school"], ["behind", "〜の後ろに", "behind the door"]],
+  notes: ["in は「包まれている」イメージ。in a box / in Japan", "on は「接触している」イメージ。on the table / on the wall", "at は「地点・ポイント」イメージ。at the bus stop / at noon"]
 }, {
   id: "phrasal-verbs",
   title: "句動詞（フレーズ動詞）",
@@ -21450,11 +21412,9 @@ function AIGrammarQuiz({
 function ReferenceSection({
   onBack,
   favRefs,
-  onToggleFav,
-  selected,
-  onSelected
+  onToggleFav
 }) {
-  const setSelected = (v) => { onSelected && onSelected(v); };
+  const [selected, setSelected] = useState(null);
   const [openNotes, setOpenNotes] = useState(false);
   if (selected) {
     const t = REFERENCE_TABLES.find(r => r.id === selected);
@@ -21998,11 +21958,36 @@ function IrregularVerbs({
   }, v.meaning)))));
 }
 
-// ===== 重要熟語コンポーネント =====
-function IdiomsSection({
-  onBack
-}) {
-  const [mode, setMode] = useState("list"); // list | quiz
+
+// ===== 重要熟語コンポーネント (カテゴリ別) =====
+function getIdiomCat(phrase) {
+  var v = phrase.split(" ")[0];
+  if (phrase.startsWith("be ") || phrase.startsWith("be_")) return "be系";
+  var verbMap = {
+    "get":"get系","look":"look系","take":"take系","make":"make系",
+    "come":"come系","give":"give系","put":"put系","run":"run系",
+    "turn":"turn系","break":"break系","bring":"bring系","set":"set系",
+    "keep":"keep系","hold":"hold系","go":"go系","find":"find系",
+    "show":"その他","pick":"その他","stand":"その他","stick":"その他",
+    "fall":"その他","hang":"その他","call":"その他","let":"その他",
+    "pass":"その他","figure":"その他"
+  };
+  if (verbMap[v]) return verbMap[v];
+  if (["at","in","on","by","for","from","as"].includes(v)) return "前置詞・副詞";
+  return "その他";
+}
+const IDIOM_CAT_COLORS = {
+  "すべて":"#374151","be系":"#3478F6","get系":"#10B981","look系":"#7C3AED",
+  "take系":"#DB2777","make系":"#EA580C","come系":"#0891B2","give系":"#D97706",
+  "put系":"#6366F1","run系":"#EF4444","turn系":"#F59E0B","break系":"#DC2626",
+  "bring系":"#059669","set系":"#0369A1","keep系":"#4338CA","go系":"#BE185D",
+  "前置詞・副詞":"#475569","その他":"#6B7280"
+};
+const IDIOM_CATS = ["すべて","be系","get系","look系","take系","make系","come系","give系","put系","run系","turn系","break系","bring系","set系","keep系","go系","前置詞・副詞","その他"];
+
+function IdiomsSection({ onBack }) {
+  const [mode, setMode] = useState("list");
+  const [catFilter, setCatFilter] = useState("すべて");
   const [showEx, setShowEx] = useState({});
   const [quizIdx, setQuizIdx] = useState(0);
   const [quizAns, setQuizAns] = useState("");
@@ -22010,8 +21995,20 @@ function IdiomsSection({
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const shuffled = useRef([...IDIOMS].sort(() => Math.random() - 0.5));
+
+  const filteredIdioms = catFilter === "すべて" ? IDIOMS
+    : IDIOMS.filter(id => getIdiomCat(id.phrase) === catFilter);
+
+  // カテゴリ別カウント
+  const catCounts = {};
+  IDIOMS.forEach(id => {
+    const c = getIdiomCat(id.phrase);
+    catCounts[c] = (catCounts[c] || 0) + 1;
+  });
+
   function startQuiz() {
-    shuffled.current = [...IDIOMS].sort(() => Math.random() - 0.5).slice(0, 12);
+    const pool = catFilter === "すべて" ? IDIOMS : filteredIdioms;
+    shuffled.current = [...pool].sort(() => Math.random() - 0.5).slice(0, 12);
     setQuizIdx(0);
     setQuizAns("");
     setQuizResult(null);
@@ -22023,597 +22020,118 @@ function IdiomsSection({
     if (!quizAns.trim()) return;
     const q = shuffled.current[quizIdx];
     const ok = quizAns.trim().toLowerCase().replace(/\s+/g, " ") === q.phrase.toLowerCase();
-    setQuizResult({
-      ok,
-      correct: q.phrase
-    });
+    setQuizResult({ ok, correct: q.phrase });
     if (ok) setScore(s => s + 1);
   }
   function nextQuiz() {
-    if (quizIdx + 1 >= shuffled.current.length) {
-      setDone(true);
-      return;
-    }
+    if (quizIdx + 1 >= shuffled.current.length) { setDone(true); return; }
     setQuizIdx(i => i + 1);
     setQuizAns("");
     setQuizResult(null);
   }
   const q = shuffled.current[quizIdx];
-  if (mode === "quiz" && done) return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    className: "back",
-    onClick: () => {
-      setMode("list");
-      setDone(false);
-    }
-  }, "\u2190 \u4E00\u89A7"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      padding: "20px 0"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 48,
-      marginBottom: 8
-    }
-  }, score >= 10 ? "🎉" : score >= 7 ? "😊" : "💪"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 48,
-      fontWeight: 900,
-      color: score >= 10 ? "#10b981" : score >= 7 ? "#f59e0b" : "#ef4444"
-    }
-  }, score, "/", shuffled.current.length), /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-warn",
-    style: {
-      background: "linear-gradient(135deg,#f59e0b,#ef4444)",
-      maxWidth: 240,
-      margin: "8px auto 0"
-    },
-    onClick: startQuiz
-  }, "\u3082\u3046\u4E00\u5EA6"), /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-o",
-    style: {
-      maxWidth: 240,
-      margin: "8px auto 0"
-    },
-    onClick: () => setMode("list")
-  }, "\u4E00\u89A7\u306B\u623B\u308B")));
-  if (mode === "quiz") return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    className: "back",
-    onClick: () => setMode("list")
-  }, "\u2190 \u4E00\u89A7"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      fontSize: 12,
-      color: "#9ca3af",
-      marginBottom: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", null, "\u719F\u8A9E\u30AF\u30A4\u30BA"), /*#__PURE__*/React.createElement("span", null, quizIdx + 1, "/", shuffled.current.length)), /*#__PURE__*/React.createElement("div", {
-    className: "pbw"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "pb",
-    style: {
-      width: `${quizIdx / shuffled.current.length * 100}%`
-    }
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "pqc"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      textAlign: "center",
-      marginBottom: 16
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "#9ca3af",
-      marginBottom: 8
-    }
-  }, "\u3053\u306E\u610F\u5473\u306E\u719F\u8A9E\u306F\uFF1F\uFF08\u82F1\u8A9E\u3067\u5165\u529B\uFF09"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 24,
-      fontWeight: 700,
-      color: "#6366f1"
-    }
-  }, q.meaning), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      color: "#9ca3af",
-      marginTop: 6
-    }
-  }, q.exja)), /*#__PURE__*/React.createElement("input", {
-    className: `pin ${quizResult ? quizResult.ok ? "correct" : "wrong" : ""}`,
-    value: quizAns,
-    onChange: e => setQuizAns(e.target.value),
-    onKeyDown: e => {
-      if (e.key === "Enter") quizResult ? nextQuiz() : checkQuiz();
-    },
-    placeholder: "\u719F\u8A9E\u3092\u82F1\u8A9E\u3067\u5165\u529B\u2026",
-    disabled: !!quizResult
-  }), !quizResult && /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-sm",
-    onClick: checkQuiz,
-    disabled: !quizAns.trim()
-  }, "\u78BA\u8A8D"), quizResult && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: quizResult.ok ? "#d1fae5" : "#fee2e2",
-      border: `2px solid ${quizResult.ok ? "#10b981" : "#ef4444"}`,
-      borderRadius: 12,
-      padding: "12px 14px",
-      marginBottom: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontWeight: 700,
-      color: quizResult.ok ? "#065f46" : "#991b1b"
-    }
-  }, quizResult.ok ? "✅ 正解！" : "❌ 不正解"), !quizResult.ok && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      marginTop: 4
-    }
-  }, "\u6B63\u89E3: ", /*#__PURE__*/React.createElement("strong", {
-    style: {
-      color: "#059669",
-      fontFamily: "'Nunito',sans-serif"
-    }
-  }, quizResult.correct)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "#6b7280",
-      marginTop: 4,
-      fontFamily: "'Nunito',sans-serif"
-    }
-  }, q.ex)), /*#__PURE__*/React.createElement("button", {
-    style: {
-      background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
-      border: "none",
-      borderRadius: 12,
-      padding: "13px",
-      color: "white",
-      fontFamily: "'Noto Sans JP',sans-serif",
-      fontWeight: 700,
-      fontSize: 15,
-      cursor: "pointer",
-      width: "100%"
-    },
-    onClick: nextQuiz
-  }, quizIdx + 1 >= shuffled.current.length ? "結果を見る 📊" : "次の問題 →"))));
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    className: "back",
-    onClick: onBack
-  }, "\u2190 \u7DF4\u7FD2\u30E1\u30CB\u30E5\u30FC"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontWeight: 800,
-      fontSize: 15,
-      color: "#1f2937"
-    }
-  }, "\uD83D\uDCAC \u91CD\u8981\u719F\u8A9E ", IDIOMS.length, "\u8A9E"), /*#__PURE__*/React.createElement("button", {
-    className: "btn btn-warn",
-    style: {
-      width: "auto",
-      padding: "8px 16px",
-      fontSize: 13,
-      marginTop: 0,
-      background: "linear-gradient(135deg,#f59e0b,#ef4444)"
-    },
-    onClick: startQuiz
-  }, "\u30AF\u30A4\u30BA\u958B\u59CB")), IDIOMS.map((id, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      background: "white",
-      borderRadius: 12,
-      padding: "12px 14px",
-      marginBottom: 8,
-      boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-      cursor: "pointer"
-    },
-    onClick: () => setShowEx(p => ({
-      ...p,
-      [i]: !p[i]
-    }))
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 16,
-      fontWeight: 800,
-      color: "#6366f1"
-    }
-  }, id.phrase), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      color: "#374151",
-      marginTop: 2,
-      fontWeight: 600
-    }
-  }, id.meaning)), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: "#9ca3af",
-      fontSize: 14
-    }
-  }, showEx[i] ? "▲" : "▼")), showEx[i] && /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 10,
-      paddingTop: 10,
-      borderTop: "1px solid #f3f4f6"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Nunito',sans-serif",
-      fontSize: 14,
-      color: "#374151",
-      lineHeight: 1.7
-    }
-  }, id.ex), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 12,
-      color: "#9ca3af",
-      marginTop: 4
-    }
-  }, id.exja)))));
-}
 
-// ===== 発音記号展開コンポーネント =====
-const PHONETIC_TIPS = {
-  "iː": { tip: "口を横に大きく引いて「イーッ」。日本語の「い」より口を横に引く。", warning: "短い「イ」(ɪ)と混同しないように！" },
-  "ɪ": { tip: "口をやや開けて軽く「イ」。力を抜いた短い音。", warning: "長い「イー」(iː)より口の開きが小さい。" },
-  "e": { tip: "口を少し開けて「エ」。日本語の「え」に近い。", warning: "æ（平らなア）と混同しやすい。" },
-  "æ": { tip: "口を大きく横に開いて「ア」と「エ」の中間。顎をしっかり下げる！", warning: "「エ」だけにならないよう口を大きく開けて。" },
-  "ɑː": { tip: "口を大きく開けて「アー」。歯医者で口を開けるときのイメージ。", warning: "ɒ（短いオ）と混同しやすい。" },
-  "ɒ": { tip: "唇を少し丸めて短く「オ」。日本語の「お」より口を丸める。", warning: "ɑː（長いアー）より短く発音する。" },
-  "ɔː": { tip: "唇をしっかり丸めて「オー」と引き伸ばす。", warning: "ɒ（短いオ）との長さの違いに注意。" },
-  "ʊ": { tip: "唇を軽く丸めた短い「ウ」。力を抜いて。", warning: "長い「ウー」(uː)より口の丸めが小さい。" },
-  "uː": { tip: "唇をしっかり丸めて「ウー」と伸ばす。", warning: "ʊ（短いウ）と違って口をもっと前に突き出す。" },
-  "ʌ": { tip: "口を半開きで「ア」。力を抜いた中央母音。cup, love の母音。", warning: "ɑːより短く弱い音。日本語の「ア」より弱め。" },
-  "ɜː": { tip: "口を少し開けて「アー」と伸ばす。bird, word の音。口の形を固定したまま伸ばす。", warning: "r音性母音：舌先をやや後ろに引く感覚。" },
-  "ə": { tip: "シュワ音。口の力を完全に抜いて「ア」。英語で最も多く出る音！", warning: "強調しない音節に出る。about の最初の a がこの音。" },
-  "eɪ": { tip: "「エ」から「イ」へ滑らかにつなぐ。day, make の母音。", warning: "「エ」で終わらず必ず「イ」へ動かす。" },
-  "ɒɪ": { tip: "「ア（丸め）」から「イ」へ。my, time の母音。", warning: "最初の「ア」をしっかり発音してから「イ」へ。" },
-  "ɔɪ": { tip: "「オ」から「イ」へ。boy, coin の音。", warning: "最初の「オ」をしっかり丸めてから「イ」へ。" },
-  "əʊ": { tip: "「ア（弱）」から「ウ」へ。go, home の母音。", warning: "go は「ゴー」ではなく「ゴウ」のイメージ。" },
-  "aʊ": { tip: "「ア（大きく）」から「ウ」へ。now, house の音。", warning: "最初の「ア」を大きく口を開けて発音。" },
-  "ɪə": { tip: "「イ」から「ア（弱）」へ。here, near の音。", warning: "2つの音を滑らかにつなぐ。" },
-  "eə": { tip: "「エ」から「ア（弱）」へ。there, care の音。", warning: "「エアー」のように伸ばす感覚。" },
-  "ʊə": { tip: "「ウ（短）」から「ア（弱）」へ。tour, pure の音。", warning: "現代英語では/ɔː/で発音されることも多い。" },
-  "p": { tip: "唇を閉じてから一気に息を出す。pen の最初の音。", warning: "有声のbと混同しやすい。p=無声（息だけ）、b=有声（声帯振動）。" },
-  "b": { tip: "唇を閉じて声帯を振動させながら開く。back の最初の音。", warning: "語末では弱く発音される（またはほぼ無音になる）ことがある。" },
-  "t": { tip: "舌先を上の歯茎に当てて弾く。語中では「ラ」に近くなることも（water→ウォーラ）。", warning: "日本語の「ト」より舌の位置が前（歯茎）。" },
-  "d": { tip: "舌先を上の歯茎に当てて声帯を振動。tの有声版。", warning: "語末では弱くなったり聞こえにくくなる。" },
-  "k": { tip: "舌の奥を上顎に当てて離す。key, clock の最初の音。", warning: "ck, ch（school）など表記が様々。" },
-  "g": { tip: "kと同じ位置で声帯を振動させる。get, ghost の最初の音。", warning: "gh は通常発音しない（night, through など）。" },
-  "f": { tip: "上の歯を下唇に軽く当てて息を出す。fat, coffee の音。", warning: "v（有声）と混同しやすい。日本語の「フ」とは作り方が違う！" },
-  "v": { tip: "fと同じ形で声帯を振動させる。van, love の音。", warning: "日本語にない音。van を「バン」と言わないように！" },
-  "θ": { tip: "舌先を上下の歯の間に軽く挟んで息を出す。thin, math の音。", warning: "s と混同しやすい。舌を歯に当てるのがポイント！" },
-  "ð": { tip: "θと同じ形で声帯を振動させる。this, other の音。", warning: "z と混同しやすい。舌を歯に当てるのがポイント！" },
-  "s": { tip: "歯を軽く閉じて「スー」と息を出す。soon, ice の音。", warning: "θ（舌を出すs）と混同しやすい。" },
-  "z": { tip: "sと同じ形で声帯を振動させる。zero, music の音。", warning: "語末の s がzになることも多い（dogs, lives）。" },
-  "ʃ": { tip: "唇を少し前に出して「シュー」。ship, nation の音。", warning: "s よりも口を丸めて前に出す。" },
-  "ʒ": { tip: "ʃを有声化した音。pleasure, vision の音。", warning: "日本語にない音。「ジュ」だが破裂しない浮遊感。" },
-  "h": { tip: "喉から息だけを出す。hot, ahead の音。", warning: "強調しない位置では弱くなったり落ちたりする。" },
-  "tʃ": { tip: "「チュ」と発音。church, match の音。tとʃの合体。", warning: "ʃ（シュ）と混同しやすい。tで始まることがポイント。" },
-  "dʒ": { tip: "「ジュ」と発音。judge, age の音。dとʒの合体。", warning: "ʒ（浮遊するジュ）と違い、dで始まる破裂音。" },
-  "m": { tip: "唇を閉じたまま鼻から音を出す。「ムー」。", warning: "語末でも しっかり唇を閉じて発音する。" },
-  "n": { tip: "舌先を上の歯茎に当てて鼻から音を出す。「ヌー」。", warning: "語末では特に意識して舌を上につける。" },
-  "ŋ": { tip: "舌の奥を上顎に当てて鼻から音を出す。ring, long の語末の音。", warning: "ng は「ング」ではなく「ŋ」だけ！「グ」の音は出さない。" },
-  "l": { tip: "舌先を上の歯茎に当てたまま声を出す。light の最初の音。", warning: "r（舌先を丸める）と混同しやすい。l は舌先をつける！" },
-  "r": { tip: "舌先をどこにもつけず後ろに引いて丸める。right, sorry の音。", warning: "l（舌先をつける）と混同しやすい。r は舌先を浮かせる！" },
-  "j": { tip: "「イ」の口の形から「ア」などへ素早く移行。yet, use の最初の音。", warning: "日本語の「ヤ行」に近い。" },
-  "w": { tip: "唇をしっかり丸めて前に出し「ウ」から始める。wet, one の最初の音。", warning: "日本語の「ワ」より唇の丸めが強い。" },
-};
+  if (mode === "quiz" && done) return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", { className: "back", onClick: () => { setMode("list"); setDone(false); } }, "← 一覧"),
+    /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", padding: "20px 0" } },
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 48, marginBottom: 8 } }, score >= 10 ? "🎉" : score >= 7 ? "😊" : "💪"),
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 48, fontWeight: 900, color: score >= 10 ? "#10b981" : score >= 7 ? "#f59e0b" : "#ef4444" } }, score, "/", shuffled.current.length),
+      /*#__PURE__*/React.createElement("button", { className: "btn btn-warn", style: { background: "linear-gradient(135deg,#f59e0b,#ef4444)", maxWidth: 240, margin: "8px auto 0" }, onClick: startQuiz }, "もう一度"),
+      /*#__PURE__*/React.createElement("button", { className: "btn btn-o", style: { maxWidth: 240, margin: "8px auto 0" }, onClick: () => setMode("list") }, "一覧に戻る")
+    )
+  );
 
-function PhoneticsSection({ onBack }) {
-  const [openItems, setOpenItems] = useState({});
-  const toggleItem = (key) => setOpenItems(p => ({ ...p, [key]: !p[key] }));
-  const groups = [
-    {
-      label: "母音 (Vowels)", color: "#3478F6",
-      items: [
-        { sym: "iː", ex: "see, feet, tree", ja: "イー（長）" },
-        { sym: "ɪ", ex: "sit, fish, big", ja: "イ（短）" },
-        { sym: "e", ex: "bed, get, red", ja: "エ" },
-        { sym: "æ", ex: "cat, map, had", ja: "ア（平ら）" },
-        { sym: "ɑː", ex: "car, father, start", ja: "アー（長）" },
-        { sym: "ɒ", ex: "top, hot, box", ja: "オ（短）" },
-        { sym: "ɔː", ex: "saw, ball, door", ja: "オー（長）" },
-        { sym: "ʊ", ex: "book, foot, good", ja: "ウ（短）" },
-        { sym: "uː", ex: "too, food, blue", ja: "ウー（長）" },
-        { sym: "ʌ", ex: "cup, bus, love", ja: "ア（中共）" },
-        { sym: "ɜː", ex: "bird, word, her", ja: "アー（リー）" },
-        { sym: "ə", ex: "about, teacher", ja: "ア（弱）schwa" },
-      ]
-    },
-    {
-      label: "二重母音 (Diphthongs)", color: "#7C3AED",
-      items: [
-        { sym: "eɪ", ex: "day, make, rain", ja: "エイ" },
-        { sym: "ɒɪ", ex: "my, time, night", ja: "アイ" },
-        { sym: "ɔɪ", ex: "boy, coin, voice", ja: "オイ" },
-        { sym: "əʊ", ex: "go, home, road", ja: "アウ" },
-        { sym: "aʊ", ex: "now, house, out", ja: "アウ（広）" },
-        { sym: "ɪə", ex: "here, near, ear", ja: "イア" },
-        { sym: "eə", ex: "there, care, air", ja: "エア" },
-        { sym: "ʊə", ex: "tour, pure, cure", ja: "ウア" },
-      ]
-    },
-    {
-      label: "子音 (Consonants)", color: "#059669",
-      items: [
-        { sym: "p", ex: "pen, copy, happen", ja: "パ行（無声）" },
-        { sym: "b", ex: "back, baby, job", ja: "バ行（有声）" },
-        { sym: "t", ex: "tea, tight, button", ja: "タ行（無声）" },
-        { sym: "d", ex: "day, ladder, odd", ja: "ダ行（有声）" },
-        { sym: "k", ex: "key, clock, school", ja: "カ行（無声）" },
-        { sym: "g", ex: "get, giggle, ghost", ja: "ガ行（有声）" },
-        { sym: "f", ex: "fat, coffee, rough", ja: "フ" },
-        { sym: "v", ex: "van, vivid, love", ja: "ヴ" },
-        { sym: "θ", ex: "thin, nothing, math", ja: "サ（無声）th" },
-        { sym: "ð", ex: "this, other, smooth", ja: "ザ（有声）th" },
-        { sym: "s", ex: "soon, sister, ice", ja: "サ行" },
-        { sym: "z", ex: "zero, music, roses", ja: "ザ行" },
-        { sym: "ʃ", ex: "ship, sure, nation", ja: "シュ" },
-        { sym: "ʒ", ex: "pleasure, vision", ja: "ジュ（浮遊）" },
-        { sym: "h", ex: "hot, whole, ahead", ja: "ハ行" },
-        { sym: "tʃ", ex: "church, match, chip", ja: "チ" },
-        { sym: "dʒ", ex: "judge, age, soldier", ja: "ジ（破裂）" },
-        { sym: "m", ex: "more, hammer, sum", ja: "マ行" },
-        { sym: "n", ex: "nice, know, funny", ja: "ナ行" },
-        { sym: "ŋ", ex: "ring, long, thanks", ja: "ン（ng）" },
-        { sym: "l", ex: "light, valley, feel", ja: "ラ行（舌側）" },
-        { sym: "r", ex: "right, wrong, sorry", ja: "ラ行（巻き舌）" },
-        { sym: "j", ex: "yet, use, beauty", ja: "ヤ行" },
-        { sym: "w", ex: "wet, one, when", ja: "ワ行" },
-      ]
-    }
-  ];
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("button", { className: "back", onClick: onBack }, "\u2190 \u623b\u308b"),
-    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
-      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 20, fontWeight: 800, color: "#111827", marginBottom: 4 } }, "\uD83D\uDD08 \u767a\u97f3\u8a18\u53f7\u8868"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6B7280" } }, "\u30bf\u30c3\u30d7\u3057\u3066\u767a\u97f3\u306e\u30b3\u30c4\u3092\u78ba\u8a8d\u3067\u304d\u307e\u3059\u3002\ud83d\udd0a\u3067TTS\u518d\u751f\u3082\u3067\u304d\u307e\u3059\u3002")
+  if (mode === "quiz") return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", { className: "back", onClick: () => setMode("list") }, "← 一覧"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, color: "#9ca3af", marginBottom: 8 } },
+      /*#__PURE__*/React.createElement("span", null, catFilter !== "すべて" ? catFilter : "熟語クイズ"),
+      /*#__PURE__*/React.createElement("span", null, quizIdx + 1, "/", shuffled.current.length)
     ),
-    groups.map(function(group) {
-      return /*#__PURE__*/React.createElement("div", { key: group.label, style: { marginBottom: 16 } },
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: group.color, color: "white", padding: "8px 14px", borderRadius: "8px 8px 0 0", fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 700 }
-        }, group.label),
-        /*#__PURE__*/React.createElement("div", {
-          style: { background: "white", border: "1.5px solid #E5E7EB", borderTop: "none", borderRadius: "0 0 8px 8px", overflow: "hidden" }
-        },
-          group.items.map(function(item, i) {
-            const tipKey = item.sym;
-            const tipData = PHONETIC_TIPS[tipKey] || null;
-            const isOpen = openItems[tipKey];
-            return /*#__PURE__*/React.createElement("div", { key: item.sym,
-              style: { borderBottom: i < group.items.length - 1 ? "1px solid #F3F4F6" : "none" }
-            },
-              /*#__PURE__*/React.createElement("div", {
-                onClick: function() {
-                  toggleItem(tipKey);
-                  if (typeof window !== "undefined" && window.speechSynthesis) {
-                    var u = new SpeechSynthesisUtterance(item.ex.split(",")[0].trim());
-                    u.lang = "en-US"; u.rate = 0.85;
-                    window.speechSynthesis.cancel();
-                    window.speechSynthesis.speak(u);
-                  }
-                },
-                style: { display: "grid", gridTemplateColumns: "48px 1fr 1fr 36px", alignItems: "center", padding: "10px 14px", cursor: "pointer", gap: 10 }
-              },
-                /*#__PURE__*/React.createElement("div", {
-                  style: { fontFamily: "'Montserrat',sans-serif", fontSize: 22, fontWeight: 800, color: group.color, textAlign: "center" }
-                }, "/" + item.sym + "/"),
-                /*#__PURE__*/React.createElement("div", null,
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#374151", fontFamily: "'Montserrat',sans-serif" } }, item.ex),
-                  /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#9CA3AF", marginTop: 1 } }, item.ja)
-                ),
-                /*#__PURE__*/React.createElement("div", null),
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 16, color: isOpen ? group.color : "#9CA3AF", fontWeight: 700, textAlign: "center" } }, isOpen ? "▲" : (tipData ? "💡" : "🔊"))
-              ),
-              isOpen && tipData && /*#__PURE__*/React.createElement("div", {
-                style: { background: group.color + "0d", borderTop: "1px dashed " + group.color + "44", padding: "10px 14px 12px" }
-              },
-                /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#1f2937", lineHeight: 1.7, marginBottom: 6 } },
-                  /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: group.color } }, "\u2728 \u767a\u97f3\u306e\u30b3\u30c4: " ),
-                  tipData.tip
-                ),
-                tipData.warning && /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#b45309", background: "#fffbeb", borderRadius: 6, padding: "6px 10px", borderLeft: "3px solid #f59e0b" } },
-                  "\u26a0\ufe0f " + tipData.warning
-                )
-              )
-            );
-          })
+    /*#__PURE__*/React.createElement("div", { className: "pbw" },
+      /*#__PURE__*/React.createElement("div", { className: "pb", style: { width: `${quizIdx / shuffled.current.length * 100}%` } })
+    ),
+    /*#__PURE__*/React.createElement("div", { className: "pqc" },
+      /*#__PURE__*/React.createElement("div", { style: { textAlign: "center", marginBottom: 16 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginBottom: 8 } }, "この意味の熟語は？（英語で入力）"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 22, fontWeight: 700, color: "#6366f1", marginBottom: 4 } }, q.meaning),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#9ca3af" } }, q.exja)
+      ),
+      /*#__PURE__*/React.createElement("input", {
+        className: `pin ${quizResult ? quizResult.ok ? "correct" : "wrong" : ""}`,
+        value: quizAns,
+        onChange: e => setQuizAns(e.target.value),
+        onKeyDown: e => { if (e.key === "Enter") quizResult ? nextQuiz() : checkQuiz(); },
+        placeholder: "熟語を英語で入力…",
+        disabled: !!quizResult
+      }),
+      !quizResult && /*#__PURE__*/React.createElement("button", { className: "btn btn-sm", onClick: checkQuiz, disabled: !quizAns.trim() }, "確認"),
+      quizResult && /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { background: quizResult.ok ? "#d1fae5" : "#fee2e2", border: `2px solid ${quizResult.ok ? "#10b981" : "#ef4444"}`, borderRadius: 12, padding: "12px 14px", marginBottom: 10 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, color: quizResult.ok ? "#065f46" : "#991b1b" } }, quizResult.ok ? "✅ 正解！" : "❌ 不正解"),
+          !quizResult.ok && /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, marginTop: 4 } }, "正解: ", /*#__PURE__*/React.createElement("strong", { style: { color: "#059669", fontFamily: "'Nunito',sans-serif" } }, quizResult.correct)),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", marginTop: 4, fontFamily: "'Nunito',sans-serif" } }, q.ex)
+        ),
+        /*#__PURE__*/React.createElement("button", { style: { background: "linear-gradient(135deg,#6366f1,#8b5cf6)", border: "none", borderRadius: 12, padding: "13px", color: "white", fontFamily: "'Noto Sans JP',sans-serif", fontWeight: 700, fontSize: 15, cursor: "pointer", width: "100%" }, onClick: nextQuiz },
+          quizIdx + 1 >= shuffled.current.length ? "結果を見る 📊" : "次の問題 →"
+        )
+      )
+    )
+  );
+
+  return /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", { className: "back", onClick: onBack }, "← 練習メニュー"),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 } },
+      /*#__PURE__*/React.createElement("div", null,
+        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "#1f2937" } }, "💬 重要熟語 " + IDIOMS.length + "語"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#9ca3af", marginTop: 2 } },
+          catFilter === "すべて" ? "全カテゴリ" : catFilter, " ", filteredIdioms.length, "語"
+        )
+      ),
+      /*#__PURE__*/React.createElement("button", { className: "btn btn-warn", style: { width: "auto", padding: "8px 14px", fontSize: 13, marginTop: 0, background: "linear-gradient(135deg,#f59e0b,#ef4444)" }, onClick: startQuiz }, "クイズ開始")
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 6, overflowX: "auto", marginBottom: 12, paddingBottom: 4, WebkitOverflowScrolling: "touch" } },
+      IDIOM_CATS.filter(c => c === "すべて" || catCounts[c] > 0).map(c =>
+        /*#__PURE__*/React.createElement("button", {
+          key: c,
+          onClick: () => setCatFilter(c),
+          style: {
+            padding: "5px 11px", fontSize: 11, fontWeight: 700, cursor: "pointer",
+            borderRadius: 20, whiteSpace: "nowrap", flexShrink: 0,
+            border: `1.5px solid ${catFilter === c ? IDIOM_CAT_COLORS[c] : "#e5e7eb"}`,
+            background: catFilter === c ? IDIOM_CAT_COLORS[c] : "white",
+            color: catFilter === c ? "white" : "#6b7280",
+            fontFamily: "'Noto Sans JP',sans-serif",
+            transition: "all 0.15s"
+          }
+        }, c === "すべて" ? "すべて(" + IDIOMS.length + ")" : c + "(" + (catCounts[c] || 0) + ")")
+      )
+    ),
+    filteredIdioms.map((id, i) => {
+      const cat = getIdiomCat(id.phrase);
+      const catColor = IDIOM_CAT_COLORS[cat] || "#6b7280";
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        style: { background: "white", borderRadius: 12, padding: "12px 14px", marginBottom: 8, boxShadow: "0 2px 6px rgba(0,0,0,0.05)", cursor: "pointer", borderLeft: `4px solid ${catColor}` },
+        onClick: () => setShowEx(p => ({ ...p, [i]: !p[i] }))
+      },
+        /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+          /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+            /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 2 } },
+              /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 16, fontWeight: 800, color: catColor } }, id.phrase),
+              /*#__PURE__*/React.createElement("span", { style: { fontSize: 9, fontWeight: 700, background: catColor + "18", color: catColor, padding: "2px 6px", borderRadius: 8, flexShrink: 0 } }, cat)
+            ),
+            /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, color: "#374151", fontWeight: 600 } }, id.meaning)
+          ),
+          /*#__PURE__*/React.createElement("span", { style: { color: "#9ca3af", fontSize: 14 } }, showEx[i] ? "▲" : "▼")
+        ),
+        showEx[i] && /*#__PURE__*/React.createElement("div", { style: { marginTop: 10, paddingTop: 10, borderTop: "1px solid #f3f4f6" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 14, color: "#374151", lineHeight: 1.7 } }, id.ex),
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginTop: 4 } }, id.exja)
         )
       );
     })
   );
 }
-// ===== END PhoneticsSection =====
-
-
-// ===== 英語学習法TIPsコンポーネント =====
-const STUDY_METHODS = [
-  {
-    id: "shadowing",
-    icon: "🎤",
-    title: "シャドーイング",
-    tag: "リスニング・スピーキング",
-    color: "#3478F6",
-    desc: "音声を聞きながら、0.5秒遅れで声に出して追いかける練習法。英語のリズム・イントネーション・スピードを体に染み込ませる最強メソッド。",
-    steps: [
-      "① まず音声を聞いて内容を理解する",
-      "② スクリプトを見ながらゆっくりシャドーイング",
-      "③ スクリプトなしで音だけを追う",
-      "④ 毎日5〜10分から始める（同じ教材を最低10回）"
-    ],
-    tips: ["最初は遅い教材から。NHKワールド・中学英語テキストが最適", "完璧に聞き取れなくてもOK。音のリズムを追うことが大事", "録音して自分の声を聞き返すとさらに効果UP"],
-    level: "★★☆",
-    time: "5〜15分/日"
-  },
-  {
-    id: "instant-composition",
-    icon: "⚡",
-    title: "瞬間英作文",
-    tag: "スピーキング・文法",
-    color: "#059669",
-    desc: "日本語を見て、瞬時に英語に変換する練習。文法知識を「使える英語」に変えるための最も効果的なアウトプット練習。",
-    steps: [
-      "① 日本語文を見る（例：「私は昨日図書館に行きました」）",
-      "② 3秒以内に英語で声に出す（I went to the library yesterday.）",
-      "③ 答え合わせして復習",
-      "④ 1冊50文を毎日繰り返す（1ヶ月で自動化！）"
-    ],
-    tips: ["「考えてから言う」→「反射的に言える」が目標", "このアプリの文法練習も同じ効果あり！", "間違えた文は3回声に出して繰り返す"],
-    level: "★★☆",
-    time: "10〜20分/日"
-  },
-  {
-    id: "extensive-reading",
-    icon: "📖",
-    title: "多読（多聴）",
-    tag: "語彙・読解・リスニング",
-    color: "#7C3AED",
-    desc: "辞書を引かず、理解できるレベルの英語をどんどん読む（聞く）方法。英語を英語のまま理解する力を育てる。",
-    steps: [
-      "① 95%以上わかる教材を選ぶ（わからない単語が1ページ3個以内）",
-      "② 辞書を引かずに読み進める",
-      "③ 楽しめることが最優先。つまらなければ変えてOK",
-      "④ 1日15分でも毎日続ける"
-    ],
-    tips: ["中学レベルなら Oxford Bookworms Stage 1〜2 が最適", "多聴はポッドキャスト「NHK Radio Japan」「VOA Learning English」", "わからない単語は文脈から推測する練習にもなる"],
-    level: "★☆☆",
-    time: "15〜30分/日"
-  },
-  {
-    id: "anki-spaced",
-    icon: "🔁",
-    title: "間隔反復（SRS）",
-    tag: "語彙・記憶定着",
-    color: "#DB2777",
-    desc: "覚えた単語を忘れかけた絶妙のタイミングで復習する科学的暗記法。Anki や このアプリの WordBit スタイルカードで実践できる！",
-    steps: [
-      "① 新単語は意味・例文をセットで覚える",
-      "② 覚えたら「Good」、怪しいは「Again」",
-      "③ 翌日・3日後・1週間後と間隔を空けて復習",
-      "④ 1日10〜20単語の新規追加を上限にする"
-    ],
-    tips: ["このアプリのWordBitカードが間隔反復の考え方に基づいています", "一気に大量を覚えるより、毎日少量が圧倒的に効果的", "記憶の定着には「思い出す作業（テスト）」が最重要"],
-    level: "★☆☆",
-    time: "10〜20分/日"
-  },
-  {
-    id: "output-journal",
-    icon: "✍️",
-    title: "英語日記・ライティング",
-    tag: "ライティング・表現力",
-    color: "#D97706",
-    desc: "毎日3文でも英語で日記を書く習慣。自分の言いたいことを英語に変換する力が急速に伸びる。",
-    steps: [
-      "① 今日あったことを3〜5文で書く（難しく考えない）",
-      "② 知らない表現は辞書で調べてメモ",
-      "③ 同じ表現を翌日の会話でも使ってみる",
-      "④ ChatGPT や AI に添削してもらうと効果UP"
-    ],
-    tips: ["完璧な文法より「書き続けること」が大事", "日記のテーマは「今日食べたもの」「見たTV」など身近なことでOK", "書いた英文を声に出して読む習慣もつけると◎"],
-    level: "★★☆",
-    time: "5〜15分/日"
-  },
-  {
-    id: "conversation",
-    icon: "💬",
-    title: "オンライン英会話",
-    tag: "スピーキング・実践",
-    color: "#0891B2",
-    desc: "ネイティブや講師と実際に英語で話す練習。インプットした知識を実際に使うことで「使える英語」に変わる。",
-    steps: [
-      "① 低価格サービスから始める（Cambly, DMM英会話など）",
-      "② 1回25分から週2〜3回がちょうど良い",
-      "③ 授業前に「今日話したいテーマ」を準備する",
-      "④ 間違えることを恐れず話し続ける！"
-    ],
-    tips: ["最初はフィリピン人講師（コスト低め）でOK。慣れたらネイティブ", "授業後に新しく出てきた表現をノートにまとめる", "シャドーイングと組み合わせると相乗効果あり"],
-    level: "★★★",
-    time: "25〜50分/回"
-  }
-];
-
-function StudyTipsSection({ onBack }) {
-  const [selected, setSelected] = useState(null);
-  const [openSteps, setOpenSteps] = useState({});
-  const toggleSteps = (id) => setOpenSteps(p => ({ ...p, [id]: !p[id] }));
-
-  if (selected) {
-    const m = STUDY_METHODS.find(x => x.id === selected);
-    return /*#__PURE__*/React.createElement("div", null,
-      /*#__PURE__*/React.createElement("button", { className: "back", onClick: () => setSelected(null) }, "\u2190 \u52d5\u6cd5\u4e00\u89a7"),
-      /*#__PURE__*/React.createElement("div", { style: { background: `linear-gradient(135deg,${m.color}dd,${m.color}88)`, borderRadius: 14, padding: "16px", marginBottom: 16, color: "white" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 32, marginBottom: 6 } }, m.icon),
-        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 20, fontWeight: 900, marginBottom: 4 } }, m.title),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, background: "rgba(255,255,255,0.25)", borderRadius: 12, padding: "3px 10px", display: "inline-block", marginBottom: 8 } }, m.tag),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, lineHeight: 1.7, opacity: 0.95 } }, m.desc),
-        /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 12, marginTop: 10, fontSize: 11 } },
-          /*#__PURE__*/React.createElement("span", null, "\u96e3\u6613\u5ea6 " + m.level),
-          /*#__PURE__*/React.createElement("span", null, "\u23f0 " + m.time)
-        )
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { background: "white", borderRadius: 12, padding: 16, marginBottom: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "#1f2937", marginBottom: 12 } }, "\ud83d\udcdd \u5b9f\u8df5\u624b\u9806"),
-        m.steps.map((s, i) => /*#__PURE__*/React.createElement("div", { key: i,
-          style: { display: "flex", gap: 10, marginBottom: 10, padding: "8px 10px", background: "#f9fafb", borderRadius: 8, fontSize: 13, color: "#374151", lineHeight: 1.6 }
-        }, s))
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { background: "white", borderRadius: 12, padding: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" } },
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "#1f2937", marginBottom: 12 } }, "\u2728 \u5b9f\u8df5\u3059\u308b\u3068\u304d\u306e\u30b3\u30c4"),
-        m.tips.map((t, i) => /*#__PURE__*/React.createElement("div", { key: i,
-          style: { display: "flex", gap: 8, marginBottom: 8, fontSize: 13, color: "#374151", lineHeight: 1.6 }
-        },
-          /*#__PURE__*/React.createElement("span", { style: { color: m.color, fontWeight: 700, flexShrink: 0 } }, "\u2713"),
-          t
-        ))
-      )
-    );
-  }
-
-  return /*#__PURE__*/React.createElement("div", null,
-    /*#__PURE__*/React.createElement("button", { className: "back", onClick: onBack }, "\u2190 \u623b\u308b"),
-    /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "#1f2937", marginBottom: 4 } }, "\ud83c\udf93 \u82f1\u8a9e\u5b66\u7fd2\u6cd5 TIPS"),
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", marginBottom: 16 } }, "\u81ea\u5206\u306b\u5408\u3063\u305f\u5b66\u7fd2\u6cd5\u3092\u9078\u3093\u3067\u5b9f\u8df5\u3057\u3088\u3046\u3002\u6d25\u3005\u3067\u7e9a\u3051\u308b\u306e\u304c\u4e00\u756a\u306e\u8fd1\u9053\uff01"),
-    STUDY_METHODS.map(m => /*#__PURE__*/React.createElement("div", {
-      key: m.id,
-      onClick: () => setSelected(m.id),
-      style: { background: "white", borderRadius: 14, padding: "14px 16px", marginBottom: 10, boxShadow: "0 2px 8px rgba(0,0,0,0.06)", cursor: "pointer",
-        display: "flex", gap: 14, alignItems: "center", borderLeft: "4px solid " + m.color }
-    },
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 28, flexShrink: 0 } }, m.icon),
-      /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
-        /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "#1f2937", marginBottom: 3 } }, m.title),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: m.color, fontWeight: 700, marginBottom: 4 } }, m.tag),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6b7280", lineHeight: 1.5 } }, m.desc.slice(0, 50) + "…")
-      ),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#9ca3af", flexShrink: 0, textAlign: "right" } },
-        /*#__PURE__*/React.createElement("div", null, m.level),
-        /*#__PURE__*/React.createElement("div", null, m.time)
-      )
-    ))
-  );
-}
-// ===== END StudyTipsSection =====
-
 const WEAK_STOCK_KEY = "practice:weakstock";
 async function addToWeakStock(item) {
   try {
@@ -25253,16 +24771,12 @@ function App() {
     setSettings(next);
     try { localStorage.setItem("jr_settings_v2", JSON.stringify(next)); } catch(e) {}
   };
-  React.useEffect(() => {
-    try { localStorage.setItem("jr_settings_v2", JSON.stringify(settings)); } catch(e) {}
-  }, [settings]);
   const [topic, setTopic] = useState(null);
   React.useEffect(() => { applyTheme(settings.theme || "blue"); }, [settings.theme]);
   const [showAiQuiz, setShowAiQuiz] = useState(false);
   const [quizKey, setQuizKey] = useState(0);
   const [stageFilter, setStageFilter] = useState(0);
   const [practiceMode, setPracticeMode] = useState("list");
-  const [referenceSelected, setReferenceSelected] = useState(null);
   const [fixedSet, setFixedSet] = useState(null);
   const [eisStage, setEisStage] = useState(0);
   const [vocabList, setVocabList] = useState(BASE_VOCAB);
@@ -25805,18 +25319,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     id: s.id,
     label: s.label,
     color: stageColor(s.id)
-  },
-  /*#__PURE__*/React.createElement("div", {
-    style: { background: "white", borderRadius: 14, padding: "14px 16px", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", cursor: "pointer", display: "flex", gap: 14, alignItems: "center", marginTop: 10,
-      border: "2px solid #f59e0b" },
-    onClick: () => { setPracticeMode("studytips"); setTab("practice"); }
-  },
-    /*#__PURE__*/React.createElement("div", { style: { width: 42, height: 42, borderRadius: 12, background: "linear-gradient(135deg,#f59e0b,#d97706)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 } }, "    "),
-    /*#__PURE__*/React.createElement("div", null,
-      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 14, color: "#1f2937" } }, "英語学習法 TIPS"),
-      /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "シャドウイング・多読なの選び方を学ぶ")
-    )
-  )))].map(f => /*#__PURE__*/React.createElement("button", {
+  }))].map(f => /*#__PURE__*/React.createElement("button", {
     key: f.id,
     className: "sc2",
     style: stageFilter === f.id ? {
@@ -27532,9 +27035,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
   }), tab === "practice" && practiceMode === "reference" && /*#__PURE__*/React.createElement(ReferenceSection, {
     favRefs: settings.favRefs,
     onToggleFav: (id) => { const f = settings.favRefs.includes(id) ? settings.favRefs.filter(x=>x!==id) : [...settings.favRefs, id]; saveSettings({...settings, favRefs: f}); },
-    onBack: () => { setPracticeMode("list"); setReferenceSelected(null); },
-    selected: referenceSelected,
-    onSelected: setReferenceSelected
+    onBack: () => setPracticeMode("list")
   }), 
   tab === "practice" && !fixedSet && tab === "practice" && !fixedSet && practiceMode === "hints" && /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("button", { className: "back", onClick: () => setPracticeMode("list") }, "\u2190 \u623b\u308b"),
@@ -27626,9 +27127,119 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
       );
     })
   ),
-tab === "practice" && !fixedSet && practiceMode === "studytips" && /*#__PURE__*/React.createElement(StudyTipsSection, {
-    onBack: () => setPracticeMode("list")
-  }), tab === "practice" && !fixedSet && practiceMode === "phonetics" && /*#__PURE__*/React.createElement(PhoneticsSection, { onBack: () => setPracticeMode("list") })),tab === "ai" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+tab === "practice" && !fixedSet && practiceMode === "phonetics" && /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", {
+      className: "back",
+      onClick: () => setPracticeMode("list")
+    }, "\u2190 \u623b\u308b"),
+    /*#__PURE__*/React.createElement("div", { style: { marginBottom: 16 } },
+      /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 20, fontWeight: 800, color: "#111827", marginBottom: 4 } }, "\ud83d\udd08 \u767a\u97f3\u8a18\u53f7\u8868"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "#6B7280" } }, "IPA\uff08\u56fd\u969b\u97f3\u58f0\u8a18\u53f7\uff09\u306e\u4e00\u89a7\u3002\u30af\u30ea\u30c3\u30af\u3067\u767a\u97f3\u3092\u78ba\u8a8d\u3067\u304d\u307e\u3059\u3002")
+    ),
+    [
+      {
+        label: "\u6bcd\u97f3 (Vowels)",
+        color: "#3478F6",
+        items: [
+          { sym: "i\u02d0", ex: "see, feet, tree", ja: "\u30a4\u30fc\uff08\u9577\uff09" },
+          { sym: "\u026a", ex: "sit, fish, big", ja: "\u30a4\uff08\u77ed\uff09" },
+          { sym: "e", ex: "bed, get, red", ja: "\u30a8" },
+          { sym: "\u00e6", ex: "cat, map, had", ja: "\u30a2\uff08\u5e73\u3089\uff09" },
+          { sym: "\u0251\u02d0", ex: "car, father, start", ja: "\u30a2\u30fc\uff08\u9577\uff09" },
+          { sym: "\u0252", ex: "top, hot, box", ja: "\u30aa\uff08\u77ed\uff09" },
+          { sym: "\u0254\u02d0", ex: "saw, ball, door", ja: "\u30aa\u30fc\uff08\u9577\uff09" },
+          { sym: "\u028a", ex: "book, foot, good", ja: "\u30a6\uff08\u77ed\uff09" },
+          { sym: "u\u02d0", ex: "too, food, blue", ja: "\u30a6\u30fc\uff08\u9577\uff09" },
+          { sym: "\u028c", ex: "cup, bus, love", ja: "\u30a2\uff08\u4e2d\u5171\uff09" },
+          { sym: "\u025c\u02d0", ex: "bird, word, her", ja: "\u30a2\u30fc\uff08\u30ea\u30fc\uff09" },
+          { sym: "\u0259", ex: "about, teacher", ja: "\u30a2\uff08\u5f31\uff09schwa" },
+        ]
+      },
+      {
+        label: "\u4e21\u5909\u6bcd\u97f3 (Diphthongs)",
+        color: "#7C3AED",
+        items: [
+          { sym: "e\u026a", ex: "day, make, rain", ja: "\u30a8\u30a4" },
+          { sym: "\u0252\u026a", ex: "my, time, night", ja: "\u30a2\u30a4" },
+          { sym: "\u0254\u026a", ex: "boy, coin, voice", ja: "\u30aa\u30a4" },
+          { sym: "\u0259\u028a", ex: "go, home, road", ja: "\u30a2\u30a6" },
+          { sym: "a\u028a", ex: "now, house, out", ja: "\u30a2\u30a6\uff08\u5e83\uff09" },
+          { sym: "\u026a\u0259", ex: "here, near, ear", ja: "\u30a4\u30a2" },
+          { sym: "e\u0259", ex: "there, care, air", ja: "\u30a8\u30a2" },
+          { sym: "\u028a\u0259", ex: "tour, pure, cure", ja: "\u30a6\u30a2" },
+        ]
+      },
+      {
+        label: "\u5b50\u97f3 (Consonants)",
+        color: "#059669",
+        items: [
+          { sym: "p", ex: "pen, copy, happen", ja: "\u30d1\u884c\uff08\u7121\u58f0\uff09" },
+          { sym: "b", ex: "back, baby, job", ja: "\u30d0\u884c\uff08\u6709\u58f0\uff09" },
+          { sym: "t", ex: "tea, tight, button", ja: "\u30bf\u884c\uff08\u7121\u58f0\uff09" },
+          { sym: "d", ex: "day, ladder, odd", ja: "\u30c0\u884c\uff08\u6709\u58f0\uff09" },
+          { sym: "k", ex: "key, clock, school", ja: "\u30ab\u884c\uff08\u7121\u58f0\uff09" },
+          { sym: "g", ex: "get, giggle, ghost", ja: "\u30ac\u884c\uff08\u6709\u58f0\uff09" },
+          { sym: "f", ex: "fat, coffee, rough", ja: "\u30d5" },
+          { sym: "v", ex: "van, vivid, love", ja: "\u30f4" },
+          { sym: "\u03b8", ex: "thin, nothing, math", ja: "\u30b5\uff08\u7121\u58f0\uff09th" },
+          { sym: "\u00f0", ex: "this, other, smooth", ja: "\u30b6\uff08\u6709\u58f0\uff09th" },
+          { sym: "s", ex: "soon, sister, ice", ja: "\u30b5\u884c" },
+          { sym: "z", ex: "zero, music, roses", ja: "\u30b6\u884c" },
+          { sym: "\u0283", ex: "ship, sure, nation", ja: "\u30b7\u30e5" },
+          { sym: "\u0292", ex: "pleasure, vision", ja: "\u30b8\u30e5\uff08\u6d6e\uff09" },
+          { sym: "h", ex: "hot, whole, ahead", ja: "\u30cf\u884c" },
+          { sym: "t\u0283", ex: "church, match, chip", ja: "\u30c1" },
+          { sym: "d\u0292", ex: "judge, age, soldier", ja: "\u30b8\uff08\u7834\u88c2\uff09" },
+          { sym: "m", ex: "more, hammer, sum", ja: "\u30de\u884c" },
+          { sym: "n", ex: "nice, know, funny", ja: "\u30ca\u884c" },
+          { sym: "\u014b", ex: "ring, long, thanks", ja: "\u30f3\uff08ng\uff09" },
+          { sym: "l", ex: "light, valley, feel", ja: "\u30e9\u884c\uff08\u820c\u5074\uff09" },
+          { sym: "r", ex: "right, wrong, sorry", ja: "\u30e9\u884c\uff08\u5dfb\u304d\u820c\uff09" },
+          { sym: "j", ex: "yet, use, beauty", ja: "\u30e4\u884c" },
+          { sym: "w", ex: "wet, one, when", ja: "\u30ef\u884c" },
+        ]
+      }
+    ].map(function(group) {
+      return /*#__PURE__*/React.createElement("div", { key: group.label, style: { marginBottom: 16 } },
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: group.color, color: "white", padding: "8px 14px", borderRadius: "8px 8px 0 0", fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 700 }
+        }, group.label),
+        /*#__PURE__*/React.createElement("div", {
+          style: { background: "white", border: "1.5px solid #E5E7EB", borderTop: "none", borderRadius: "0 0 8px 8px", overflow: "hidden" }
+        },
+          group.items.map(function(item, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: item.sym,
+              onClick: function() {
+                if (typeof window !== "undefined" && window.speechSynthesis) {
+                  var u = new SpeechSynthesisUtterance(item.ex.split(",")[0].trim());
+                  u.lang = "en-US"; u.rate = 0.85;
+                  window.speechSynthesis.cancel();
+                  window.speechSynthesis.speak(u);
+                }
+              },
+              style: {
+                display: "grid", gridTemplateColumns: "48px 1fr 1fr 36px",
+                alignItems: "center", padding: "10px 14px", cursor: "pointer",
+                borderBottom: i < group.items.length - 1 ? "1px solid #F3F4F6" : "none",
+                gap: 10
+              }
+            },
+              /*#__PURE__*/React.createElement("div", {
+                style: { fontFamily: "'Montserrat',sans-serif", fontSize: 22, fontWeight: 800, color: group.color, textAlign: "center" }
+              }, "/" + item.sym + "/"),
+              /*#__PURE__*/React.createElement("div", null,
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "#374151", fontFamily: "'Montserrat',sans-serif" } }, item.ex),
+                /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#9CA3AF", marginTop: 1 } }, item.ja)
+              ),
+              /*#__PURE__*/React.createElement("div", null),
+              /*#__PURE__*/React.createElement("div", { style: { fontSize: 18, color: "#9CA3AF" } }, "\ud83d\udd0a")
+            );
+          })
+        )
+      );
+    })
+  ),tab === "ai" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       paddingBottom: 130
     }
@@ -27758,26 +27369,29 @@ tab === "practice" && !fixedSet && practiceMode === "studytips" && /*#__PURE__*/
     /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.exampleSize, color: "var(--text-secondary)" } }, "Can you help me carry this bag?")
   ),
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "        単語文字色"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u5358\u8a9e\u6587\u5b57\u8272"),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" } },
       ["#1e3a8a","#1f2937","#7c3aed","#0f766e","#b45309","#dc2626","#0369a1","#166534","#000000"].map(function(c){
         return /*#__PURE__*/React.createElement("div", {
-          key: c, onClick: () => saveSettings({ ...settings, wordColor: c }),
+          key: c,
+          onClick: () => saveSettings({ ...settings, wordColor: c }),
           style: { width: 36, height: 36, borderRadius: "50%", background: c, cursor: "pointer",
             border: settings.wordColor===c ? "3px solid #111827" : "3px solid transparent",
             boxShadow: settings.wordColor===c ? "0 0 0 2px white, 0 0 0 4px "+c : "none",
             transition: "all 0.15s", flexShrink: 0 }
         });
       }),
-      /*#__PURE__*/React.createElement("label", { style: { width: 36, height: 36, borderRadius: "50%", border: "2px dashed #9CA3AF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, color: "#9CA3AF" }, title: "カスタムカラー" },
-        /*#__PURE__*/React.createElement("input", { type: "color", value: settings.wordColor || "#1e3a8a",
+      /*#__PURE__*/React.createElement("label", { style: { width: 36, height: 36, borderRadius: "50%", border: "2px dashed #9CA3AF", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, color: "#9CA3AF" }, title: "\u30ab\u30b9\u30bf\u30e0\u30ab\u30e9\u30fc" },
+        /*#__PURE__*/React.createElement("input", {
+          type: "color", value: settings.wordColor || "#1e3a8a",
           onChange: (e) => saveSettings({ ...settings, wordColor: e.target.value }),
-          style: { opacity: 0, position: "absolute", width: 0, height: 0 } }),
-        "    "
+          style: { opacity: 0, position: "absolute", width: 0, height: 0 }
+        }),
+        "\ud83c\udfa8"
       )
     )
   ),
-  /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
+/*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       単語フォント"),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
       WORD_FONTS.map(function(f) {
@@ -27862,8 +27476,7 @@ tab === "practice" && !fixedSet && practiceMode === "studytips" && /*#__PURE__*/
       onClick: () => {
         if (topic) { setTopic(null); setShowAiQuiz(false); }
         else if (fixedSet) { setFixedSet(null); }
-        else if (practiceMode === "reference" && referenceSelected) { setReferenceSelected(null); }
-        else if (practiceMode !== "list" && tab === "practice") { setPracticeMode("list"); setReferenceSelected(null); }
+        else if (practiceMode !== "list" && tab === "practice") { setPracticeMode("list"); }
         else { setTab("home"); }
       }
     }, /*#__PURE__*/React.createElement("svg", { width:20, height:20, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"2.2", strokeLinecap:"round", strokeLinejoin:"round" },
@@ -27897,8 +27510,8 @@ tab === "practice" && !fixedSet && practiceMode === "studytips" && /*#__PURE__*/
     label: "単語"
   }, {
     id: "practice",
-    icon: "    ",
-    label: "参考表"
+    icon: "✏️",
+    label: "練習"
   }, {
     id: "ai",
     icon: "🤖",
@@ -27910,7 +27523,6 @@ tab === "practice" && !fixedSet && practiceMode === "studytips" && /*#__PURE__*/
       setTopic(null);
       setShowAiQuiz(false);
       setQuizKey(0);
-      if (n.id === "practice") { setPracticeMode("reference"); setReferenceSelected(null); }
       if (n.id !== "practice") setFixedSet(null);
     },
     style: {
