@@ -11708,7 +11708,7 @@ const WORD_FONTS = [{
 }];
 async function saveSettings(s) {
   try {
-    localStorage.setItem("app:settings", JSON.stringify(s));
+    localStorage.setItem("jr_settings_v2", JSON.stringify(s));
   } catch (e) {}
 }
 const VOCAB_MEM_KEY = "vocab:memory";
@@ -19933,312 +19933,113 @@ let REFERENCE_TABLES = [{
   notes: ["位置：be動詞の後（She is always happy.）、一般動詞の前（She always smiles.）", "never・seldom・rarely は否定の意味があるので don't と重ねて使わない。", "sometimes は文頭・文末でも使える（比較的自由）。"]
 }];
 // IRREGULAR_VERBS定義後に追加（前方参照エラー回避）
-const IRREGULAR_VERBS = [{
-  base: "be",
-  past: "was/were",
-  pp: "been",
-  meaning: "〜である"
-}, {
-  base: "become",
-  past: "became",
-  pp: "become",
-  meaning: "〜になる"
-}, {
-  base: "begin",
-  past: "began",
-  pp: "begun",
-  meaning: "始める"
-}, {
-  base: "break",
-  past: "broke",
-  pp: "broken",
-  meaning: "壊す"
-}, {
-  base: "bring",
-  past: "brought",
-  pp: "brought",
-  meaning: "持ってくる"
-}, {
-  base: "build",
-  past: "built",
-  pp: "built",
-  meaning: "建てる"
-}, {
-  base: "buy",
-  past: "bought",
-  pp: "bought",
-  meaning: "買う"
-}, {
-  base: "catch",
-  past: "caught",
-  pp: "caught",
-  meaning: "捕まえる"
-}, {
-  base: "choose",
-  past: "chose",
-  pp: "chosen",
-  meaning: "選ぶ"
-}, {
-  base: "come",
-  past: "came",
-  pp: "come",
-  meaning: "来る"
-}, {
-  base: "cut",
-  past: "cut",
-  pp: "cut",
-  meaning: "切る"
-}, {
-  base: "do",
-  past: "did",
-  pp: "done",
-  meaning: "する"
-}, {
-  base: "draw",
-  past: "drew",
-  pp: "drawn",
-  meaning: "描く"
-}, {
-  base: "drink",
-  past: "drank",
-  pp: "drunk",
-  meaning: "飲む"
-}, {
-  base: "drive",
-  past: "drove",
-  pp: "driven",
-  meaning: "運転する"
-}, {
-  base: "eat",
-  past: "ate",
-  pp: "eaten",
-  meaning: "食べる"
-}, {
-  base: "fall",
-  past: "fell",
-  pp: "fallen",
-  meaning: "落ちる"
-}, {
-  base: "feel",
-  past: "felt",
-  pp: "felt",
-  meaning: "感じる"
-}, {
-  base: "find",
-  past: "found",
-  pp: "found",
-  meaning: "見つける"
-}, {
-  base: "fly",
-  past: "flew",
-  pp: "flown",
-  meaning: "飛ぶ"
-}, {
-  base: "forget",
-  past: "forgot",
-  pp: "forgotten",
-  meaning: "忘れる"
-}, {
-  base: "get",
-  past: "got",
-  pp: "got/gotten",
-  meaning: "得る"
-}, {
-  base: "give",
-  past: "gave",
-  pp: "given",
-  meaning: "与える"
-}, {
-  base: "go",
-  past: "went",
-  pp: "gone",
-  meaning: "行く"
-}, {
-  base: "grow",
-  past: "grew",
-  pp: "grown",
-  meaning: "育つ"
-}, {
-  base: "have",
-  past: "had",
-  pp: "had",
-  meaning: "持つ"
-}, {
-  base: "hear",
-  past: "heard",
-  pp: "heard",
-  meaning: "聞こえる"
-}, {
-  base: "hold",
-  past: "held",
-  pp: "held",
-  meaning: "持つ・開催する"
-}, {
-  base: "keep",
-  past: "kept",
-  pp: "kept",
-  meaning: "保つ"
-}, {
-  base: "know",
-  past: "knew",
-  pp: "known",
-  meaning: "知っている"
-}, {
-  base: "leave",
-  past: "left",
-  pp: "left",
-  meaning: "去る・離れる"
-}, {
-  base: "lend",
-  past: "lent",
-  pp: "lent",
-  meaning: "貸す"
-}, {
-  base: "lose",
-  past: "lost",
-  pp: "lost",
-  meaning: "失う・負ける"
-}, {
-  base: "make",
-  past: "made",
-  pp: "made",
-  meaning: "作る"
-}, {
-  base: "mean",
-  past: "meant",
-  pp: "meant",
-  meaning: "意味する"
-}, {
-  base: "meet",
-  past: "met",
-  pp: "met",
-  meaning: "会う"
-}, {
-  base: "put",
-  past: "put",
-  pp: "put",
-  meaning: "置く"
-}, {
-  base: "read",
-  past: "read",
-  pp: "read",
-  meaning: "読む（過去はred発音）"
-}, {
-  base: "ride",
-  past: "rode",
-  pp: "ridden",
-  meaning: "乗る"
-}, {
-  base: "run",
-  past: "ran",
-  pp: "run",
-  meaning: "走る"
-}, {
-  base: "say",
-  past: "said",
-  pp: "said",
-  meaning: "言う"
-}, {
-  base: "see",
-  past: "saw",
-  pp: "seen",
-  meaning: "見る"
-}, {
-  base: "sell",
-  past: "sold",
-  pp: "sold",
-  meaning: "売る"
-}, {
-  base: "send",
-  past: "sent",
-  pp: "sent",
-  meaning: "送る"
-}, {
-  base: "sing",
-  past: "sang",
-  pp: "sung",
-  meaning: "歌う"
-}, {
-  base: "sit",
-  past: "sat",
-  pp: "sat",
-  meaning: "座る"
-}, {
-  base: "sleep",
-  past: "slept",
-  pp: "slept",
-  meaning: "眠る"
-}, {
-  base: "speak",
-  past: "spoke",
-  pp: "spoken",
-  meaning: "話す"
-}, {
-  base: "spend",
-  past: "spent",
-  pp: "spent",
-  meaning: "過ごす・使う"
-}, {
-  base: "stand",
-  past: "stood",
-  pp: "stood",
-  meaning: "立つ"
-}, {
-  base: "swim",
-  past: "swam",
-  pp: "swum",
-  meaning: "泳ぐ"
-}, {
-  base: "take",
-  past: "took",
-  pp: "taken",
-  meaning: "取る"
-}, {
-  base: "teach",
-  past: "taught",
-  pp: "taught",
-  meaning: "教える"
-}, {
-  base: "tell",
-  past: "told",
-  pp: "told",
-  meaning: "伝える"
-}, {
-  base: "think",
-  past: "thought",
-  pp: "thought",
-  meaning: "思う"
-}, {
-  base: "throw",
-  past: "threw",
-  pp: "thrown",
-  meaning: "投げる"
-}, {
-  base: "understand",
-  past: "understood",
-  pp: "understood",
-  meaning: "理解する"
-}, {
-  base: "wake",
-  past: "woke",
-  pp: "woken",
-  meaning: "目覚める"
-}, {
-  base: "wear",
-  past: "wore",
-  pp: "worn",
-  meaning: "着る"
-}, {
-  base: "win",
-  past: "won",
-  pp: "won",
-  meaning: "勝つ"
-}, {
-  base: "write",
-  past: "wrote",
-  pp: "written",
-  meaning: "書く"
-}];
+const IRREGULAR_VERBS = [
+  // ===== A-A-A型 =====
+  { type:"AAA", base:"bet",       past:"bet",       pp:"bet",        meaning:"賭ける" },
+  { type:"AAA", base:"bid",       past:"bid",       pp:"bid",        meaning:"入札する" },
+  { type:"AAA", base:"broadcast", past:"broadcast", pp:"broadcast",  meaning:"放送する" },
+  { type:"AAA", base:"burst",     past:"burst",     pp:"burst",      meaning:"破裂する" },
+  { type:"AAA", base:"cost",      past:"cost",      pp:"cost",       meaning:"費用がかかる" },
+  { type:"AAA", base:"cut",       past:"cut",       pp:"cut",        meaning:"切る" },
+  { type:"AAA", base:"hit",       past:"hit",       pp:"hit",        meaning:"打つ" },
+  { type:"AAA", base:"hurt",      past:"hurt",      pp:"hurt",       meaning:"傷つける" },
+  { type:"AAA", base:"let",       past:"let",       pp:"let",        meaning:"させる" },
+  { type:"AAA", base:"put",       past:"put",       pp:"put",        meaning:"置く" },
+  { type:"AAA", base:"quit",      past:"quit",      pp:"quit",       meaning:"やめる" },
+  { type:"AAA", base:"read",      past:"read",      pp:"read",       meaning:"読む" },
+  { type:"AAA", base:"set",       past:"set",       pp:"set",        meaning:"設定する" },
+  { type:"AAA", base:"shut",      past:"shut",      pp:"shut",       meaning:"閉める" },
+  { type:"AAA", base:"split",     past:"split",     pp:"split",      meaning:"分裂する" },
+  { type:"AAA", base:"spread",    past:"spread",    pp:"spread",     meaning:"広げる" },
+  // ===== A-B-B型 =====
+  { type:"ABB", base:"bring",     past:"brought",   pp:"brought",    meaning:"持ってくる" },
+  { type:"ABB", base:"build",     past:"built",     pp:"built",      meaning:"建てる" },
+  { type:"ABB", base:"buy",       past:"bought",    pp:"bought",     meaning:"買う" },
+  { type:"ABB", base:"catch",     past:"caught",    pp:"caught",     meaning:"捕まえる" },
+  { type:"ABB", base:"dig",       past:"dug",       pp:"dug",        meaning:"掘る" },
+  { type:"ABB", base:"feel",      past:"felt",      pp:"felt",       meaning:"感じる" },
+  { type:"ABB", base:"fight",     past:"fought",    pp:"fought",     meaning:"戦う" },
+  { type:"ABB", base:"find",      past:"found",     pp:"found",      meaning:"見つける" },
+  { type:"ABB", base:"get",       past:"got",       pp:"got/gotten", meaning:"得る" },
+  { type:"ABB", base:"hang",      past:"hung",      pp:"hung",       meaning:"吊るす" },
+  { type:"ABB", base:"have",      past:"had",       pp:"had",        meaning:"持つ" },
+  { type:"ABB", base:"hear",      past:"heard",     pp:"heard",      meaning:"聞く" },
+  { type:"ABB", base:"hold",      past:"held",      pp:"held",       meaning:"持つ" },
+  { type:"ABB", base:"keep",      past:"kept",      pp:"kept",       meaning:"保つ" },
+  { type:"ABB", base:"lay",       past:"laid",      pp:"laid",       meaning:"横たえる" },
+  { type:"ABB", base:"lead",      past:"led",       pp:"led",        meaning:"導く" },
+  { type:"ABB", base:"leave",     past:"left",      pp:"left",       meaning:"去る・残す" },
+  { type:"ABB", base:"lend",      past:"lent",      pp:"lent",       meaning:"貸す" },
+  { type:"ABB", base:"lose",      past:"lost",      pp:"lost",       meaning:"失う" },
+  { type:"ABB", base:"make",      past:"made",      pp:"made",       meaning:"作る" },
+  { type:"ABB", base:"mean",      past:"meant",     pp:"meant",      meaning:"意味する" },
+  { type:"ABB", base:"meet",      past:"met",       pp:"met",        meaning:"会う" },
+  { type:"ABB", base:"pay",       past:"paid",      pp:"paid",       meaning:"支払う" },
+  { type:"ABB", base:"say",       past:"said",      pp:"said",       meaning:"言う" },
+  { type:"ABB", base:"sell",      past:"sold",      pp:"sold",       meaning:"売る" },
+  { type:"ABB", base:"send",      past:"sent",      pp:"sent",       meaning:"送る" },
+  { type:"ABB", base:"shine",     past:"shone",     pp:"shone",      meaning:"輝く" },
+  { type:"ABB", base:"shoot",     past:"shot",      pp:"shot",       meaning:"撃つ" },
+  { type:"ABB", base:"sit",       past:"sat",       pp:"sat",        meaning:"座る" },
+  { type:"ABB", base:"sleep",     past:"slept",     pp:"slept",      meaning:"眠る" },
+  { type:"ABB", base:"slide",     past:"slid",      pp:"slid",       meaning:"滑る" },
+  { type:"ABB", base:"spend",     past:"spent",     pp:"spent",      meaning:"費やす" },
+  { type:"ABB", base:"stand",     past:"stood",     pp:"stood",      meaning:"立つ" },
+  { type:"ABB", base:"stick",     past:"stuck",     pp:"stuck",      meaning:"くっつける" },
+  { type:"ABB", base:"strike",    past:"struck",    pp:"struck",     meaning:"打つ" },
+  { type:"ABB", base:"sweep",     past:"swept",     pp:"swept",      meaning:"掃く" },
+  { type:"ABB", base:"teach",     past:"taught",    pp:"taught",     meaning:"教える" },
+  { type:"ABB", base:"tell",      past:"told",      pp:"told",       meaning:"話す" },
+  { type:"ABB", base:"think",     past:"thought",   pp:"thought",    meaning:"考える" },
+  { type:"ABB", base:"understand",past:"understood",pp:"understood", meaning:"理解する" },
+  { type:"ABB", base:"win",       past:"won",       pp:"won",        meaning:"勝つ" },
+  // ===== A-B-C型 =====
+  { type:"ABC", base:"arise",     past:"arose",     pp:"arisen",     meaning:"生じる" },
+  { type:"ABC", base:"awake",     past:"awoke",     pp:"awoken",     meaning:"目を覚ます" },
+  { type:"ABC", base:"begin",     past:"began",     pp:"begun",      meaning:"始める" },
+  { type:"ABC", base:"blow",      past:"blew",      pp:"blown",      meaning:"吹く" },
+  { type:"ABC", base:"break",     past:"broke",     pp:"broken",     meaning:"壊す" },
+  { type:"ABC", base:"choose",    past:"chose",     pp:"chosen",     meaning:"選ぶ" },
+  { type:"ABC", base:"do",        past:"did",       pp:"done",       meaning:"する" },
+  { type:"ABC", base:"draw",      past:"drew",      pp:"drawn",      meaning:"描く・引く" },
+  { type:"ABC", base:"drink",     past:"drank",     pp:"drunk",      meaning:"飲む" },
+  { type:"ABC", base:"drive",     past:"drove",     pp:"driven",     meaning:"運転する" },
+  { type:"ABC", base:"eat",       past:"ate",       pp:"eaten",      meaning:"食べる" },
+  { type:"ABC", base:"fall",      past:"fell",      pp:"fallen",     meaning:"落ちる" },
+  { type:"ABC", base:"fly",       past:"flew",      pp:"flown",      meaning:"飛ぶ" },
+  { type:"ABC", base:"forbid",    past:"forbade",   pp:"forbidden",  meaning:"禁じる" },
+  { type:"ABC", base:"forget",    past:"forgot",    pp:"forgotten",  meaning:"忘れる" },
+  { type:"ABC", base:"forgive",   past:"forgave",   pp:"forgiven",   meaning:"許す" },
+  { type:"ABC", base:"freeze",    past:"froze",     pp:"frozen",     meaning:"凍る" },
+  { type:"ABC", base:"give",      past:"gave",      pp:"given",      meaning:"与える" },
+  { type:"ABC", base:"go",        past:"went",      pp:"gone",       meaning:"行く" },
+  { type:"ABC", base:"grow",      past:"grew",      pp:"grown",      meaning:"成長する" },
+  { type:"ABC", base:"know",      past:"knew",      pp:"known",      meaning:"知る" },
+  { type:"ABC", base:"lie",       past:"lay",       pp:"lain",       meaning:"横たわる" },
+  { type:"ABC", base:"ride",      past:"rode",      pp:"ridden",     meaning:"乗る" },
+  { type:"ABC", base:"ring",      past:"rang",      pp:"rung",       meaning:"鳴る" },
+  { type:"ABC", base:"rise",      past:"rose",      pp:"risen",      meaning:"上がる" },
+  { type:"ABC", base:"see",       past:"saw",       pp:"seen",       meaning:"見る" },
+  { type:"ABC", base:"shake",     past:"shook",     pp:"shaken",     meaning:"振る" },
+  { type:"ABC", base:"sing",      past:"sang",      pp:"sung",       meaning:"歌う" },
+  { type:"ABC", base:"sink",      past:"sank",      pp:"sunk",       meaning:"沈む" },
+  { type:"ABC", base:"speak",     past:"spoke",     pp:"spoken",     meaning:"話す" },
+  { type:"ABC", base:"spring",    past:"sprang",    pp:"sprung",     meaning:"跳ぶ" },
+  { type:"ABC", base:"steal",     past:"stole",     pp:"stolen",     meaning:"盗む" },
+  { type:"ABC", base:"swear",     past:"swore",     pp:"sworn",      meaning:"誓う" },
+  { type:"ABC", base:"swim",      past:"swam",      pp:"swum",       meaning:"泳ぐ" },
+  { type:"ABC", base:"take",      past:"took",      pp:"taken",      meaning:"取る" },
+  { type:"ABC", base:"tear",      past:"tore",      pp:"torn",       meaning:"破る" },
+  { type:"ABC", base:"throw",     past:"threw",     pp:"thrown",     meaning:"投げる" },
+  { type:"ABC", base:"wake",      past:"woke",      pp:"woken",      meaning:"目を覚ます" },
+  { type:"ABC", base:"wear",      past:"wore",      pp:"worn",       meaning:"着る" },
+  { type:"ABC", base:"weave",     past:"wove",      pp:"woven",      meaning:"織る" },
+  { type:"ABC", base:"write",     past:"wrote",     pp:"written",    meaning:"書く" },
+  // ===== 特殊型 =====
+  { type:"special", base:"be",   past:"was/were",  pp:"been",       meaning:"〜である" },
+  { type:"special", base:"come", past:"came",      pp:"come",       meaning:"来る" },
+  { type:"special", base:"run",  past:"ran",       pp:"run",        meaning:"走る" },
+];
 
 // IRREGULAR_VERBSが定義された後に参照表に追加
 REFERENCE_TABLES.push({
@@ -20429,182 +20230,234 @@ REFERENCE_TABLES.push({
 
 
 // ===== 重要熟語リスト =====
-const IDIOMS = [{
-  phrase: "be good at",
-  meaning: "〜が得意だ",
-  ex: "She is good at swimming.",
-  exja: "彼女は水泳が得意です。"
-}, {
-  phrase: "be interested in",
-  meaning: "〜に興味がある",
-  ex: "I am interested in music.",
-  exja: "音楽に興味があります。"
-}, {
-  phrase: "be surprised at",
-  meaning: "〜に驚く",
-  ex: "I was surprised at the news.",
-  exja: "そのニュースに驚きました。"
-}, {
-  phrase: "be known for",
-  meaning: "〜で有名だ",
-  ex: "Kyoto is known for its temples.",
-  exja: "京都はお寺で有名です。"
-}, {
-  phrase: "be late for",
-  meaning: "〜に遅刻する",
-  ex: "Don't be late for school.",
-  exja: "学校に遅刻しないで。"
-}, {
-  phrase: "be afraid of",
-  meaning: "〜を恐れる",
-  ex: "She is afraid of dogs.",
-  exja: "彼女は犬を怖がっています。"
-}, {
-  phrase: "look forward to",
-  meaning: "〜を楽しみにする",
-  ex: "I look forward to seeing you.",
-  exja: "あなたに会うのを楽しみにしています。"
-}, {
-  phrase: "get up",
-  meaning: "起きる",
-  ex: "I get up at 6 every day.",
-  exja: "毎日6時に起きます。"
-}, {
-  phrase: "get on",
-  meaning: "（乗り物に）乗る",
-  ex: "Get on the bus.",
-  exja: "バスに乗って。"
-}, {
-  phrase: "get off",
-  meaning: "（乗り物を）降りる",
-  ex: "Get off at the next stop.",
-  exja: "次の停留所で降りて。"
-}, {
-  phrase: "turn on",
-  meaning: "（電源を）つける",
-  ex: "Turn on the light.",
-  exja: "電気をつけてください。"
-}, {
-  phrase: "turn off",
-  meaning: "（電源を）消す",
-  ex: "Turn off the TV.",
-  exja: "テレビを消してください。"
-}, {
-  phrase: "put on",
-  meaning: "（服を）着る",
-  ex: "Put on your coat.",
-  exja: "コートを着てください。"
-}, {
-  phrase: "take off",
-  meaning: "（服を）脱ぐ・離陸する",
-  ex: "Take off your shoes.",
-  exja: "靴を脱いでください。"
-}, {
-  phrase: "give up",
-  meaning: "諦める",
-  ex: "Don't give up!",
-  exja: "諦めないで！"
-}, {
-  phrase: "look up",
-  meaning: "（辞書で）調べる",
-  ex: "Look up the word in a dictionary.",
-  exja: "辞書でその単語を調べて。"
-}, {
-  phrase: "look after",
-  meaning: "〜の世話をする",
-  ex: "She looks after her brother.",
-  exja: "彼女は弟の世話をしています。"
-}, {
-  phrase: "take care of",
-  meaning: "〜の世話をする・注意する",
-  ex: "Take care of yourself.",
-  exja: "お体に気をつけてください。"
-}, {
-  phrase: "talk about",
-  meaning: "〜について話す",
-  ex: "Let's talk about the plan.",
-  exja: "計画について話しましょう。"
-}, {
-  phrase: "think about",
-  meaning: "〜について考える",
-  ex: "Think about your future.",
-  exja: "自分の将来について考えて。"
-}, {
-  phrase: "agree with",
-  meaning: "〜に同意する",
-  ex: "I agree with you.",
-  exja: "あなたに同意します。"
-}, {
-  phrase: "arrive at/in",
-  meaning: "〜に着く",
-  ex: "We arrived at the station.",
-  exja: "私たちは駅に着きました。"
-}, {
-  phrase: "ask for",
-  meaning: "〜を求める・頼む",
-  ex: "She asked for help.",
-  exja: "彼女は助けを求めました。"
-}, {
-  phrase: "wait for",
-  meaning: "〜を待つ",
-  ex: "I'll wait for you here.",
-  exja: "ここであなたを待ちます。"
-}, {
-  phrase: "listen to",
-  meaning: "〜を聴く",
-  ex: "I listen to music every day.",
-  exja: "毎日音楽を聴きます。"
-}, {
-  phrase: "belong to",
-  meaning: "〜に属する",
-  ex: "She belongs to the tennis club.",
-  exja: "彼女はテニス部に所属しています。"
-}, {
-  phrase: "a lot of",
-  meaning: "たくさんの",
-  ex: "I have a lot of homework.",
-  exja: "宿題がたくさんあります。"
-}, {
-  phrase: "at first",
-  meaning: "最初は",
-  ex: "At first, it was difficult.",
-  exja: "最初は難しかった。"
-}, {
-  phrase: "at last",
-  meaning: "ついに",
-  ex: "At last, we finished.",
-  exja: "ついに終わりました。"
-}, {
-  phrase: "for example",
-  meaning: "例えば",
-  ex: "I like sports, for example, tennis.",
-  exja: "スポーツ、例えばテニスが好きです。"
-}, {
-  phrase: "of course",
-  meaning: "もちろん",
-  ex: "Of course I can help.",
-  exja: "もちろん手伝えますよ。"
-}, {
-  phrase: "in fact",
-  meaning: "実は・実際に",
-  ex: "In fact, I was wrong.",
-  exja: "実は私が間違っていました。"
-}, {
-  phrase: "at the same time",
-  meaning: "同時に",
-  ex: "We arrived at the same time.",
-  exja: "私たちは同時に着きました。"
-}, {
-  phrase: "each other",
-  meaning: "お互いに",
-  ex: "We helped each other.",
-  exja: "私たちはお互いに助け合いました。"
-}, {
-  phrase: "as ... as",
-  meaning: "〜と同じくらい",
-  ex: "She is as tall as me.",
-  exja: "彼女は私と同じくらいの背丈です。"
-}];
+const IDIOMS = [
+/* ===== be + 形容詞/過去分詞 ===== */
+{phrase:"be good at",          meaning:"〜が得意だ",         ex:"She is good at singing.",          exja:"彼女は歌が得意です。"},
+{phrase:"be bad at",           meaning:"〜が苦手だ",         ex:"I'm bad at math.",                 exja:"数学が苦手です。"},
+{phrase:"be interested in",    meaning:"〜に興味がある",      ex:"He is interested in science.",     exja:"彼は科学に興味があります。"},
+{phrase:"be surprised at",     meaning:"〜に驚く",           ex:"I was surprised at the news.",     exja:"そのニュースに驚きました。"},
+{phrase:"be known for",        meaning:"〜で有名だ",         ex:"Kyoto is known for temples.",      exja:"京都は寺院で有名です。"},
+{phrase:"be late for",         meaning:"〜に遅刻する",       ex:"Don't be late for school.",        exja:"学校に遅刻しないで。"},
+{phrase:"be afraid of",        meaning:"〜を怖がる",         ex:"She is afraid of dogs.",           exja:"彼女は犬が怖いです。"},
+{phrase:"be fond of",          meaning:"〜が好きだ",         ex:"I'm fond of jazz music.",          exja:"ジャズが好きです。"},
+{phrase:"be proud of",         meaning:"〜を誇りに思う",      ex:"She is proud of her son.",         exja:"息子を誇りに思っています。"},
+{phrase:"be tired of",         meaning:"〜に飽きる",         ex:"I'm tired of waiting.",            exja:"待つのに飽きました。"},
+{phrase:"be full of",          meaning:"〜でいっぱいだ",      ex:"The box is full of books.",        exja:"箱は本でいっぱいです。"},
+{phrase:"be made of",          meaning:"〜でできている（素材）",ex:"This table is made of wood.",    exja:"このテーブルは木でできています。"},
+{phrase:"be made from",        meaning:"〜から作られる（変化）",ex:"Wine is made from grapes.",      exja:"ワインはぶどうから作られます。"},
+{phrase:"be famous for",       meaning:"〜で有名だ",         ex:"He is famous for his speed.",      exja:"彼はスピードで有名です。"},
+{phrase:"be able to",          meaning:"〜できる",           ex:"She is able to speak French.",     exja:"彼女はフランス語が話せます。"},
+{phrase:"be willing to",       meaning:"〜する意志がある",    ex:"I'm willing to help.",             exja:"喜んで手伝います。"},
+{phrase:"be ready to",         meaning:"〜する準備ができている",ex:"Are you ready to start?",        exja:"始める準備はできていますか？"},
+{phrase:"be supposed to",      meaning:"〜することになっている",ex:"You're supposed to call first.", exja:"最初に電話することになっています。"},
+{phrase:"be used to",          meaning:"〜に慣れている",      ex:"I'm used to waking up early.",    exja:"早起きに慣れています。"},
+{phrase:"be excited about",    meaning:"〜にわくわくしている", ex:"She is excited about the trip.",  exja:"旅行にわくわくしています。"},
+/* ===== get系 ===== */
+{phrase:"get up",              meaning:"起きる・立ち上がる",  ex:"I get up at 6 every morning.",    exja:"毎朝6時に起きます。"},
+{phrase:"get on",              meaning:"乗る",               ex:"Get on the bus quickly.",          exja:"バスに素早く乗ってください。"},
+{phrase:"get off",             meaning:"降りる",             ex:"Get off at the next stop.",        exja:"次の停留所で降りてください。"},
+{phrase:"get in",              meaning:"乗り込む・入る",      ex:"Get in the car.",                  exja:"車に乗ってください。"},
+{phrase:"get out of",          meaning:"出る・降りる",        ex:"Get out of the car here.",         exja:"ここで車を降りてください。"},
+{phrase:"get back",            meaning:"戻る・取り戻す",      ex:"I'll get back to you soon.",       exja:"すぐに連絡します。"},
+{phrase:"get along with",      meaning:"〜と仲良くやっていく", ex:"I get along well with my sister.", exja:"姉とは仲良くやっています。"},
+{phrase:"get rid of",          meaning:"〜を取り除く",        ex:"I want to get rid of bad habits.", exja:"悪い習慣を取り除きたい。"},
+{phrase:"get used to",         meaning:"〜に慣れる",          ex:"You'll get used to it.",           exja:"慣れますよ。"},
+{phrase:"get over",            meaning:"〜を乗り越える・回復する",ex:"She got over her cold quickly.", exja:"彼女は風邪から早く回復しました。"},
+{phrase:"get through",         meaning:"〜をやり遂げる・通り抜ける",ex:"We'll get through this.",    exja:"乗り越えられます。"},
+{phrase:"get together",        meaning:"集まる",             ex:"Let's get together this weekend.", exja:"今週末集まりましょう。"},
+{phrase:"get to",              meaning:"〜に到着する",        ex:"How do I get to the station?",     exja:"駅にはどう行けばいいですか？"},
+{phrase:"get in touch with",   meaning:"〜に連絡を取る",      ex:"I'll get in touch with you later.",exja:"後で連絡します。"},
+/* ===== look系 ===== */
+{phrase:"look forward to",     meaning:"〜を楽しみにしている", ex:"I look forward to seeing you.",   exja:"お会いするのを楽しみにしています。"},
+{phrase:"look up",             meaning:"調べる・見上げる",    ex:"Look up this word in a dictionary.",exja:"辞書でこの単語を調べてください。"},
+{phrase:"look after",          meaning:"〜の世話をする",      ex:"Can you look after my cat?",       exja:"猫の世話をしてもらえますか？"},
+{phrase:"look for",            meaning:"〜を探す",            ex:"I'm looking for my keys.",         exja:"鍵を探しています。"},
+{phrase:"look at",             meaning:"〜を見る",            ex:"Look at that beautiful sunset.",   exja:"あの美しい夕日を見てください。"},
+{phrase:"look like",           meaning:"〜のように見える",    ex:"It looks like rain today.",        exja:"今日は雨になりそうです。"},
+{phrase:"look into",           meaning:"〜を調査する",        ex:"Police are looking into the case.",exja:"警察が事件を調査しています。"},
+{phrase:"look out",            meaning:"気をつける",          ex:"Look out for the car!",            exja:"車に気をつけて！"},
+{phrase:"look back on",        meaning:"〜を振り返る",        ex:"I look back on those days fondly.",exja:"あの頃を懐かしく振り返ります。"},
+/* ===== take系 ===== */
+{phrase:"take care of",        meaning:"〜の世話をする",      ex:"Take care of yourself.",           exja:"お体に気をつけてください。"},
+{phrase:"take part in",        meaning:"〜に参加する",        ex:"She took part in the contest.",    exja:"彼女はコンテストに参加しました。"},
+{phrase:"take place",          meaning:"起こる・開催される",  ex:"The meeting takes place on Monday.",exja:"会議は月曜日に開催されます。"},
+{phrase:"take off",            meaning:"脱ぐ・離陸する",      ex:"The plane took off on time.",      exja:"飛行機は時間通りに離陸しました。"},
+{phrase:"take out",            meaning:"取り出す・持ち帰りにする",ex:"Take out your notebook.",       exja:"ノートを取り出してください。"},
+{phrase:"take over",           meaning:"引き継ぐ",            ex:"She took over the project.",       exja:"彼女がプロジェクトを引き継ぎました。"},
+{phrase:"take advantage of",   meaning:"〜を利用する",        ex:"Take advantage of this chance.",   exja:"このチャンスを活かしてください。"},
+{phrase:"take a look at",      meaning:"〜をちょっと見る",    ex:"Take a look at this photo.",       exja:"この写真を見てください。"},
+{phrase:"take action",         meaning:"行動を起こす",        ex:"We need to take action now.",      exja:"今行動を起こす必要があります。"},
+{phrase:"take turns",          meaning:"交代でする",          ex:"Let's take turns driving.",        exja:"交代で運転しましょう。"},
+{phrase:"take back",           meaning:"取り消す・返す",       ex:"I take back what I said.",         exja:"言ったことを取り消します。"},
+/* ===== make系 ===== */
+{phrase:"make sure",           meaning:"確かめる",            ex:"Make sure to lock the door.",      exja:"ドアに鍵をかけるのを確かめてください。"},
+{phrase:"make up",             meaning:"作り上げる・仲直りする",ex:"They made up after the fight.",   exja:"喧嘩の後で仲直りしました。"},
+{phrase:"make up for",         meaning:"〜を埋め合わせる",    ex:"I'll make up for the lost time.",  exja:"失った時間を埋め合わせます。"},
+{phrase:"make sense",          meaning:"意味をなす・理解できる",ex:"That doesn't make sense.",       exja:"それは意味をなしません。"},
+{phrase:"make a difference",   meaning:"違いをもたらす",      ex:"Your help makes a big difference.",exja:"あなたの助けは大きな違いをもたらします。"},
+{phrase:"make progress",       meaning:"進歩する",            ex:"She's making good progress.",      exja:"彼女は順調に進歩しています。"},
+{phrase:"make a decision",     meaning:"決断する",            ex:"I need to make a decision soon.",  exja:"すぐ決断する必要があります。"},
+{phrase:"make friends with",   meaning:"〜と友達になる",      ex:"He made friends with everyone.",   exja:"彼は全員と友達になりました。"},
+{phrase:"make use of",         meaning:"〜を活用する",        ex:"Make use of your free time.",      exja:"自由な時間を活用してください。"},
+{phrase:"make a mistake",      meaning:"間違える",            ex:"Don't be afraid to make mistakes.",exja:"間違えることを恐れないで。"},
+{phrase:"make do with",        meaning:"〜で間に合わせる",    ex:"We had to make do with little.",   exja:"少ないもので間に合わせなければなりませんでした。"},
+/* ===== come系 ===== */
+{phrase:"come up with",        meaning:"〜を思いつく",        ex:"She came up with a great idea.",   exja:"彼女は素晴らしいアイデアを思いつきました。"},
+{phrase:"come across",         meaning:"〜に偶然出会う",      ex:"I came across an old friend.",     exja:"旧友に偶然会いました。"},
+{phrase:"come true",           meaning:"実現する",            ex:"Her dream came true.",             exja:"彼女の夢が実現しました。"},
+{phrase:"come back",           meaning:"戻ってくる",          ex:"Please come back soon.",           exja:"すぐ戻ってきてください。"},
+{phrase:"come from",           meaning:"〜の出身だ・〜から来る",ex:"Where do you come from?",        exja:"ご出身はどちらですか？"},
+{phrase:"come up",             meaning:"話題に上る・近づく",  ex:"The topic came up again.",         exja:"その話題がまた出てきました。"},
+{phrase:"come out",            meaning:"出てくる・発売される", ex:"When does the movie come out?",    exja:"映画はいつ公開されますか？"},
+{phrase:"come along",          meaning:"一緒に来る・進む",    ex:"Things are coming along nicely.",  exja:"物事がうまく進んでいます。"},
+/* ===== give系 ===== */
+{phrase:"give up",             meaning:"あきらめる",          ex:"Don't give up on your dream.",     exja:"夢をあきらめないで。"},
+{phrase:"give back",           meaning:"返す",               ex:"Give back what you borrowed.",     exja:"借りたものを返してください。"},
+{phrase:"give away",           meaning:"ただで配る・漏らす",  ex:"She gave away her secret.",        exja:"彼女は秘密を漏らしてしまいました。"},
+{phrase:"give in",             meaning:"降参する",            ex:"I won't give in so easily.",       exja:"そう簡単には降参しません。"},
+{phrase:"give out",            meaning:"配る・尽きる",        ex:"She gave out flyers.",             exja:"彼女はチラシを配りました。"},
+{phrase:"give a hand",         meaning:"手を貸す・拍手する",  ex:"Can you give me a hand?",          exja:"手を貸してもらえますか？"},
+/* ===== put系 ===== */
+{phrase:"put off",             meaning:"〜を延期する",        ex:"Don't put off until tomorrow.",    exja:"明日に延期しないで。"},
+{phrase:"put on",              meaning:"着る・身につける",    ex:"Put on your coat, it's cold.",     exja:"コートを着て、寒いですよ。"},
+{phrase:"put out",             meaning:"消す・出す",          ex:"Put out the fire immediately.",    exja:"すぐ火を消してください。"},
+{phrase:"put up with",         meaning:"〜を我慢する",        ex:"I can't put up with this noise.",  exja:"この騒音は我慢できません。"},
+{phrase:"put together",        meaning:"組み立てる・まとめる", ex:"We put together a great team.",    exja:"素晴らしいチームを作りました。"},
+{phrase:"put down",            meaning:"置く・書き留める",    ex:"Put down what you remember.",      exja:"覚えていることを書き留めてください。"},
+/* ===== run系 ===== */
+{phrase:"run out of",          meaning:"〜を使い果たす",      ex:"We ran out of time.",              exja:"時間がなくなりました。"},
+{phrase:"run into",            meaning:"〜に偶然会う・衝突する",ex:"I ran into an old teacher.",     exja:"昔の先生に偶然会いました。"},
+{phrase:"run away",            meaning:"逃げる",              ex:"Don't run away from problems.",    exja:"問題から逃げないで。"},
+{phrase:"run for",             meaning:"〜に立候補する",      ex:"She's running for president.",     exja:"彼女は大統領に立候補しています。"},
+/* ===== turn系 ===== */
+{phrase:"turn off",            meaning:"消す（電気など）",    ex:"Turn off the lights when you leave.",exja:"出るときは電気を消してください。"},
+{phrase:"turn on",             meaning:"つける（電気など）",  ex:"Turn on the heater, please.",      exja:"ヒーターをつけてください。"},
+{phrase:"turn out",            meaning:"〜とわかる・結果になる",ex:"It turned out to be true.",       exja:"本当のことだとわかりました。"},
+{phrase:"turn up",             meaning:"現れる・音量を上げる", ex:"He didn't turn up for the meeting.",exja:"彼は会議に現れませんでした。"},
+{phrase:"turn down",           meaning:"断る・音量を下げる",  ex:"She turned down the offer.",       exja:"彼女は申し出を断りました。"},
+{phrase:"turn into",           meaning:"〜に変わる",          ex:"The tadpole turned into a frog.",  exja:"おたまじゃくしがカエルになりました。"},
+/* ===== break系 ===== */
+{phrase:"break down",          meaning:"故障する・崩れる",    ex:"My car broke down on the highway.",exja:"高速道路で車が故障しました。"},
+{phrase:"break up",            meaning:"別れる・解散する",    ex:"They broke up last month.",        exja:"彼らは先月別れました。"},
+{phrase:"break out",           meaning:"勃発する・脱出する",  ex:"A fire broke out in the building.",exja:"ビルで火事が起きました。"},
+{phrase:"break in",            meaning:"侵入する・慣らす",    ex:"Someone broke into my house.",     exja:"誰かが家に侵入しました。"},
+{phrase:"break through",       meaning:"突破する",            ex:"We broke through the barrier.",    exja:"障壁を突破しました。"},
+{phrase:"break the ice",       meaning:"打ち解ける",          ex:"He told a joke to break the ice.", exja:"彼は場を和ませるために冗談を言いました。"},
+/* ===== bring系 ===== */
+{phrase:"bring up",            meaning:"育てる・話題を出す",  ex:"She was brought up in Tokyo.",     exja:"彼女は東京で育ちました。"},
+{phrase:"bring about",         meaning:"〜を引き起こす",      ex:"Changes brought about new jobs.",  exja:"変化が新しい仕事を生み出しました。"},
+{phrase:"bring back",          meaning:"持ち帰る・思い出させる",ex:"That song brings back memories.", exja:"その歌は思い出を呼び起こします。"},
+/* ===== set系 ===== */
+{phrase:"set up",              meaning:"設置する・設立する",  ex:"We need to set up a meeting.",     exja:"会議を設定する必要があります。"},
+{phrase:"set out",             meaning:"出発する・始める",    ex:"We set out early in the morning.", exja:"早朝に出発しました。"},
+{phrase:"set off",             meaning:"出発する・爆発させる", ex:"We set off for the airport.",      exja:"空港に向けて出発しました。"},
+{phrase:"set aside",           meaning:"〜をとっておく",      ex:"Set aside some money for later.",  exja:"後のためにお金をとっておいてください。"},
+/* ===== keep系 ===== */
+{phrase:"keep up with",        meaning:"〜についていく",      ex:"It's hard to keep up with her.",   exja:"彼女についていくのは大変です。"},
+{phrase:"keep in touch",       meaning:"連絡を保つ",          ex:"Keep in touch after you move.",    exja:"引っ越した後も連絡を取り合ってね。"},
+{phrase:"keep on",             meaning:"〜し続ける",          ex:"Keep on trying!",                  exja:"挑戦し続けて！"},
+{phrase:"keep track of",       meaning:"〜を把握する",        ex:"Keep track of your expenses.",     exja:"支出を把握してください。"},
+/* ===== hold系 ===== */
+{phrase:"hold on",             meaning:"待つ・しっかり持つ",  ex:"Hold on, I'll be right back.",     exja:"待って、すぐ戻ります。"},
+{phrase:"hold back",           meaning:"抑える・妨げる",      ex:"Don't hold back your feelings.",   exja:"気持ちを抑えないで。"},
+{phrase:"hold up",             meaning:"支える・遅らせる",    ex:"Traffic held us up.",              exja:"渋滞で遅れました。"},
+/* ===== find系 ===== */
+{phrase:"find out",            meaning:"〜を調べる・わかる",  ex:"I found out the truth.",           exja:"真実がわかりました。"},
+{phrase:"find it hard to",     meaning:"〜するのが難しいと感じる",ex:"I find it hard to say no.",     exja:"断るのが難しいと感じます。"},
+/* ===== go系 ===== */
+{phrase:"go on",               meaning:"続く・起こる",        ex:"What's going on here?",            exja:"ここで何が起きているの？"},
+{phrase:"go out",              meaning:"外出する・消える",    ex:"Let's go out for dinner.",         exja:"夕食に出かけましょう。"},
+{phrase:"go over",             meaning:"〜を見直す",          ex:"Let's go over the plan again.",    exja:"計画をもう一度見直しましょう。"},
+{phrase:"go through",          meaning:"〜を経験する・通り抜ける",ex:"She went through hard times.",  exja:"彼女は辛い時期を経験しました。"},
+{phrase:"go ahead",            meaning:"先に進む・どうぞ",    ex:"Go ahead, I'll follow.",           exja:"先に行って、後から行きます。"},
+{phrase:"go with",             meaning:"〜と合う・選ぶ",      ex:"This wine goes with cheese.",      exja:"このワインはチーズに合います。"},
+{phrase:"go back to",          meaning:"〜に戻る",            ex:"Let's go back to the main topic.", exja:"本題に戻りましょう。"},
+/* ===== 副詞・前置詞フレーズ ===== */
+{phrase:"at first",            meaning:"最初は",              ex:"At first, I was nervous.",         exja:"最初は緊張していました。"},
+{phrase:"at last",             meaning:"ついに",              ex:"At last, summer is here.",         exja:"ついに夏が来ました。"},
+{phrase:"at least",            meaning:"少なくとも",          ex:"Drink at least 2 liters of water.", exja:"少なくとも2リットルの水を飲んでください。"},
+{phrase:"at most",             meaning:"多くとも",            ex:"It takes at most 10 minutes.",     exja:"多くとも10分かかります。"},
+{phrase:"at once",             meaning:"すぐに・同時に",      ex:"Come here at once.",               exja:"すぐここに来てください。"},
+{phrase:"at the same time",    meaning:"同時に",              ex:"Don't talk at the same time.",     exja:"同時に話さないで。"},
+{phrase:"at work",             meaning:"仕事中",              ex:"He is at work right now.",         exja:"彼は今仕事中です。"},
+{phrase:"in fact",             meaning:"実は・実際には",      ex:"In fact, I've been there before.", exja:"実は以前行ったことがあります。"},
+{phrase:"in order to",         meaning:"〜するために",        ex:"Study hard in order to pass.",     exja:"合格するために一生懸命勉強してください。"},
+{phrase:"in a hurry",          meaning:"急いで",              ex:"I'm in a hurry today.",            exja:"今日は急いでいます。"},
+{phrase:"in the end",          meaning:"結局",                ex:"In the end, we won.",              exja:"結局、私たちが勝ちました。"},
+{phrase:"in time",             meaning:"間に合って",          ex:"We arrived just in time.",         exja:"ちょうど間に合って到着しました。"},
+{phrase:"in common",           meaning:"共通して",            ex:"We have a lot in common.",         exja:"私たちは共通点がたくさんあります。"},
+{phrase:"in need of",          meaning:"〜を必要としている",  ex:"She is in need of help.",          exja:"彼女は助けを必要としています。"},
+{phrase:"on purpose",          meaning:"わざと",              ex:"He did it on purpose.",            exja:"彼はわざとやりました。"},
+{phrase:"on time",             meaning:"時間通りに",          ex:"Please arrive on time.",           exja:"時間通りに来てください。"},
+{phrase:"on the other hand",   meaning:"一方では",            ex:"On the other hand, it's risky.",   exja:"一方では、リスクがあります。"},
+{phrase:"on behalf of",        meaning:"〜を代表して",        ex:"I speak on behalf of the team.",   exja:"チームを代表して話します。"},
+{phrase:"on one's own",        meaning:"独力で",              ex:"She did it on her own.",           exja:"彼女は独力でやりました。"},
+{phrase:"by the way",          meaning:"ところで",            ex:"By the way, how is your mother?",  exja:"ところで、お母さんはお元気ですか？"},
+{phrase:"by oneself",          meaning:"一人で・独力で",      ex:"He fixed it by himself.",          exja:"彼は一人で直しました。"},
+{phrase:"by chance",           meaning:"偶然に",              ex:"We met by chance.",                exja:"私たちは偶然会いました。"},
+{phrase:"for the first time",  meaning:"初めて",              ex:"I saw snow for the first time.",   exja:"初めて雪を見ました。"},
+{phrase:"for now",             meaning:"今のところ",          ex:"That's enough for now.",           exja:"今のところはそれで十分です。"},
+{phrase:"for example",         meaning:"例えば",              ex:"For example, apples and oranges.", exja:"例えば、リンゴとオレンジ。"},
+{phrase:"for a while",         meaning:"しばらくの間",        ex:"Wait for a while, please.",        exja:"しばらくお待ちください。"},
+{phrase:"from now on",         meaning:"今後は",              ex:"From now on, I'll be more careful.",exja:"今後はもっと気をつけます。"},
+{phrase:"from time to time",   meaning:"時々",                ex:"I visit her from time to time.",   exja:"時々彼女を訪ねます。"},
+/* ===== as構文 ===== */
+{phrase:"as soon as",          meaning:"〜するとすぐに",      ex:"Call me as soon as you arrive.",   exja:"着いたらすぐに電話してください。"},
+{phrase:"as well as",          meaning:"〜だけでなく…も",     ex:"She sings as well as dances.",     exja:"彼女は踊るだけでなく歌も上手です。"},
+{phrase:"as long as",          meaning:"〜する限り",          ex:"As long as you try, it's fine.",   exja:"挑戦する限り大丈夫です。"},
+{phrase:"as far as",           meaning:"〜の限りでは",        ex:"As far as I know, he's honest.",   exja:"私の知る限り、彼は正直です。"},
+{phrase:"as a result",         meaning:"その結果",            ex:"As a result, sales increased.",    exja:"その結果、売上が増加しました。"},
+{phrase:"as if",               meaning:"まるで〜のように",    ex:"She acts as if she knows.",        exja:"彼女はまるで知っているかのように振る舞います。"},
+/* ===== その他重要フレーズ ===== */
+{phrase:"depend on",           meaning:"〜に依存する・次第だ", ex:"It depends on the weather.",       exja:"天気次第です。"},
+{phrase:"agree with",          meaning:"〜に同意する",        ex:"I completely agree with you.",     exja:"完全に同意します。"},
+{phrase:"apply for",           meaning:"〜に応募する",        ex:"I applied for the job.",           exja:"その仕事に応募しました。"},
+{phrase:"ask for",             meaning:"〜を求める",          ex:"Don't hesitate to ask for help.",  exja:"遠慮なく助けを求めてください。"},
+{phrase:"believe in",          meaning:"〜を信じる（存在・価値）",ex:"Believe in yourself.",          exja:"自分を信じてください。"},
+{phrase:"belong to",           meaning:"〜に属する",          ex:"This book belongs to her.",        exja:"この本は彼女のものです。"},
+{phrase:"care about",          meaning:"〜を気にかける",      ex:"He really cares about others.",    exja:"彼は本当に他人を気にかけています。"},
+{phrase:"care for",            meaning:"〜の世話をする・好む", ex:"She cared for her elderly parents.",exja:"彼女は年老いた両親の世話をしました。"},
+{phrase:"catch up with",       meaning:"〜に追いつく",        ex:"Run faster to catch up with him.", exja:"彼に追いつくために速く走って。"},
+{phrase:"count on",            meaning:"〜を頼りにする",      ex:"You can always count on me.",      exja:"いつでも頼りにしていいですよ。"},
+{phrase:"deal with",           meaning:"〜に対処する",        ex:"How do you deal with stress?",     exja:"ストレスにどう対処しますか？"},
+{phrase:"end up",              meaning:"最終的に〜になる",    ex:"We ended up staying home.",        exja:"結局家にいることになりました。"},
+{phrase:"fall in love with",   meaning:"〜に恋をする",        ex:"He fell in love with her smile.",  exja:"彼は彼女の笑顔に恋をしました。"},
+{phrase:"feel like",           meaning:"〜したい気分だ",      ex:"I feel like eating pizza tonight.", exja:"今夜はピザが食べたい気分です。"},
+{phrase:"figure out",          meaning:"〜を理解する・解決する",ex:"I can't figure out this problem.",exja:"この問題が解けません。"},
+{phrase:"focus on",            meaning:"〜に集中する",        ex:"Focus on what matters most.",      exja:"最も大切なことに集中してください。"},
+{phrase:"get away with",       meaning:"〜をうまく逃れる",    ex:"He got away with cheating.",       exja:"彼はズルをしてもばれませんでした。"},
+{phrase:"hang out with",       meaning:"〜と時間を過ごす",    ex:"I like hanging out with friends.", exja:"友達と時間を過ごすのが好きです。"},
+{phrase:"help out",            meaning:"手伝う",              ex:"Can you help out this weekend?",   exja:"今週末手伝ってもらえますか？"},
+{phrase:"insist on",           meaning:"〜を主張する・強く求める",ex:"She insisted on paying.",        exja:"彼女は支払うと主張しました。"},
+{phrase:"leave out",           meaning:"省く・除外する",      ex:"Don't leave anyone out.",          exja:"誰も除外しないで。"},
+{phrase:"let down",            meaning:"失望させる",          ex:"Don't let me down.",               exja:"失望させないでください。"},
+{phrase:"look down on",        meaning:"〜を見下す",          ex:"Never look down on others.",       exja:"決して他人を見下してはいけません。"},
+{phrase:"look up to",          meaning:"〜を尊敬する",        ex:"I look up to my teacher.",         exja:"先生を尊敬しています。"},
+{phrase:"miss out on",         meaning:"〜を逃す",            ex:"Don't miss out on this chance.",   exja:"このチャンスを逃さないで。"},
+{phrase:"move on",             meaning:"前に進む",            ex:"It's time to move on.",            exja:"前に進む時です。"},
+{phrase:"pick up",             meaning:"拾う・迎えに行く・習得する",ex:"Pick up your trash.",          exja:"ゴミを拾ってください。"},
+{phrase:"point out",           meaning:"指摘する",            ex:"She pointed out my mistake.",      exja:"彼女は私のミスを指摘しました。"},
+{phrase:"rely on",             meaning:"〜に頼る",            ex:"Don't rely too much on others.",   exja:"他人に頼りすぎないで。"},
+{phrase:"show off",            meaning:"見せびらかす",        ex:"He always shows off his talents.",  exja:"彼はいつも才能を見せびらかします。"},
+{phrase:"show up",             meaning:"現れる",              ex:"She showed up late again.",        exja:"彼女はまた遅れて現れました。"},
+{phrase:"sign up for",         meaning:"〜に登録する",        ex:"Sign up for our newsletter.",      exja:"ニュースレターに登録してください。"},
+{phrase:"sort out",            meaning:"〜を解決する・整理する",ex:"Let me sort this out.",           exja:"これを解決させてください。"},
+{phrase:"stand out",           meaning:"目立つ",              ex:"She really stands out in a crowd.", exja:"彼女は人混みでも本当に目立ちます。"},
+{phrase:"stand up for",        meaning:"〜を支持する・守る",  ex:"Stand up for what you believe.",   exja:"信じるものを守ってください。"},
+{phrase:"stick to",            meaning:"〜に固執する・守る",  ex:"Stick to your plan.",              exja:"計画を守ってください。"},
+{phrase:"think about",         meaning:"〜について考える",    ex:"Think about the consequences.",    exja:"結果について考えてください。"},
+{phrase:"think of",            meaning:"〜を思いつく",        ex:"I can't think of a better word.",  exja:"もっと良い言葉が思いつきません。"},
+{phrase:"throw away",          meaning:"捨てる",              ex:"Don't throw away old memories.",   exja:"古い思い出を捨てないで。"},
+{phrase:"try on",              meaning:"試着する",            ex:"Can I try on this jacket?",        exja:"このジャケットを試着できますか？"},
+{phrase:"try out",             meaning:"試す・試験を受ける",  ex:"Try out the new software.",        exja:"新しいソフトウェアを試してみてください。"},
+{phrase:"wait for",            meaning:"〜を待つ",            ex:"I've been waiting for an hour.",   exja:"1時間待っています。"},
+{phrase:"wake up",             meaning:"目を覚ます",          ex:"Wake up! You're late.",            exja:"起きて！遅刻しますよ。"},
+{phrase:"watch out for",       meaning:"〜に気をつける",      ex:"Watch out for pickpockets.",       exja:"スリに気をつけてください。"},
+{phrase:"work on",             meaning:"〜に取り組む",        ex:"I'm working on a new project.",    exja:"新しいプロジェクトに取り組んでいます。"},
+{phrase:"work out",            meaning:"うまくいく・運動する", ex:"I hope it works out for you.",     exja:"うまくいくといいですね。"},
+{phrase:"worry about",         meaning:"〜を心配する",        ex:"Don't worry about small things.",  exja:"小さいことを心配しないで。"},
+{phrase:"would rather",        meaning:"むしろ〜したい",      ex:"I would rather stay home.",        exja:"むしろ家にいたいです。"},
+];
 
 // ===== STYLES =====
 const S = `
@@ -20927,10 +20780,10 @@ const QUESTION_TYPE_LABELS = {
 
 // ===== APIキー管理 =====
 function getApiKey() {
-  return localStorage.getItem("anthropic_api_key") || "";
+  return localStorage.getItem("jr_api_key") || "";
 }
 function saveApiKey(key) {
-  localStorage.setItem("anthropic_api_key", key);
+  localStorage.setItem("jr_api_key", key);
 }
 async function callClaude(messages, maxTokens = 1200) {
   const key = getApiKey();
@@ -21599,14 +21452,14 @@ function ReferenceSection({
     }, h)))), /*#__PURE__*/React.createElement("tbody", null, t.rows.map((row, ri) => /*#__PURE__*/React.createElement("tr", {
       key: ri,
       style: {
-        background: ri % 2 === 0 ? "white" : "#fafafa"
+        background: ri % 2 === 0 ? "var(--surface)" : "var(--bg)"
       }
     }, row.map((cell, ci) => /*#__PURE__*/React.createElement("td", {
       key: ci,
       style: {
         padding: "10px 10px",
         fontSize: 12,
-        color: ci === 0 ? "#1f2937" : "#374151",
+        color: ci === 0 ? "var(--text-primary)" : "var(--text-secondary)",
         fontFamily: ci === 0 || ci === 1 ? "'Nunito',sans-serif" : "'Noto Sans JP',sans-serif",
         fontWeight: ci === 0 ? 800 : ci === 1 ? 700 : 400,
         borderBottom: "1px solid #f3f4f6",
@@ -21770,9 +21623,10 @@ function IrregularVerbs({
   const shuffled = useRef([...IRREGULAR_VERBS].sort(() => Math.random() - 0.5));
   const groups = {
     all: IRREGULAR_VERBS,
-    aba: IRREGULAR_VERBS.filter(v => v.past !== v.pp && v.base !== v.past && v.base !== v.pp),
-    abc: IRREGULAR_VERBS.filter(v => v.past !== v.base && v.pp !== v.past && v.pp !== v.base),
-    aaa: IRREGULAR_VERBS.filter(v => v.base === v.past && v.base === v.pp)
+    aaa: IRREGULAR_VERBS.filter(v => v.type === "AAA"),
+    abb: IRREGULAR_VERBS.filter(v => v.type === "ABB"),
+    abc: IRREGULAR_VERBS.filter(v => v.type === "ABC"),
+    special: IRREGULAR_VERBS.filter(v => v.type === "special")
   };
   function startQuiz() {
     shuffled.current = [...groups[filter]].sort(() => Math.random() - 0.5).slice(0, 15);
@@ -25475,6 +25329,26 @@ function App() {
     )
   ),
   /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "     ヒント"),
+    /*#__PURE__*/React.createElement("div", {
+      onClick: () => { setPracticeMode("hints"); setTab("practice"); },
+      style: { background: "var(--surface)", borderRadius: 8, padding: "13px 16px", cursor: "pointer", border: "1.5px solid var(--border)", display: "flex", alignItems: "center", gap: 12 }
+    },
+      /*#__PURE__*/React.createElement("div", { style: { color: "var(--orange)", flexShrink: 0 } },
+        /*#__PURE__*/React.createElement("svg", { width:26, height:26, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:"1.8", strokeLinecap:"round", strokeLinejoin:"round" },
+          /*#__PURE__*/React.createElement("circle", { cx:"12", cy:"12", r:"10" }),
+          /*#__PURE__*/React.createElement("line", { x1:"12", y1:"8", x2:"12", y2:"12" }),
+          /*#__PURE__*/React.createElement("line", { x1:"12", y1:"16", x2:"12.01", y2:"16" })
+        )
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { flex: 1 } },
+        /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 800, color: "var(--text-primary)" } }, "英語のヒント"),
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "var(--text-muted)", marginTop: 2 } }, "ネイティブ表現・文化・応用表現")
+      ),
+      /*#__PURE__*/React.createElement("div", { style: { color: "var(--border)", fontSize: 16 } }, "›")
+    )
+  ),
+  /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 } }, "⭐ よく使う参考表"),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 7 } },
       [
@@ -27226,7 +27100,97 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     onToggleFav: (id) => { const f = settings.favRefs.includes(id) ? settings.favRefs.filter(x=>x!==id) : [...settings.favRefs, id]; saveSettings({...settings, favRefs: f}); },
     onBack: () => setPracticeMode("list")
   }), 
-  tab === "practice" && !fixedSet && practiceMode === "phonetics" && /*#__PURE__*/React.createElement("div", null,
+  tab === "practice" && !fixedSet && tab === "practice" && !fixedSet && practiceMode === "hints" && /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("button", { className: "back", onClick: () => setPracticeMode("list") }, "\u2190 \u623b\u308b"),
+    /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--text-primary)", marginBottom: 4 } }, "\ud83d\udca1 \u82f1\u8a9e\u306e\u8003\u3048\u65b9"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-muted)", marginBottom: 16 } }, "\u610f\u5473\u9806\u30fb\u82f1\u8a9e\u306e\u8005\u306e\u8003\u3048\u65b9\u30fb\u4f7f\u3044\u6b21\u7b2c"),
+    [
+      {
+        title: "\ud83d\udcdd \u610f\u5473\u9806\u3067\u8003\u3048\u308b",
+        color: "#3478F6",
+        desc: "\u65e5\u672c\u8a9e\u306f\u300c\u79c1\u306f\u30fb\u6bc8\u65e5\u30fb\u516c\u5712\u3078\u30fb\u884c\u304d\u307e\u3057\u305f\u300d\u3002\u82f1\u8a9e\u306f\u300c\u79c1\u306f\u884c\u3063\u305f\u30fb\u516c\u5712\u3078\u30fb\u6bc8\u65e5\u300d\u3002\u4e00\u756a\u4f1d\u3048\u305f\u3044\u3053\u3068\uff08\u52d5\u8a5e\uff09\u3092\u5148\u306b\u8a00\u3046\u3002",
+        items: [
+          "\u2460 \u4e3b\u8a9e\uff08\u8ab0\u304c\uff09\u2192 \u2461 \u52d5\u8a5e\uff08\u3069\u3046\u3059\u308b\uff09\u2192 \u2462 \u76ee\u7684\u8a9e\uff08\u4f55\u3092\uff09\u2192 \u2463 \u4fee\u98fe\u8a9e\uff08\u3069\u3053\u30fb\u3044\u3064\uff09",
+          "\u4f8b\uff1a I bought a book at the store yesterday.",
+          "    \u2192 \u79c1\u306f\u8cb7\u3063\u305f / \u672c\u3092 / \u5e97\u3067 / \u6628\u65e5",
+          "\u300c\u8cb7\u3063\u305f\u300d\u3092\u5148\u306b\u8a00\u3063\u3066\u3001\u4fee\u98fe\u8a9e\u306f\u5f8c\u3067\u8db3\u3059\u611f\u899a\uff01"
+        ]
+      },
+      {
+        title: "\ud83d\udd04 \u52d5\u8a5e\u306e\u4f4d\u7f6e\u304c\u5927\u4e8b",
+        color: "#0D9488",
+        desc: "\u82f1\u8a9e\u306f\u300c\u4f55\u3092\u3059\u308b\u304b\u300d\u3092\u65e9\u3081\u306b\u8a00\u3046\u8a00\u8a9e\u3002\u52d5\u8a5e\u306e\u5f8c\u306b\u5177\u4f53\u7684\u306a\u60c5\u5831\u3092\u7d9a\u3051\u308b\u3002",
+        items: [
+          "She gave me a present. \u2192 \u5f7c\u5973\u304c\u304f\u308c\u305f\uff08\u4f55\u3092\uff1f\uff09\u30d7\u30ec\u30bc\u30f3\u30c8\u3092\uff08\u8ab0\u306b\uff1f\uff09\u79c1\u306b",
+          "\u52d5\u8a5e\u3092\u8038\u3044\u305f\u6642\u70b9\u3067\u300c\u3042\u3001\u4f55\u3092\u3059\u308b\u306e\u304b\u306a\uff1f\u300d\u3068\u671f\u5f85\u3059\u308b\u611f\u899a",
+          "He is...(\u305d\u3046\u306a\u306e\u304b\uff01) / She likes...(\u4f55\u304c\u5598\u304d\u306a\u306e\uff1f) \u3068\u5c55\u958b\u3059\u308b"
+        ]
+      },
+      {
+        title: "\ud83d\udd0d \u526f\u8a5e\u30fb\u4fee\u98fe\u8a9e\u306f\u300c\u5f8c\u7f6e\u304d\u300d",
+        color: "#7C3AED",
+        desc: "\u65e5\u672c\u8a9e\u304c\u300c\u304d\u308c\u3044\u306a\u82b1\u300d\u3068\u8a00\u3046\u3068\u3053\u308d\u3001\u82f1\u8a9e\u306f\u300ca beautiful flower\u300d\u3002\u5f62\u5bb9\u8a5e\u306f\u540d\u8a5e\u306e\u524d\u3001\u305d\u306e\u4ed6\u306e\u4fee\u98fe\u8a9e\u306f\u5f8c\u308d\u3002",
+        items: [
+          "\u5f62\u5bb9\u8a5e\uff08\u524d\u7f6e\uff09\uff1a a tall building / an interesting story",
+          "\u4ed6\u306e\u4fee\u98fe\u8a9e\uff08\u5f8c\u7f6e\uff09\uff1a the boy playing soccer / the book written by her",
+          "\u526f\u8a5e\uff08\u5f8c\u7f6e\uff09\uff1a I have something important to tell you.",
+          "\u300c\u4f55\u304b + \u91cd\u8981\u306a + \u4f1d\u3048\u308b\u3079\u304d\u300d\u306e\u9806\u306b\u8003\u3048\u308b"
+        ]
+      },
+      {
+        title: "\u2139\ufe0f there is / there are \u306e\u611f\u899a",
+        color: "#059669",
+        desc: "there is/are \u306f\u300c\u5b58\u5728\u3059\u308b\u300d\u3092\u8868\u3059\u6587\u578b\u3002\u300c\u30a2\u30bd\u30b3\u306b\u300d\u300c\u30a2\u30eb\u3088\u300d\u3068\u3044\u3046\u611f\u899a\u3002",
+        items: [
+          "There is a cat on the roof. = \u5c4b\u6839\u306e\u4e0a\u306b\u732b\u304c\u3044\u308b\u3088",
+          "There are many students in the class. = \u30af\u30e9\u30b9\u306b\u305f\u304f\u3055\u3093\u306e\u751f\u5f92\u304c\u3044\u308b\u3088",
+          "there \u306f\u300c\u305d\u3053\u306b\u300d\u3068\u3044\u3046\u8a33\u3057\u306b\u306a\u3089\u306a\u3044\u3053\u3068\u306b\u6ce8\u610f\uff01\u300c\u5b58\u5728\u306e there\u300d"
+        ]
+      },
+      {
+        title: "\ud83d\udd01 \u80fd\u52d5\u8868\u73fe\u3068\u72b6\u614b\u8868\u73fe",
+        color: "#DB2777",
+        desc: "\u82f1\u8a9e\u306e\u6642\u5236\u306f\u300c\u304a\u3063\u3001\u4eca\u3053\u3046\u306a\u3063\u3066\u308b\u300d vs \u300c\u305d\u306e\u884c\u70ba\u3092\u3057\u3066\u3044\u308b\u9014\u4e2d\u300d\u306e\u9055\u3044\u3092\u610f\u8b58\u3059\u308b\u3002",
+        items: [
+          "I live in Tokyo. \u2192 \u6771\u4eac\u306b\u4f4f\u3093\u3067\u3044\u308b\uff08\u72b6\u614b\uff09",
+          "I am living in Tokyo. \u2192 \u4eca\u6771\u4eac\u751f\u6d3b\u4e2d\uff08\u30cd\u30a4\u30c6\u30a3\u30d6\u306f\u3053\u3061\u3089\u306f\u3042\u307e\u308a\u4f7f\u308f\u306a\u3044\uff09",
+          "I know her. \u2192 \u300c\u77e5\u3063\u3066\u3044\u308b\u300d\u306f\u72b6\u614b\u306a\u306e\u3067\u9032\u884c\u5f62\u306f\u4f7f\u308f\u306a\u3044",
+          "I am knowing her. \u2192 \u00d7\uff08know\u306f\u72b6\u614b\u52d5\u8a5e\uff09"
+        ]
+      },
+      {
+        title: "\ud83d\udde3\ufe0f \u30cd\u30a4\u30c6\u30a3\u30d6\u3089\u3057\u3044\u8868\u73fe",
+        color: "#EA580C",
+        desc: "\u76f4\u8a33\u3057\u3066\u3082\u901a\u3058\u308b\u304c\u3001\u30cd\u30a4\u30c6\u30a3\u30d6\u304c\u5b9f\u969b\u306b\u4f7f\u3046\u3082\u306e\u306f\u5c11\u3057\u9055\u3046\u3002",
+        items: [
+          "\u300c\u3069\u3046\u305e\u300d\uff1a Please. \u3088\u308a Here you go. / There you go.",
+          "\u300c\u304a\u305b\u308f\u306b\u306a\u308b\u300d\uff1a Help yourself.(\u5fc3\u5c40\u306b)",
+          "\u300c\u9806\u8abf\uff1f\u300d\uff1a How's it going? / How are things?",
+          "\u300c\u3064\u307e\u308a\u300d\uff1a I mean... / What I'm saying is...",
+          "\u300c\u305d\u3046\u305d\u3046\u300d\uff1a Exactly! / Absolutely! / That's right!"
+        ]
+      }
+    ].map(function(card) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: card.title,
+        style: { background: "var(--surface)", borderRadius: 10, overflow: "hidden", marginBottom: 12, boxShadow: "var(--shadow-sm)", border: "1px solid var(--border-light)" }
+      },
+        /*#__PURE__*/React.createElement("div", { style: { background: card.color, padding: "10px 16px", display: "flex", alignItems: "center", gap: 8 } },
+          /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 800, color: "white" } }, card.title)
+        ),
+        /*#__PURE__*/React.createElement("div", { style: { padding: "12px 16px" } },
+          /*#__PURE__*/React.createElement("div", { style: { fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: 10 } }, card.desc),
+          card.items.map(function(item, i) {
+            return /*#__PURE__*/React.createElement("div", {
+              key: i,
+              style: { fontSize: 12, color: "var(--text-secondary)", padding: "4px 0 4px 10px", borderLeft: "3px solid " + card.color + "40", marginBottom: 4, lineHeight: 1.7 }
+            }, item);
+          })
+        )
+      );
+    })
+  ),
+tab === "practice" && !fixedSet && practiceMode === "phonetics" && /*#__PURE__*/React.createElement("div", null,
     /*#__PURE__*/React.createElement("button", {
       className: "back",
       onClick: () => setPracticeMode("list")
@@ -27425,7 +27389,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
   }, "\u27A4"))), tab === "settings" && /*#__PURE__*/React.createElement("div", null,
   /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 800, color: "var(--text-primary)", marginBottom: 16 } }, "⚙️ 設定"),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     カラーテーマ"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       カラーテーマ"),
     /*#__PURE__*/React.createElement("div", { className: "theme-grid" },
       Object.entries(COLOR_THEMES).map(function([key, t]) {
         return /*#__PURE__*/React.createElement("div", {
@@ -27442,7 +27406,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     )
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "     ボタン表示設定"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 4 } }, "       ボタン表示設定"),
     [
       { key: "showVocabUp",  label: "単語数UPボタン",   desc: "単語タブの右下に表示" },
       { key: "showHomeBtn",  label: "ホームボタン",     desc: "左下のフローティングボタン" },
@@ -27468,7 +27432,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     /*#__PURE__*/React.createElement("div", { style: { fontSize: settings.exampleSize, color: "var(--text-secondary)" } }, "Can you help me carry this bag?")
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     単語フォント"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       単語フォント"),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } },
       WORD_FONTS.map(function(f) {
         return /*#__PURE__*/React.createElement("button", {
@@ -27483,7 +27447,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     )
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "     文字サイズ"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "       文字サイズ"),
     [
       { key: "wordSize",    label: "単語",   min: 28, max: 64 },
       { key: "meaningSize", label: "意味",   min: 14, max: 32 },
@@ -27504,7 +27468,7 @@ tab === "grammar" && !topic && /*#__PURE__*/React.createElement("div", null, /*#
     })
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, boxShadow: "var(--shadow-sm)" } },
-    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 } }, "     Anthropic APIキー"),
+    /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 8 } }, "       Anthropic APIキー"),
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, color: "var(--text-muted)", marginBottom: 8 } }, "AIコーチ・ AIクイズ機能に必要です"),
     /*#__PURE__*/React.createElement("input", {
       type: "password", placeholder: "sk-ant-...",
