@@ -135,22 +135,25 @@ const GRAMMAR_TOPICS = [{
 }, {
   stage: 1,
   id: "can",
-  title: "助動詞 can",
+  title: "助動詞 can / may",
   icon: "💪",
-  summary: "能力・許可・依頼",
+  summary: "能力・許可・依頼・推量",
   content: {
-    explanation: "canは「〜できる（能力）」「〜してもよい（許可）」「〜してくれますか（依頼）」を表します。",
-    table: [["用法", "例文", "意味"], ["能力", "I can swim.", "私は泳げます。"], ["許可", "You can use this.", "これを使っていいですよ。"], ["依頼", "Can you help me?", "手伝ってくれますか？"]],
-    rules: ["canの後は動詞の原形", "否定形: cannot / can't", "過去形: could（〜できた）"],
+    explanation: "canは「能力・許可・依頼」、mayは「許可・推量」を表します。mayはcanより丁寧な表現です。",
+    table: [["助動詞", "用法", "例文", "意味"], ["can", "能力", "I can swim.", "泳げます。"], ["can", "許可", "You can use this.", "使っていいですよ。"], ["can", "依頼", "Can you help me?", "手伝ってくれますか？"], ["may", "許可（丁寧）", "May I come in?", "入ってもいいですか？"], ["may", "推量", "It may rain today.", "今日は雨かもしれません。"]],
+    rules: ["can・mayの後は動詞の原形", "canの否定形: cannot / can't", "canの過去形: could（〜できた）", "mayの否定形: may not（〜でないかも）", "canはカジュアル、mayはフォーマルな場面で丁寧"],
     examples: [{
       en: "She can speak three languages.",
       ja: "3つの言語を話せます。"
     }, {
-      en: "I can't find my key.",
-      ja: "鍵が見つかりません。"
-    }, {
       en: "Can you open the window?",
       ja: "窓を開けてくれますか？"
+    }, {
+      en: "May I use your phone?",
+      ja: "電話を使わせていただけますか？"
+    }, {
+      en: "It may snow tomorrow.",
+      ja: "明日は雪かもしれません。"
     }]
   }
 }, {
@@ -20276,6 +20279,156 @@ REFERENCE_TABLES.push({
   ]
 });
 
+REFERENCE_TABLES.push({
+  id: "noun-plural",
+  title: "名詞の複数形・可算と不可算",
+  icon: "🍎",
+  color: "#e11d48",
+  desc: "規則・不規則変化と、数えられる・数えられない名詞の区別を整理。",
+  cols: ["分類", "ルール・例", "備考"],
+  rows: [
+    ["規則変化（+s）", "book→books / cat→cats / dog→dogs", "ほとんどの名詞"],
+    ["規則変化（+es）", "bus→buses / box→boxes / watch→watches", "s/x/ch/sh で終わる語"],
+    ["子音+y → ies", "city→cities / baby→babies / story→stories", "母音+y はそのまま+s（boy→boys）"],
+    ["f/fe → ves", "leaf→leaves / knife→knives / life→lives", "roof→roofs など例外あり"],
+    ["不規則変化", "man→men / woman→women / child→children", "覚えるしかない重要語"],
+    ["不規則変化", "mouse→mice / tooth→teeth / foot→feet", "同上"],
+    ["単複同形", "sheep / fish / deer", "単数と複数が同じ形"],
+    ["可算名詞", "a book / two books（数えられる）", "a / an / 複数形をとれる"],
+    ["不可算名詞", "water / money / information / advice", "a / 複数形がつかない"],
+    ["不可算名詞を数える", "a glass of water / two pieces of advice", "単位を表す語を使う"]
+  ],
+  notes: [
+    "不可算名詞には a/an をつけず、複数形にしない（× an information, × informations）",
+    "some/any/much/little は不可算名詞と、many/few は可算名詞と使う",
+    "ニュース・スポーツ名・教科名（news, tennis, math）も不可算名詞"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "it-usage",
+  title: "itの特別用法",
+  icon: "☁️",
+  color: "#0891b2",
+  desc: "天候・時間・距離を表すitや、形式主語（It is ~ to...）のパターン。",
+  cols: ["用法", "例文", "日本語"],
+  rows: [
+    ["天候", "It is sunny today.", "今日は晴れです。"],
+    ["天候", "It is snowing outside.", "外は雪が降っています。"],
+    ["時間", "It is 3 o'clock now.", "今3時です。"],
+    ["時間", "It is Monday today.", "今日は月曜日です。"],
+    ["距離", "It is 5km from here to the station.", "ここから駅まで5kmです。"],
+    ["形式主語 It is ~ to", "It is fun to play soccer.", "サッカーをするのは楽しい。"],
+    ["形式主語 It takes ~ to", "It takes 30 minutes to get there.", "そこに着くのに30分かかります。"],
+    ["強調構文", "It is Ken that broke the window.", "窓を割ったのはケンです。"]
+  ],
+  notes: [
+    "天候・時間・距離の it は「それ」と訳さない（意味のない形式的な主語）",
+    "It is + 形容詞 + to ~ = 〜することは…だ（Itが形式主語、to以下が真の主語）",
+    "強調構文：It is ~ that ... で特定の要素を強調する"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "there-is-are",
+  title: "There is / are 構文",
+  icon: "📍",
+  color: "#16a34a",
+  desc: "「〜がある・いる」を表す特有の語順。be動詞の後ろが主語になる点に注意！",
+  cols: ["形", "例文", "日本語"],
+  rows: [
+    ["There is + 単数", "There is a cat on the sofa.", "ソファの上に猫が1匹います。"],
+    ["There are + 複数", "There are three books on the desk.", "机の上に本が3冊あります。"],
+    ["否定形", "There is no milk in the fridge.", "冷蔵庫に牛乳がありません。"],
+    ["疑問形", "Is there a library near here?", "この近くに図書館がありますか？"],
+    ["疑問形（複数）", "Are there any questions?", "何か質問はありますか？"],
+    ["過去形", "There was a big park here.", "かつてここに大きな公園がありました。"],
+    ["過去形（複数）", "There were many students in the room.", "部屋にたくさんの生徒がいました。"]
+  ],
+  notes: [
+    "There is/areのitの後の名詞が実質的な主語。名詞の単複でis/areを選ぶ",
+    "There is/areは存在を示す表現。「どこに」の情報（場所）と一緒に使うことが多い",
+    "「ない」はthere is no〜またはthere isn't a〜。anyを使う場合は疑問・否定文"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "imperative-exclamatory",
+  title: "命令文・感嘆文",
+  icon: "❗",
+  color: "#dc2626",
+  desc: "動詞の原形から始まる文と、What / How で始まる驚きの表現。",
+  cols: ["種類", "形・例文", "日本語"],
+  rows: [
+    ["命令文（肯定）", "Open the door.", "ドアを開けなさい。"],
+    ["命令文（否定）", "Don't touch that!", "それを触らないで！"],
+    ["命令文（丁寧）", "Please sit down.", "座ってください。"],
+    ["Let's 文", "Let's go to the park.", "公園へ行きましょう。"],
+    ["Let's not 文", "Let's not be late.", "遅刻しないようにしよう。"],
+    ["What 感嘆文（a/an + 形容詞 + 名詞）", "What a beautiful flower!", "なんて美しい花だ！"],
+    ["What 感嘆文（複数・不可算）", "What nice weather!", "なんていい天気だ！"],
+    ["How 感嘆文（形容詞/副詞）", "How fast he runs!", "彼はなんて速く走るんだ！"],
+    ["How 感嘆文", "How kind she is!", "彼女はなんて親切なんだ！"]
+  ],
+  notes: [
+    "命令文の主語は You（省略）。Pleaseを加えると丁寧な依頼に変わる",
+    "What + a/an + 形容詞 + 単数可算名詞（What a nice car!）",
+    "What + 形容詞 + 複数・不可算名詞（What beautiful eyes! / What fun!）",
+    "How + 形容詞/副詞 + S + V!（HowのあとにS+Vが続く）"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "participle-adjective",
+  title: "分詞の形容詞的用法",
+  icon: "🏷️",
+  color: "#7c3aed",
+  desc: "現在分詞(-ing)と過去分詞(-ed)で名詞を修飾する、中3の最重要ルール。",
+  cols: ["種類", "ルール", "例文", "日本語"],
+  rows: [
+    ["現在分詞（前置修飾）", "動詞ing + 名詞（1語）", "a crying baby", "泣いている赤ちゃん"],
+    ["現在分詞（後置修飾）", "名詞 + 動詞ing〜（句）", "the boy playing tennis", "テニスをしている男の子"],
+    ["過去分詞（前置修飾）", "過去分詞 + 名詞（1語）", "a broken window", "割れた窓"],
+    ["過去分詞（後置修飾）", "名詞 + 過去分詞〜（句）", "the language spoken here", "ここで話されている言語"],
+    ["能動（〜している）", "現在分詞 = 名詞が動作をする側", "a sleeping cat（眠っている猫）", "cat が sleep する"],
+    ["受動（〜された）", "過去分詞 = 名詞が動作をされる側", "a used car（中古車）", "car が use される"],
+    ["2語以上は後置", "名詞の後ろに分詞句を置く", "the girl singing on stage", "ステージで歌っている少女"],
+    ["感情を表す分詞", "boring/bored, exciting/excited など", "I'm excited! / The game is exciting.", "主語が人→ed、物→ing"]
+  ],
+  notes: [
+    "1語で修飾するとき→名詞の前（a flying bird）、2語以上→名詞の後（a bird flying in the sky）",
+    "現在分詞（ing）= 進行中・能動。過去分詞（ed）= 受け身・完了のニュアンス",
+    "感情動詞（surprise/bore/excite）は：人がどう感じるか→-ed、物の性質→-ing"
+  ]
+});
+
+REFERENCE_TABLES.push({
+  id: "indirect-tag-question",
+  title: "間接疑問文・付加疑問文",
+  icon: "🔄",
+  color: "#0369a1",
+  desc: "文中に疑問文を組み込む際の語順ルールと、文末で念を押す表現まとめ。",
+  cols: ["種類", "形・例文", "ポイント"],
+  rows: [
+    ["間接疑問文（疑問詞あり）", "I know where she lives.", "疑問詞 + S + V（平叙文の語順）"],
+    ["間接疑問文", "Do you know what time it is?", "時制に注意（isが正解、×it is what）"],
+    ["間接疑問文", "Tell me why you are late.", "平叙文の語順（why + S + V）"],
+    ["間接疑問文（if/whether）", "I wonder if she will come.", "Yes/No疑問文の間接化はif/whether"],
+    ["間接疑問文", "I don't know whether it is true.", "whetherも同様（〜かどうか）"],
+    ["付加疑問文（肯定文 → 否定疑問）", "She is kind, isn't she?", "肯定文→否定の付加疑問"],
+    ["付加疑問文（否定文 → 肯定疑問）", "You don't like fish, do you?", "否定文→肯定の付加疑問"],
+    ["付加疑問文", "He can swim, can't he?", "助動詞をそのまま使う"],
+    ["付加疑問文", "Let's go, shall we?", "Let's文はshall we?"],
+    ["付加疑問文", "Open the door, will you?", "命令文はwill you? / won't you?"]
+  ],
+  notes: [
+    "間接疑問文は語順が変わる！ Do you know + what time it is?（×is it）",
+    "間接疑問文で主節が過去形の場合、従属節も過去形にする（時制の一致）",
+    "付加疑問文：前の文が肯定→付加は否定、前の文が否定→付加は肯定（逆になる）",
+    "付加疑問文の主語は代名詞で受ける（she, he, it, they など）"
+  ]
+});
+
 
 // ===== 重要熟語リスト =====
 const IDIOMS = [
@@ -22191,11 +22344,11 @@ function PhoneticsSection(props) {
   function playNextWord(sym, exStr) {
     var words = exStr.split(",").map(function(w) { return w.trim(); }).filter(Boolean);
     if (!words.length) return;
-    var idx = (wordIdx[sym] || 0) % words.length;
-    var next = (idx + 1) % words.length;
-    setWordIdx(function(p) { var n = Object.assign({}, p); n[sym] = next; return n; });
+    var prev = wordIdx[sym];
+    var playIdx = prev !== undefined ? (prev + 1) % words.length : 0;
+    setWordIdx(function(p) { var n = Object.assign({}, p); n[sym] = playIdx; return n; });
     if (window.speechSynthesis) {
-      var u = new SpeechSynthesisUtterance(words[idx]);
+      var u = new SpeechSynthesisUtterance(words[playIdx]);
       u.lang = "en-US"; u.rate = 0.85;
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(u);
@@ -22279,9 +22432,10 @@ function PhoneticsSection(props) {
                   React.createElement("div", null,
                     React.createElement("div", { style: { fontSize: 11, fontFamily: "'Montserrat',sans-serif" } }, (function() {
                       var words = item.ex.split(",").map(function(w) { return w.trim(); });
-                      var cur = (wordIdx[item.sym] || 0) % words.length;
+                      var cur = wordIdx[item.sym];
                       return words.map(function(w, wi) {
-                        return React.createElement("span", { key: wi, style: { color: wi === cur ? group.color : "#374151", fontWeight: wi === cur ? 800 : 400 } }, (wi > 0 ? ", " : "") + w);
+                        var active = cur !== undefined && wi === cur;
+                        return React.createElement("span", { key: wi, style: { color: active ? group.color : "#374151", fontWeight: active ? 800 : 400 } }, (wi > 0 ? ", " : "") + w);
                       });
                     })()),
                     React.createElement("div", { style: { fontSize: 10, color: "#9CA3AF", marginTop: 1 } }, item.ja)
