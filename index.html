@@ -25207,9 +25207,6 @@ function App() {
   React.useEffect(() => {
     try { localStorage.setItem("jr_settings_v2", JSON.stringify(settings)); } catch(e) {}
   }, [settings]);
-  React.useEffect(() => {
-    if (ctRef.current) ctRef.current.scrollTop = 0;
-  }, [tab, refSel, topic]);
   const [topic, setTopic] = useState(null);
   const ctRef = useRef(null);
   React.useEffect(() => { applyTheme(settings.theme || "blue"); }, [settings.theme]);
@@ -25218,6 +25215,9 @@ function App() {
   const [stageFilter, setStageFilter] = useState(0);
   const [practiceMode, setPracticeMode] = useState("list");
   const [refSel, setRefSel] = useState(null);
+  React.useEffect(() => {
+    if (ctRef.current) ctRef.current.scrollTop = 0;
+  }, [tab, refSel, topic]);
   const [fixedSet, setFixedSet] = useState(null);
   const [eisStage, setEisStage] = useState(0);
   const [vocabList, setVocabList] = useState(BASE_VOCAB);
