@@ -22182,8 +22182,24 @@ function PhoneticsSection(props) {
   var openItemsState = useState({});
   var openItems = openItemsState[0];
   var setOpenItems = openItemsState[1];
+  var wordIdxState = useState({});
+  var wordIdx = wordIdxState[0];
+  var setWordIdx = wordIdxState[1];
   function toggleItem(key) {
     setOpenItems(function(p) { var n = {}; Object.assign(n, p); n[key] = !p[key]; return n; });
+  }
+  function playNextWord(sym, exStr) {
+    var words = exStr.split(",").map(function(w) { return w.trim(); }).filter(Boolean);
+    if (!words.length) return;
+    var idx = (wordIdx[sym] || 0) % words.length;
+    var next = (idx + 1) % words.length;
+    setWordIdx(function(p) { var n = Object.assign({}, p); n[sym] = next; return n; });
+    if (window.speechSynthesis) {
+      var u = new SpeechSynthesisUtterance(words[idx]);
+      u.lang = "en-US"; u.rate = 0.85;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(u);
+    }
   }
   var groups = [
     { label: "母音 (Vowels)", color: "#3478F6", items: [
@@ -22255,18 +22271,19 @@ function PhoneticsSection(props) {
                 React.createElement("div", {
                   onClick: function() {
                     toggleItem(item.sym);
-                    if (window.speechSynthesis) {
-                      var u = new SpeechSynthesisUtterance(item.ex.split(",")[0].trim());
-                      u.lang = "en-US"; u.rate = 0.85;
-                      window.speechSynthesis.cancel();
-                      window.speechSynthesis.speak(u);
-                    }
+                    playNextWord(item.sym, item.ex);
                   },
                   style: { display: "grid", gridTemplateColumns: "48px 1fr 1fr 36px", alignItems: "center", padding: "10px 14px", cursor: "pointer", gap: 10 }
                 },
                   React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 22, fontWeight: 800, color: group.color, textAlign: "center" } }, "/" + item.sym + "/"),
                   React.createElement("div", null,
-                    React.createElement("div", { style: { fontSize: 11, color: "#374151", fontFamily: "'Montserrat',sans-serif" } }, item.ex),
+                    React.createElement("div", { style: { fontSize: 11, fontFamily: "'Montserrat',sans-serif" } }, (function() {
+                      var words = item.ex.split(",").map(function(w) { return w.trim(); });
+                      var cur = (wordIdx[item.sym] || 0) % words.length;
+                      return words.map(function(w, wi) {
+                        return React.createElement("span", { key: wi, style: { color: wi === cur ? group.color : "#374151", fontWeight: wi === cur ? 800 : 400 } }, (wi > 0 ? ", " : "") + w);
+                      });
+                    })()),
                     React.createElement("div", { style: { fontSize: 10, color: "#9CA3AF", marginTop: 1 } }, item.ja)
                   ),
                   React.createElement("div", null),
@@ -25485,23 +25502,6 @@ function App() {
           )),
         /*#__PURE__*/React.createElement("div", { style: { fontFamily: "'Montserrat',sans-serif", fontSize: 16, fontWeight: 800, color: "#111827" } }, "参考表"),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "#6B7280", marginTop: 3 } }, "文型・助動詞・前置詞など")
-      ),
-      /*#__PURE__*/React.createElement("div", {
-        style: { background: "white", borderRadius: 14, padding: "14px 16px",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.06)", cursor: "pointer",
-          display: "flex", gap: 14, alignItems: "center", border: "2px solid #f59e0b" },
-        onClick: () => { setPracticeMode("studytips"); setTab("practice"); }
-      },
-        /*#__PURE__*/React.createElement("div", { style: { width: 42, height: 42,
-          borderRadius: 12, background: "linear-gradient(135deg,#f59e0b,#d97706)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 22, flexShrink: 0 } }, "      "),
-        /*#__PURE__*/React.createElement("div", null,
-          /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 14,
-            color: "#1f2937" } }, "英語学習法 TIPS"),
-          /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF",
-            marginTop: 2 } }, "シャドウイング・多読などの学び方を選ぶ")
-        )
       )
     )
   ),
@@ -25520,7 +25520,7 @@ function App() {
             /*#__PURE__*/React.createElement("path", { d:"M21 13v2a4 4 0 0 1-4 4H3" })
           )),
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#374151" } }, "不規則動詞"),
-        /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, "60語 クイズ")
+        /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF", marginTop: 2 } }, IRREGULAR_VERBS.length + "語 クイズ")
       ),
       /*#__PURE__*/React.createElement("div", {
         onClick: () => { setPracticeMode("idioms"); setTab("practice"); },
@@ -25566,6 +25566,24 @@ function App() {
         /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: "var(--text-muted)", marginTop: 2 } }, "ネイティブ表現・文化・応用表現")
       ),
       /*#__PURE__*/React.createElement("div", { style: { color: "var(--border)", fontSize: 16 } }, "›")
+    )
+  ),
+  /*#__PURE__*/React.createElement("div", {
+    style: { background: "white", borderRadius: 14, padding: "14px 16px",
+      boxShadow: "0 2px 8px rgba(0,0,0,0.06)", cursor: "pointer",
+      display: "flex", gap: 14, alignItems: "center", border: "2px solid #f59e0b",
+      marginTop: 2 },
+    onClick: () => { setPracticeMode("studytips"); setTab("practice"); }
+  },
+    /*#__PURE__*/React.createElement("div", { style: { width: 42, height: 42,
+      borderRadius: 12, background: "linear-gradient(135deg,#f59e0b,#d97706)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      fontSize: 22, flexShrink: 0 } }, "🎓"),
+    /*#__PURE__*/React.createElement("div", null,
+      /*#__PURE__*/React.createElement("div", { style: { fontWeight: 800, fontSize: 14,
+        color: "#1f2937" } }, "英語学習法 TIPS"),
+      /*#__PURE__*/React.createElement("div", { style: { fontSize: 9, color: "#9CA3AF",
+        marginTop: 2 } }, "シャドウイング・多読などの学び方を選ぶ")
     )
   )
 ), 
