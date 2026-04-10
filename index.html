@@ -21972,11 +21972,10 @@ function IrregularVerbs({
 
 // ===== 重要熟語コンポーネント =====
 function IdiomsSection({ onBack }) {
-  const [mode, setMode] = React.useState("list"); // list | card | quiz
+  const [mode, setMode] = React.useState("list");
   const [showEx, setShowEx] = React.useState({});
   const [cardIdx, setCardIdx] = React.useState(0);
   const [cardFlipped, setCardFlipped] = React.useState(false);
-  const [cardShuffle, setCardShuffle] = React.useState(false);
   const [cardList, setCardList] = React.useState(IDIOMS);
   const [quizIdx, setQuizIdx] = React.useState(0);
   const [quizAns, setQuizAns] = React.useState("");
@@ -21984,103 +21983,91 @@ function IdiomsSection({ onBack }) {
   const [score, setScore] = React.useState(0);
   const [done, setDone] = React.useState(false);
   const shuffled = React.useRef([...IDIOMS].sort(() => Math.random() - 0.5));
-
   function startQuiz() {
     shuffled.current = [...IDIOMS].sort(() => Math.random() - 0.5).slice(0, 12);
     setQuizIdx(0); setQuizAns(""); setQuizResult(null); setScore(0); setDone(false); setMode("quiz");
   }
   function startCard(shuffle) {
     const list = shuffle ? [...IDIOMS].sort(() => Math.random() - 0.5) : [...IDIOMS];
-    setCardList(list); setCardIdx(0); setCardFlipped(false); setCardShuffle(shuffle); setMode("card");
+    setCardList(list); setCardIdx(0); setCardFlipped(false); setMode("card");
   }
   function checkQuiz() {
     if (!quizAns.trim()) return;
     const q = shuffled.current[quizIdx];
     const ok = quizAns.trim().toLowerCase().replace(/\s+/g, " ") === q.phrase.toLowerCase();
     setQuizResult({ ok, correct: q.phrase });
-    if (ok) setScore(s => s + 1);
+    if (ok) setScore(function(s) { return s + 1; });
   }
   function nextQuiz() {
     if (quizIdx + 1 >= shuffled.current.length) { setDone(true); return; }
-    setQuizIdx(i => i + 1); setQuizAns(""); setQuizResult(null);
+    setQuizIdx(function(i) { return i + 1; }); setQuizAns(""); setQuizResult(null);
   }
-  const q = shuffled.current[quizIdx];
+  var q = shuffled.current[quizIdx];
 
-  // ===== クイズ完了 =====
   if (mode === "quiz" && done) return React.createElement("div", null,
-    React.createElement("button", { className: "back", onClick: () => { setMode("list"); setDone(false); } }, "← 一覧"),
+    React.createElement("button", { className: "back", onClick: function() { setMode("list"); setDone(false); } }, "\u2190 \u4e00\u89a7"),
     React.createElement("div", { style: { textAlign: "center", padding: "20px 0" } },
-      React.createElement("div", { style: { fontSize: 48, marginBottom: 8 } }, score >= 10 ? "🎉" : score >= 7 ? "😊" : "💪"),
+      React.createElement("div", { style: { fontSize: 48, marginBottom: 8 } }, score >= 10 ? "\uD83C\uDF89" : score >= 7 ? "\uD83D\uDE0A" : "\uD83D\uDCAA"),
       React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 48, fontWeight: 900, color: score >= 10 ? "#10b981" : score >= 7 ? "#f59e0b" : "#ef4444" } }, score + "/" + shuffled.current.length),
-      React.createElement("button", { className: "btn btn-warn", style: { background: "linear-gradient(135deg,#f59e0b,#ef4444)", maxWidth: 240, margin: "8px auto 0" }, onClick: startQuiz }, "もう一度"),
-      React.createElement("button", { className: "btn btn-o", style: { maxWidth: 240, margin: "8px auto 0" }, onClick: () => setMode("list") }, "一覧に戻る")
+      React.createElement("button", { className: "btn btn-warn", style: { background: "linear-gradient(135deg,#f59e0b,#ef4444)", maxWidth: 240, margin: "8px auto 0" }, onClick: startQuiz }, "\u3082\u3046\u4e00\u5ea6"),
+      React.createElement("button", { className: "btn btn-o", style: { maxWidth: 240, margin: "8px auto 0" }, onClick: function() { setMode("list"); } }, "\u4e00\u89a7\u306b\u623b\u308b")
     )
   );
 
-  // ===== クイズモード =====
   if (mode === "quiz") return React.createElement("div", null,
-    React.createElement("button", { className: "back", onClick: () => setMode("list") }, "← 一覧"),
+    React.createElement("button", { className: "back", onClick: function() { setMode("list"); } }, "\u2190 \u4e00\u89a7"),
     React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, color: "#9ca3af", marginBottom: 8 } },
-      React.createElement("span", null, "熟語クイズ"), React.createElement("span", null, (quizIdx + 1) + "/" + shuffled.current.length)),
+      React.createElement("span", null, "\u719f\u8a9e\u30af\u30a4\u30ba"), React.createElement("span", null, (quizIdx + 1) + "/" + shuffled.current.length)),
     React.createElement("div", { className: "pbw" }, React.createElement("div", { className: "pb", style: { width: (quizIdx / shuffled.current.length * 100) + "%" } })),
     React.createElement("div", { className: "pqc" },
       React.createElement("div", { style: { textAlign: "center", marginBottom: 16 } },
-        React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginBottom: 8 } }, "この意味の熟語は？（英語で入力）"),
+        React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginBottom: 8 } }, "\u3053\u306e\u610f\u5473\u306e\u719f\u8a9e\u306f\uff1f\uff08\u82f1\u8a9e\u3067\u5165\u529b\uff09"),
         React.createElement("div", { style: { fontSize: 24, fontWeight: 700, color: "#6366f1" } }, q.meaning),
         React.createElement("div", { style: { fontSize: 13, color: "#9ca3af", marginTop: 6 } }, q.exja)
       ),
-      React.createElement("input", { className: "pin" + (quizResult ? quizResult.ok ? " correct" : " wrong" : ""), value: quizAns, onChange: e => setQuizAns(e.target.value), onKeyDown: e => { if (e.key === "Enter") quizResult ? nextQuiz() : checkQuiz(); }, placeholder: "熟語を英語で入力…", disabled: !!quizResult }),
-      !quizResult && React.createElement("button", { className: "btn btn-sm", onClick: checkQuiz, disabled: !quizAns.trim() }, "確認"),
+      React.createElement("input", { className: "pin" + (quizResult ? quizResult.ok ? " correct" : " wrong" : ""), value: quizAns, onChange: function(e) { setQuizAns(e.target.value); }, onKeyDown: function(e) { if (e.key === "Enter") { quizResult ? nextQuiz() : checkQuiz(); } }, placeholder: "\u719f\u8a9e\u3092\u82f1\u8a9e\u3067\u5165\u529b\u2026", disabled: !!quizResult }),
+      !quizResult && React.createElement("button", { className: "btn btn-sm", onClick: checkQuiz, disabled: !quizAns.trim() }, "\u78ba\u8a8d"),
       quizResult && React.createElement("div", null,
         React.createElement("div", { style: { background: quizResult.ok ? "#d1fae5" : "#fee2e2", border: "2px solid " + (quizResult.ok ? "#10b981" : "#ef4444"), borderRadius: 12, padding: "12px 14px", marginBottom: 10 } },
-          React.createElement("div", { style: { fontWeight: 700, color: quizResult.ok ? "#065f46" : "#991b1b" } }, quizResult.ok ? "✅ 正解！" : "❌ 不正解"),
-          !quizResult.ok && React.createElement("div", { style: { fontSize: 13, marginTop: 4 } }, "正解: ", React.createElement("strong", { style: { color: "#059669", fontFamily: "'Nunito',sans-serif" } }, quizResult.correct)),
+          React.createElement("div", { style: { fontWeight: 700, color: quizResult.ok ? "#065f46" : "#991b1b" } }, quizResult.ok ? "\u2705 \u6b63\u89e3\uff01" : "\u274c \u4e0d\u6b63\u89e3"),
+          !quizResult.ok && React.createElement("div", { style: { fontSize: 13, marginTop: 4 } }, "\u6b63\u89e3: ", React.createElement("strong", { style: { color: "#059669", fontFamily: "'Nunito',sans-serif" } }, quizResult.correct)),
           React.createElement("div", { style: { fontSize: 12, color: "#6b7280", marginTop: 4, fontFamily: "'Nunito',sans-serif" } }, q.ex)
         ),
-        React.createElement("button", { style: { background: "linear-gradient(135deg,#6366f1,#8b5cf6)", border: "none", borderRadius: 12, padding: "13px", color: "white", fontFamily: "'Noto Sans JP',sans-serif", fontWeight: 700, fontSize: 15, cursor: "pointer", width: "100%" }, onClick: nextQuiz }, quizIdx + 1 >= shuffled.current.length ? "結果を見る 📊" : "次の問題 →")
+        React.createElement("button", { style: { background: "linear-gradient(135deg,#6366f1,#8b5cf6)", border: "none", borderRadius: 12, padding: "13px", color: "white", fontFamily: "'Noto Sans JP',sans-serif", fontWeight: 700, fontSize: 15, cursor: "pointer", width: "100%" }, onClick: nextQuiz }, quizIdx + 1 >= shuffled.current.length ? "\u7d50\u679c\u3092\u898b\u308b \uD83D\uDCCA" : "\u6b21\u306e\u554f\u984c \u2192")
       )
     )
   );
 
-  // ===== カードモード =====
   if (mode === "card") {
-    const card = cardList[cardIdx];
-    const total = cardList.length;
+    var card = cardList[cardIdx];
+    var total = cardList.length;
     return React.createElement("div", null,
-      React.createElement("button", { className: "back", onClick: () => setMode("list") }, "← 一覧"),
+      React.createElement("button", { className: "back", onClick: function() { setMode("list"); } }, "\u2190 \u4e00\u89a7"),
       React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 } },
-        React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#374151" } }, "💬 熟語カード"),
+        React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#374151" } }, "\uD83D\uDCAC \u719f\u8a9e\u30ab\u30fc\u30c9"),
         React.createElement("div", { style: { fontSize: 12, color: "#9ca3af" } }, (cardIdx + 1) + " / " + total)
       ),
       React.createElement("div", { className: "pbw", style: { marginBottom: 16 } },
         React.createElement("div", { className: "pb", style: { width: ((cardIdx + 1) / total * 100) + "%" } })
       ),
-      // カード本体
       React.createElement("div", {
-        onClick: () => setCardFlipped(f => !f),
+        onClick: function() { setCardFlipped(function(f) { return !f; }); },
         style: {
           background: cardFlipped ? "linear-gradient(135deg,#6366f1,#8b5cf6)" : "white",
-          borderRadius: 20,
-          padding: "32px 24px",
-          minHeight: 220,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          boxShadow: "0 8px 32px rgba(99,102,241,0.18)",
-          cursor: "pointer",
+          borderRadius: 20, padding: "32px 24px", minHeight: 220,
+          display: "flex", flexDirection: "column", alignItems: "center",
+          justifyContent: "center", textAlign: "center",
+          boxShadow: "0 8px 32px rgba(99,102,241,0.18)", cursor: "pointer",
           transition: "all 0.3s",
           border: cardFlipped ? "none" : "2px solid #e0e7ff",
-          userSelect: "none",
           marginBottom: 16
         }
       },
         !cardFlipped
           ? React.createElement(React.Fragment, null,
-              React.createElement("div", { style: { fontSize: 11, color: "#9ca3af", marginBottom: 12, letterSpacing: "0.5px" } }, "タップして意味を確認"),
+              React.createElement("div", { style: { fontSize: 11, color: "#9ca3af", marginBottom: 12 } }, "\u30bf\u30c3\u30d7\u3057\u3066\u610f\u5473\u3092\u78ba\u8a8d"),
               React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 28, fontWeight: 900, color: "#4338ca", lineHeight: 1.3 } }, card.phrase),
-              React.createElement("div", { style: { marginTop: 16, fontSize: 11, color: "#c7d2fe" } }, "▾ フリップ")
+              React.createElement("div", { style: { marginTop: 16, fontSize: 11, color: "#c7d2fe" } }, "\u25be \u30d5\u30ea\u30c3\u30d7")
             )
           : React.createElement(React.Fragment, null,
               React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 20, fontWeight: 900, color: "white", marginBottom: 8 } }, card.phrase),
@@ -22089,57 +22076,55 @@ function IdiomsSection({ onBack }) {
               React.createElement("div", { style: { fontSize: 12, color: "rgba(255,255,255,0.7)", marginTop: 6 } }, card.exja)
             )
       ),
-      // ナビゲーション
       React.createElement("div", { style: { display: "flex", gap: 10 } },
         React.createElement("button", {
-          onClick: () => { setCardIdx(i => Math.max(0, i - 1)); setCardFlipped(false); },
+          onClick: function() { setCardIdx(function(i) { return Math.max(0, i - 1); }); setCardFlipped(false); },
           disabled: cardIdx === 0,
           style: { flex: 1, padding: "12px", borderRadius: 12, border: "1.5px solid #e5e7eb", background: cardIdx === 0 ? "#f9fafb" : "white", color: cardIdx === 0 ? "#d1d5db" : "#374151", fontWeight: 700, fontSize: 14, cursor: cardIdx === 0 ? "default" : "pointer" }
-        }, "← 前へ"),
+        }, "\u2190 \u524d\u3078"),
         React.createElement("button", {
-          onClick: () => { setCardFlipped(false); if (cardIdx < total - 1) { setCardIdx(i => i + 1); } else { setMode("list"); } },
+          onClick: function() { setCardFlipped(false); if (cardIdx < total - 1) { setCardIdx(function(i) { return i + 1; }); } else { setMode("list"); } },
           style: { flex: 1, padding: "12px", borderRadius: 12, border: "none", background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "white", fontWeight: 700, fontSize: 14, cursor: "pointer" }
-        }, cardIdx < total - 1 ? "次へ →" : "完了 🎉")
+        }, cardIdx < total - 1 ? "\u6b21\u3078 \u2192" : "\u5b8c\u4e86 \uD83C\uDF89")
       )
     );
   }
 
-  // ===== リストモード =====
   return React.createElement("div", null,
-    React.createElement("button", { className: "back", onClick: onBack }, "← 練習メニュー"),
+    React.createElement("button", { className: "back", onClick: onBack }, "\u2190 \u7df4\u7fd2\u30e1\u30cb\u30e5\u30fc"),
     React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 } },
-      React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "#1f2937" } }, "💬 重要熟語 " + IDIOMS.length + "語"),
-      React.createElement("button", { className: "btn btn-warn", style: { width: "auto", padding: "8px 16px", fontSize: 13, marginTop: 0, background: "linear-gradient(135deg,#f59e0b,#ef4444)" }, onClick: startQuiz }, "クイズ開始")
+      React.createElement("div", { style: { fontWeight: 800, fontSize: 15, color: "#1f2937" } }, "\uD83D\uDCAC \u91cd\u8981\u719f\u8a9e " + IDIOMS.length + "\u8a9e"),
+      React.createElement("button", { className: "btn btn-warn", style: { width: "auto", padding: "8px 16px", fontSize: 13, marginTop: 0, background: "linear-gradient(135deg,#f59e0b,#ef4444)" }, onClick: startQuiz }, "\u30af\u30a4\u30ba\u958b\u59cb")
     ),
-    // カードモードボタン
     React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14 } },
       React.createElement("button", {
-        onClick: () => startCard(false),
+        onClick: function() { startCard(false); },
         style: { flex: 1, padding: "11px 10px", borderRadius: 12, border: "2px solid #6366f1", background: "#f0f4ff", color: "#4338ca", fontWeight: 700, fontSize: 13, cursor: "pointer" }
-      }, "🃏 カード学習（順番）"),
+      }, "\uD83C\uDCC3 \u30ab\u30fc\u30c9\u5b66\u7fd2\uff08\u9806\u756a\uff09"),
       React.createElement("button", {
-        onClick: () => startCard(true),
+        onClick: function() { startCard(true); },
         style: { flex: 1, padding: "11px 10px", borderRadius: 12, border: "2px solid #8b5cf6", background: "#f5f3ff", color: "#6d28d9", fontWeight: 700, fontSize: 13, cursor: "pointer" }
-      }, "🔀 カード（シャッフル）")
+      }, "\uD83D\uDD00 \u30ab\u30fc\u30c9\uff08\u30b7\u30e3\u30c3\u30d5\u30eb\uff09")
     ),
-    // リスト
-    IDIOMS.map((id, i) => React.createElement("div", {
-      key: i,
-      style: { background: "white", borderRadius: 12, padding: "12px 14px", marginBottom: 8, boxShadow: "0 2px 6px rgba(0,0,0,0.05)", cursor: "pointer" },
-      onClick: () => setShowEx(p => ({ ...p, [i]: !p[i] }))
-    },
-      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
-        React.createElement("div", { style: { flex: 1 } },
-          React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 16, fontWeight: 800, color: "#6366f1" } }, id.phrase),
-          React.createElement("div", { style: { fontSize: 13, color: "#374151", marginTop: 2, fontWeight: 600 } }, id.meaning)
+    IDIOMS.map(function(id, i) {
+      return React.createElement("div", {
+        key: i,
+        style: { background: "white", borderRadius: 12, padding: "12px 14px", marginBottom: 8, boxShadow: "0 2px 6px rgba(0,0,0,0.05)", cursor: "pointer" },
+        onClick: function() { setShowEx(function(p) { var n = Object.assign({}, p); n[i] = !p[i]; return n; }); }
+      },
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+          React.createElement("div", { style: { flex: 1 } },
+            React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 16, fontWeight: 800, color: "#6366f1" } }, id.phrase),
+            React.createElement("div", { style: { fontSize: 13, color: "#374151", marginTop: 2, fontWeight: 600 } }, id.meaning)
+          ),
+          React.createElement("span", { style: { color: "#9ca3af", fontSize: 14 } }, showEx[i] ? "\u25b2" : "\u25bc")
         ),
-        React.createElement("span", { style: { color: "#9ca3af", fontSize: 14 } }, showEx[i] ? "▲" : "▼")
-      ),
-      showEx[i] && React.createElement("div", { style: { marginTop: 10, paddingTop: 10, borderTop: "1px solid #f3f4f6" } },
-        React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 14, color: "#374151", lineHeight: 1.7 } }, id.ex),
-        React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginTop: 4 } }, id.exja)
-      )
-    ))
+        showEx[i] && React.createElement("div", { style: { marginTop: 10, paddingTop: 10, borderTop: "1px solid #f3f4f6" } },
+          React.createElement("div", { style: { fontFamily: "'Nunito',sans-serif", fontSize: 14, color: "#374151", lineHeight: 1.7 } }, id.ex),
+          React.createElement("div", { style: { fontSize: 12, color: "#9ca3af", marginTop: 4 } }, id.exja)
+        )
+      );
+    })
   );
 }
 
@@ -27713,4 +27698,7 @@ tab === "practice" && !fixedSet && practiceMode === "studytips" && /*#__PURE__*/
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
-  <
+
+  </script>
+</body>
+</html>
