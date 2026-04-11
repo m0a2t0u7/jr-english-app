@@ -11,11 +11,15 @@
 <script>
 (function(){try{
  var s=JSON.parse(localStorage.getItem("jr_settings_v2")||"{}");
- var T={blue:{m:"#3478F6",d:"#2563EB",l:"#4A8BF8",a:"#FF8C00",bg:"#FAFAFA"},navy:{m:"#1E40AF",d:"#1E3A8A",l:"#3B82F6",a:"#F59E0B",bg:"#F8FAFC"},sky:{m:"#0EA5E9",d:"#0284C7",l:"#38BDF8",a:"#F97316",bg:"#F0F9FF"},teal:{m:"#0D9488",d:"#0F766E",l:"#14B8A6",a:"#F59E0B",bg:"#F0FDFA"},green:{m:"#16A34A",d:"#15803D",l:"#22C55E",a:"#F97316",bg:"#F0FDF4"},emerald:{m:"#059669",d:"#047857",l:"#10B981",a:"#7C3AED",bg:"#ECFDF5"},purple:{m:"#7C3AED",d:"#6D28D9",l:"#8B5CF6",a:"#F59E0B",bg:"#FAF5FF"},violet:{m:"#6366F1",d:"#4F46E5",l:"#818CF8",a:"#F97316",bg:"#EEF2FF"},rose:{m:"#E11D48",d:"#BE123C",l:"#FB7185",a:"#3478F6",bg:"#FFF1F2"},pink:{m:"#DB2777",d:"#BE185D",l:"#F472B6",a:"#0EA5E9",bg:"#FDF2F8"},orange:{m:"#EA580C",d:"#C2410C",l:"#FB923C",a:"#3478F6",bg:"#FFF7ED"},amber:{m:"#D97706",d:"#B45309",l:"#F59E0B",a:"#0D9448",bg:"#FFFBEB"},slate:{m:"#475569",d:"#334155",l:"#64748B",a:"#F59E0B",bg:"#F8FAFC"},gray:{m:"#374151",d:"#1F2937",l:"#6B7280",a:"#3478F6",bg:"#F9FAFB"},indigo:{m:"#4338CA",d:"#3730A3",l:"#6366F1",a:"#F59E0B",bg:"#EEF2FF"},cyan:{m:"#0891B2",d:"#0E7490",l:"#06B6D4",a:"#F97316",bg:"#ECFEFF"},forest:{m:"#166534",d:"#14532D",l:"#15803D",a:"#FBBF24",bg:"#F0FDF4"},ocean:{m:"#0369A1",d:"#075985",l:"#0284C7",a:"#FB923C",bg:"#E0F2FE"},coral:{m:"#E05252",d:"#C0392B",l:"#F47474",a:"#3478F6",bg:"#FFF5F5"},mint:{m:"#10B981",d:"#059669",l:"#34D399",a:"#6366F1",bg:"#ECFDF5"}};
+ var quickTheme=localStorage.getItem("jr_theme");
+ if(quickTheme) s.theme=quickTheme;
+ var T={blue:{m:"#3478F6",d:"#2563EB",l:"#4A8BF8",a:"#FF8C00",bg:"#FAFAFA"},navy:{m:"#1E40AF",d:"#1E3A8A",l:"#3B82F6",a:"#F59E0B",bg:"#F8FAFC"},sky:{m:"#0EA5E9",d:"#0284C7",l:"#38BDF8",a:"#F97316",bg:"#F0F9FF"},teal:{m:"#0D9488",d:"#0F766E",l:"#14B8A6",a:"#F59E0B",bg:"#F0FDFA"},green:{m:"#16A34A",d:"#15803D",l:"#22C55E",a:"#F97316",bg:"#F0FDF4"},emerald:{m:"#059669",d:"#047857",l:"#10B981",a:"#7C3AED",bg:"#ECFDF5"},purple:{m:"#7C3AED",d:"#6D28D9",l:"#8B5CF6",a:"#F59E0B",bg:"#FAF5FF"},violet:{m:"#6366F1",d:"#4F46E5",l:"#818CF8",a:"#F97316",bg:"#EEF2FF"},rose:{m:"#E11D48",d:"#BE123C",l:"#FB7185",a:"#3478F6",bg:"#FFF1F2"},pink:{m:"#DB2777",d:"#BE185D",l:"#F472B6",a:"#0EA5E9",bg:"#FDF2F8"},hotpink:{m:"#EC4899",d:"#DB2777",l:"#F9A8D4",a:"#6366F1",bg:"#FFF0F7"},sakura:{m:"#F472B6",d:"#EC4899",l:"#FBCFE8",a:"#0EA5E9",bg:"#FFF5FB"},orange:{m:"#EA580C",d:"#C2410C",l:"#FB923C",a:"#3478F6",bg:"#FFF7ED"},amber:{m:"#D97706",d:"#B45309",l:"#F59E0B",a:"#0D9488",bg:"#FFFBEB"},slate:{m:"#475569",d:"#334155",l:"#64748B",a:"#F59E0B",bg:"#F8FAFC"},gray:{m:"#374151",d:"#1F2937",l:"#6B7280",a:"#3478F6",bg:"#F9FAFB"},indigo:{m:"#4338CA",d:"#3730A3",l:"#6366F1",a:"#F59E0B",bg:"#EEF2FF"},cyan:{m:"#0891B2",d:"#0E7490",l:"#06B6D4",a:"#F97316",bg:"#ECFEFF"},forest:{m:"#166534",d:"#14532D",l:"#15803D",a:"#FBBF24",bg:"#F0FDF4"},ocean:{m:"#0369A1",d:"#075985",l:"#0284C7",a:"#FB923C",bg:"#E0F2FE"},coral:{m:"#E05252",d:"#C0392B",l:"#F47474",a:"#3478F6",bg:"#FFF5F5"},mint:{m:"#10B981",d:"#059669",l:"#34D399",a:"#6366F1",bg:"#ECFDF5"},hotpink:{m:"#EC4899",d:"#DB2777",l:"#F9A8D4",a:"#6366F1",bg:"#FFF0F7"},sakura:{m:"#F472B6",d:"#EC4899",l:"#FBCFE8",a:"#0EA5E9",bg:"#FFF5FB"},magenta:{m:"#C026D3",d:"#A21CAF",l:"#E879F9",a:"#F59E0B",bg:"#FDF4FF"},blush:{m:"#FB7185",d:"#E11D48",l:"#FDA4AF",a:"#6366F1",bg:"#FFF1F2"}};
  var t=T[s.theme||"blue"]||T.blue,r=document.documentElement.style;
  r.setProperty("--blue",t.m);r.setProperty("--blue-dark",t.d);
  r.setProperty("--blue-light",t.l);r.setProperty("--orange",t.a);
  r.setProperty("--orange-light",t.a);r.setProperty("--bg",t.bg);
+ // Also persist wordColor as CSS variable for pre-render
+ if(s.wordColor) r.setProperty("--saved-word-color",s.wordColor);
 }catch(e){}})()
 </script>
   <div id="root"></div>
@@ -21063,7 +21067,8 @@ function generateLocalQuiz(topic, count = 6) {
       const blanked = words.map((w, i) => i === blankIdx ? "___" : w).join(" ");
       questions.push({
         type: "fillblank",
-        q: blanked + "（" + ex.ja + "）",
+        q: blanked,
+        ja: ex.ja,
         answer,
         explanation: rules[0] || ""
       });
@@ -21214,13 +21219,18 @@ function AIGrammarQuiz({
   }
   function checkFill() {
     if (answered || !inp.trim()) return;
-    const ok = inp.trim().toLowerCase().replace(/[.,!?]/g, "").replace(/\s+/g, " ").trim() === q.answer.toLowerCase().replace(/[.,!?]/g, "").replace(/\s+/g, " ").trim();
+    const normalize = (s) => s.trim().toLowerCase().replace(/[.,!?'"]/g, "").replace(/\s+/g, " ").trim();
+    const userAns = normalize(inp);
+    const correctAnswers = Array.isArray(q.answer) ? q.answer : [q.answer];
+    const ok = correctAnswers.some(a => normalize(a) === userAns);
     setInpS(ok ? "ok" : "ng");
     confirmAnswer(ok);
   }
   function checkRe() {
     if (answered) return;
-    const ok = aw.join(" ").toLowerCase().replace(/\s+/g, " ").trim() === q.answer.toLowerCase().replace(/\s+/g, " ").trim();
+    const normalize3 = (s) => s.toLowerCase().replace(/[.!?,'"]/g, "").replace(/\s+/g, " ").trim();
+    const answers3 = Array.isArray(q.answer) ? q.answer : [q.answer];
+    const ok = answers3.some(a => normalize3(aw.join(" ")) === normalize3(a));
     setInpS(ok ? "ok" : "ng");
     confirmAnswer(ok);
   }
@@ -21479,7 +21489,9 @@ function AIGrammarQuiz({
     }
   }, QUESTION_TYPE_LABELS[q.type] || q.type), /*#__PURE__*/React.createElement("div", {
     className: "ai-quiz-q"
-  }, q.q), q.type === "choice" && /*#__PURE__*/React.createElement("div", {
+  }, q.q, q.ja && /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 13, color: "#6b7280", marginTop: 6, fontWeight: 400 }
+  }, q.ja)), q.type === "choice" && /*#__PURE__*/React.createElement("div", {
     className: "ai-quiz-choices"
   }, (q.choices || []).map((o, i) => /*#__PURE__*/React.createElement("button", {
     key: i,
@@ -24881,7 +24893,10 @@ function FixedPS({
   }
   function checkFill() {
     if (answered) return;
-    const ok = inp.trim().toLowerCase().replace(/[.!?,]/g, "").replace(/\s+/g, " ").trim() === q.answer.toLowerCase().replace(/[.!?,]/g, "").replace(/\s+/g, " ").trim();
+    const normalize2 = (s) => s.trim().toLowerCase().replace(/[.!?,\'\"]/g, "").replace(/\s+/g, " ").trim();
+    const userAns2 = normalize2(inp);
+    const answers2 = Array.isArray(q.answer) ? q.answer : [q.answer];
+    const ok = answers2.some(a => normalize2(a) === userAns2);
     setInpS(ok ? "correct" : "wrong");
     confirm(ok);
   }
@@ -24900,7 +24915,9 @@ function FixedPS({
   }
   function checkRe() {
     if (answered) return;
-    const ok = aw.join(" ").toLowerCase().replace(/\s+/g, " ").trim() === q.answer.toLowerCase().replace(/\s+/g, " ").trim();
+    const normalize3 = (s) => s.toLowerCase().replace(/[.!?,'"]/g, "").replace(/\s+/g, " ").trim();
+    const answers3 = Array.isArray(q.answer) ? q.answer : [q.answer];
+    const ok = answers3.some(a => normalize3(aw.join(" ")) === normalize3(a));
     setInpS(ok ? "correct" : "wrong");
     confirm(ok);
   }
@@ -25039,7 +25056,9 @@ function FixedPS({
     className: "pqc"
   }, /*#__PURE__*/React.createElement("div", {
     className: "pq"
-  }, q.q), hint && /*#__PURE__*/React.createElement("div", {
+  }, q.q, q.ja && /*#__PURE__*/React.createElement("div", {
+    style: { fontSize: 13, color: "#6b7280", marginTop: 6, fontWeight: 400 }
+  }, q.ja)), hint && /*#__PURE__*/React.createElement("div", {
     className: "hint-box"
   }, "\uD83D\uDCA1 ", q.hint), !hint && !answered && /*#__PURE__*/React.createElement("button", {
     style: {
@@ -25164,6 +25183,10 @@ const COLOR_THEMES = {
   ocean:   { name:"オーシャン",     main:"#0369A1", dark:"#075985", lt:"#0284C7",   acc:"#FB923C", bg:"#E0F2FE" },
   coral:   { name:"コーラル",       main:"#E05252", dark:"#C0392B", lt:"#F47474",   acc:"#3478F6", bg:"#FFF5F5" },
   mint:    { name:"ミント",         main:"#10B981", dark:"#059669", lt:"#34D399",   acc:"#6366F1", bg:"#ECFDF5" },
+  hotpink: { name:"ホットピンク",   main:"#EC4899", dark:"#DB2777", lt:"#F9A8D4",   acc:"#6366F1", bg:"#FFF0F7" },
+  sakura:  { name:"さくら",         main:"#F472B6", dark:"#EC4899", lt:"#FBCFE8",   acc:"#0EA5E9", bg:"#FFF5FB" },
+  magenta: { name:"マゼンタ",       main:"#C026D3", dark:"#A21CAF", lt:"#E879F9",   acc:"#F59E0B", bg:"#FDF4FF" },
+  blush:   { name:"ブラッシュ",     main:"#FB7185", dark:"#E11D48", lt:"#FDA4AF",   acc:"#6366F1", bg:"#FFF1F2" },
 };
 function applyTheme(key) {
   const t = COLOR_THEMES[key] || COLOR_THEMES.blue;
@@ -25202,14 +25225,22 @@ function App() {
   });
   const saveSettings = (next) => {
     setSettings(next);
-    try { localStorage.setItem("jr_settings_v2", JSON.stringify(next)); } catch(e) {}
+    try {
+      localStorage.setItem("jr_settings_v2", JSON.stringify(next));
+      if (next.theme) localStorage.setItem("jr_theme", next.theme);
+      if (next.wordColor) localStorage.setItem("jr_wordColor", next.wordColor);
+    } catch(e) {}
   };
   React.useEffect(() => {
     try { localStorage.setItem("jr_settings_v2", JSON.stringify(settings)); } catch(e) {}
   }, [settings]);
   const [topic, setTopic] = useState(null);
   const ctRef = useRef(null);
-  React.useEffect(() => { applyTheme(settings.theme || "blue"); }, [settings.theme]);
+  // テーマを即時適用 (mount時 + 変更時)
+  React.useEffect(() => {
+    applyTheme(settings.theme || "blue");
+    try { localStorage.setItem("jr_theme", settings.theme || "blue"); } catch(e) {}
+  }, [settings.theme]);
   const [showAiQuiz, setShowAiQuiz] = useState(false);
   const [quizKey, setQuizKey] = useState(0);
   const [stageFilter, setStageFilter] = useState(0);
@@ -25536,7 +25567,7 @@ function App() {
     }
   }, tab === "home" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "coach-badge"
-  }, "\uD83C\uDF93 \u82F1\u8A9E\u521D\u5FC3\u8005\u5C02\u5C5E\u30B3\u30FC\u30C1"), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83D\uDCDA \u5FC5\u9808\u8981\u7D20\u3067\u56FA\u3081\u308B\u82F1\u8A9E\u5B66\u7FD2\u30A2\u30D7\u30EA"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -27697,14 +27728,25 @@ tab === "practice" && !fixedSet && practiceMode === "studytips" && /*#__PURE__*/
     /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
     /*#__PURE__*/React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "var(--text-primary)", marginBottom: 12 } }, "    単語文字色"),
     /*#__PURE__*/React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" } },
-      ["#1e3a8a","#1f2937","#7c3aed","#0f766e","#b45309","#dc2626","#0369a1","#166534","#000000"].map((c) =>
+      ["#1e3a8a","#1f2937","#7c3aed","#0f766e","#b45309","#dc2626","#0369a1","#166534","#000000",
+       "#EC4899","#DB2777","#F472B6","#C026D3","#9333EA","#0891B2","#059669","#D97706","#64748B","#374151",
+       "#6366F1","#E11D48","#0369A1","#166534","#7C3AED"].map((c) =>
         /*#__PURE__*/React.createElement("div", { key: c,
-          onClick: () => saveSettings({ ...settings, wordColor: c }),
-          style: { width: 36, height: 36, borderRadius: "50%", background: c, cursor: "pointer",
+          onClick: () => { saveSettings({ ...settings, wordColor: c }); try{localStorage.setItem("jr_wordColor",c);}catch(e){} },
+          style: { width: 32, height: 32, borderRadius: "50%", background: c, cursor: "pointer",
             border: settings.wordColor===c ? "3px solid #111827" : "3px solid transparent",
             boxShadow: settings.wordColor===c ? "0 0 0 2px white,0 0 0 4px "+c : "none",
             transition: "all 0.15s", flexShrink: 0 } })
       )
+    ),
+    /*#__PURE__*/React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginTop: 8 } },
+      /*#__PURE__*/React.createElement("span", { style: { fontSize: 12, color: "var(--text-muted)" } }, "自由に選択:"),
+      /*#__PURE__*/React.createElement("input", {
+        type: "color",
+        value: settings.wordColor || "#1e3a8a",
+        onChange: (e) => { saveSettings({ ...settings, wordColor: e.target.value }); try{localStorage.setItem("jr_wordColor",e.target.value);}catch(err){} },
+        style: { width: 40, height: 32, borderRadius: 6, border: "1px solid #e5e7eb", cursor: "pointer", padding: 2 }
+      })
     )
   ),
   /*#__PURE__*/React.createElement("div", { style: { background: "var(--surface)", borderRadius: 8, padding: 16, marginBottom: 12, boxShadow: "var(--shadow-sm)" } },
